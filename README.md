@@ -9,7 +9,7 @@ Every time that a chart package (`.tgz`) is updated, the helm repository index f
 
 You can package your charts using `helm package $CHART_NAME --version "$CHART_VERSION"`.
 
-## Installing from this private repo
+## Installing from this private chart repo
 To authenticate, you must provide a GitHub API token that can read from the chart repository. It has to be provided using HTTP Basic Auth but it does not seem to matter whether you provide it as username, password, or both.
 
 ```shell
@@ -26,7 +26,7 @@ helm repo update
 helm search repo my-chart --devel
 ```
 
-## Pushing to the Private Repo from another GitHub repo
+## Pushing to the private repo from another GitHub repo
 You will need to create another GitHub Actions File (e.g. `.github/workflows/helm.yml`) with the following content:
 
 ```yaml
