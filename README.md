@@ -66,4 +66,6 @@ jobs:
           git push origin main
 ```
 
+This workflow is going to run in the source code repository and will package up your chart, commit and push it to the chart repository.
+
 Note that you will need to grant permissions to the workflow to push changes to the chart repository. This can be achieved by providing a GitHub API token in a secondary checkout@v2 action that has the required permissions (e.g. full access to org repos).
