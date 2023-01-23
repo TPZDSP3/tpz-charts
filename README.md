@@ -3,7 +3,7 @@ Helm charts developed by TZ UK
 
 ## How this works
 
-Every time that a chart package (`.tgz`) is updated, the helm repository index file is updated by the GitHub Actions Workflow (`/.github/workflows/update-index.yml`).
+Every time that a chart package (`.tgz`) is updated, the helm repository index file is updated by the GitHub Actions Workflow (`.github/workflows/update-index.yml`).
 
 ## How to update the chart repo
 
