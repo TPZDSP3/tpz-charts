@@ -11,14 +11,4 @@ entries:
     urls:
     - test-chart-0.1.0+9358ef4.tgz
     version: 0.1.0+9358ef4
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2023-01-24T14:15:20.43284705Z"
-    description: A Helm chart for Kubernetes
-    digest: a0848ae2a7cf98f0de83fbb70837c500962826988c46a43c4d611acf9f7e1807
-    name: test-chart
-    type: application
-    urls:
-    - test-chart-0.1.0+b3f976f.tgz
-    version: 0.1.0+b3f976f
 generated: "2023-01-24T14:15:20.428183415Z"
