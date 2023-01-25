@@ -3,7 +3,26 @@ entries:
   geoserver:
   - apiVersion: v2
     appVersion: 2.21.0
-    created: "2023-01-25T14:47:42.964951378Z"
+    created: "2023-01-25T15:09:59.634366833Z"
+    description: Chart for GeoServer
+    digest: 36907a17912ff63cdeedde97654a02e773c16937272d5cbc50684736cfaf6711
+    home: http://geoserver.org
+    icon: https://raw.githubusercontent.com/kartoza/charts/master/assets/logo/GeoServer_500.png
+    keywords:
+    - GeoServer
+    - GIS
+    maintainers:
+    - email: lana.pcfre@gmail.com
+      name: lucernae
+    name: geoserver
+    sources:
+    - https://github.com/geoserver/geoserver
+    urls:
+    - geoserver-0.3.4.tgz
+    version: 0.3.4
+  - apiVersion: v2
+    appVersion: 2.21.0
+    created: "2023-01-25T15:09:59.633373585Z"
     description: Chart for GeoServer
     digest: 8c1a97ff5c3bffb5393aac6fdab3ae1777281efcd08027706e37c454d5abf9a8
     home: http://geoserver.org
@@ -23,7 +42,7 @@ entries:
   test-chart:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-25T14:47:42.965543312Z"
+    created: "2023-01-25T15:09:59.635212274Z"
     description: A Helm chart for Kubernetes
     digest: 29acfd71a9e4d4dab4bcb2e65f41f55957d3682989a01a28a17e76697e66ad1e
     name: test-chart
@@ -31,4 +50,4 @@ entries:
     urls:
     - test-chart-0.1.0+9358ef4.tgz
     version: 0.1.0+9358ef4
-generated: "2023-01-25T14:47:42.958915833Z"
+generated: "2023-01-25T15:09:59.631671902Z"
