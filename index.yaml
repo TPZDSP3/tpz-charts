@@ -3,7 +3,7 @@ entries:
   geoserver:
   - apiVersion: v2
     appVersion: 2.21.0
-    created: "2023-01-27T17:03:52.141471177Z"
+    created: "2023-01-31T10:09:40.14199882Z"
     description: Chart for GeoServer
     digest: 36907a17912ff63cdeedde97654a02e773c16937272d5cbc50684736cfaf6711
     home: http://geoserver.org
@@ -22,7 +22,7 @@ entries:
     version: 0.3.4
   - apiVersion: v2
     appVersion: 2.21.0
-    created: "2023-01-27T17:03:52.140604977Z"
+    created: "2023-01-31T10:09:40.141305913Z"
     description: Chart for GeoServer
     digest: 8c1a97ff5c3bffb5393aac6fdab3ae1777281efcd08027706e37c454d5abf9a8
     home: http://geoserver.org
@@ -42,7 +42,7 @@ entries:
   test-chart:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.141988877Z"
+    created: "2023-01-31T10:09:40.142523926Z"
     description: A Helm chart for Kubernetes
     digest: e4ba0ae093a95b75ab37b790ac275e6707b789a9291a344fe7a6d444373b4bb4
     name: test-chart
@@ -52,7 +52,17 @@ entries:
     version: 0.1.0+2af06fd
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.142457577Z"
+    created: "2023-01-31T10:09:40.143047931Z"
+    description: A Helm chart for Kubernetes
+    digest: 52c1caecb01b44bb627b62e0b2d8a9108a4747b8957cb9f2ca23dc967206ace4
+    name: test-chart
+    type: application
+    urls:
+    - test-chart-0.1.0+5a6df2e.tgz
+    version: 0.1.0+5a6df2e
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-31T10:09:40.143517235Z"
     description: A Helm chart for Kubernetes
     digest: 10f816e6d8985da669022f37e81e0bbd7424f439bc4aad829a01408e60c40752
     name: test-chart
@@ -62,7 +72,7 @@ entries:
     version: 0.1.0+5fad364
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.143491276Z"
+    created: "2023-01-31T10:09:40.14396294Z"
     description: A Helm chart for Kubernetes
     digest: 2a98b51faec8d2e489b15a5bf8261a9f0e5f11a69949925277a2857e59a66545
     name: test-chart
@@ -72,7 +82,7 @@ entries:
     version: 0.1.0+7b40328
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.143946576Z"
+    created: "2023-01-31T10:09:40.144427145Z"
     description: A Helm chart for Kubernetes
     digest: 96a5bc77575034d9c566f5de631bfedb4fdcf37864dd9426646738b93df317c8
     name: test-chart
@@ -82,7 +92,7 @@ entries:
     version: 0.1.0+87fdd4d
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.144393076Z"
+    created: "2023-01-31T10:09:40.144899049Z"
     description: A Helm chart for Kubernetes
     digest: 29acfd71a9e4d4dab4bcb2e65f41f55957d3682989a01a28a17e76697e66ad1e
     name: test-chart
@@ -92,7 +102,7 @@ entries:
     version: 0.1.0+9358ef4
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.144838376Z"
+    created: "2023-01-31T10:09:40.145455155Z"
     description: A Helm chart for Kubernetes
     digest: 8229a5da44eddee33f4dd3f39b8f37485333e6763848af6564b3b76e06f5d072
     name: test-chart
@@ -102,7 +112,7 @@ entries:
     version: 0.1.0+9641bf3
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.145330376Z"
+    created: "2023-01-31T10:09:40.146068061Z"
     description: A Helm chart for Kubernetes
     digest: f8cb538443143d98c58ca1d9cccef219bb8c2b2398e3716f7eded10268131d41
     name: test-chart
@@ -112,7 +122,7 @@ entries:
     version: 0.1.0+a246217
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-27T17:03:52.145758876Z"
+    created: "2023-01-31T10:09:40.14700387Z"
     description: A Helm chart for Kubernetes
     digest: 6e0ad1e90e0ec848386a46ac8cac92f54469651457e7af0d389857de6348b30e
     name: test-chart
@@ -120,4 +130,4 @@ entries:
     urls:
     - test-chart-0.1.0+cdf93de.tgz
     version: 0.1.0+cdf93de
-generated: "2023-01-27T17:03:52.139089178Z"
+generated: "2023-01-31T10:09:40.140247103Z"
