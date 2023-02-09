@@ -1,7 +1,7 @@
 image:
-  registry: dsp3tpz.azurecr.io
-  repository: geoserver
-  tag: "0.0.2"
+  registry: docker.io
+  repository: kartoza/geoserver
+  tag: ""
   pullPolicy: IfNotPresent
 
 geoserverDataDir: /opt/geoserver/data_dir

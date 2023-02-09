@@ -53,8 +53,6 @@ spec:
               value: geoserver.{{ .Values.ingress.host }}
             - name: HTTP_SCHEME
               value: https
-            - name: COMMUNITY_EXTENSIONS
-              value: gsr-plugin              
             {{- if .Values.enableJSONP }}
             - name: ENABLE_JSONP
               value: {{ .Values.enableJSONP | quote }}
