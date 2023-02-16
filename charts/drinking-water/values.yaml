@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-geoserverURL: ""
+geoserverEndpoint: ""
 
 image:
   repository: dsp3tpz.azurecr.io/drinking-water
