@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "drinkin-water.fullname" . }}
+  name: {{ include "drinking-water.fullname" . }}
   labels:
-    {{- include "drinkin-water.labels" . | nindent 4 }}
+    {{- include "drinking-water.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "drinkin-water.fullname" . }}
+    name: {{ include "drinking-water.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

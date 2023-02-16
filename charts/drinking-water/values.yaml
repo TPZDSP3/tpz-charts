@@ -1,8 +1,9 @@
-# Default values for drinkin-water.
+# Default values for drinking-water.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
+geoserverURL: ""
 
 image:
   repository: dsp3tpz.azurecr.io/drinking-water

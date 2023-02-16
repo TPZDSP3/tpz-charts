@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "drinkin-water.fullname" . }}
+  name: {{ include "drinking-water.fullname" . }}
   labels:
-    {{- include "drinkin-water.labels" . | nindent 4 }}
+    {{- include "drinking-water.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "drinkin-water.selectorLabels" . | nindent 4 }}
+    {{- include "drinking-water.selectorLabels" . | nindent 4 }}
