@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: initial-data
+spec:
+  template:
+    spec:
+      containers:
+        - name: initial-data
+          image: geoserver-initial:0.0.1
+          env:
+            - name: URL
+              value: geoserver.{{ .Values.ingress.host }}
+            - name: GEOSERVER_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "geoserver.secretName" . }}
+                  key: geoserver-user
+            - name: GEOSERVER_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "geoserver.secretName" . }}
+                  key: geoserver-password              
+    restartPolicy: Never
+  backoffLimit: 4
