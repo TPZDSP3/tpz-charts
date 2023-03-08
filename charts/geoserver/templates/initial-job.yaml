@@ -11,7 +11,7 @@ spec:
         image: {{ .Values.image.registry }}/{{ .Values.image.initialData }}
         env:
         - name: URL
-          value: geoserver.{{ .Values.ingress.host }}
+          value: geoserver.{{ .Values.ingress.host }}/geoserver
         - name: GEOSERVER_ADMIN_USER
           valueFrom:
             secretKeyRef:
