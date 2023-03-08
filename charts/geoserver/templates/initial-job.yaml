@@ -8,6 +8,7 @@ spec:
       containers:
         - name: initial-data
           image: {{ .Values.image.registry }}/{{ .Values.image.initialData }}
+          command: [ "python", "./run.py" ]
           env:
             - name: URL
               value: geoserver.{{ .Values.ingress.host }}
