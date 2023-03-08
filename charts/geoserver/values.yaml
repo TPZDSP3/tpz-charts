@@ -3,7 +3,7 @@ image:
   repository: geoserver
   tag: "0.5.0"
   pullPolicy: IfNotPresent
-  initialData: geoserver-initial:0.0.2
+  initialData: geoserver-initial:0.0.3
 
 geoserverDataDir: /opt/geoserver/data_dir
 geowebcacheCacheDir: /opt/geoserver/data_dir/gwc
