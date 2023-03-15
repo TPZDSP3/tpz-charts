@@ -8,10 +8,12 @@ spec:
       restartPolicy: Never
       containers:
       - name: initial-data
-        image: {{ .Values.image.registry }}/{{ .Values.image.initialData }}
+        image: {{ .Values.dataIngestion.initialData }}
         env:
         - name: URL
           value: geoserver.{{ .Values.ingress.host }}/geoserver
+        - name: PDFS_URL
+          value: {{ .Values.dataIngestion.pdfsUrl }}        
         - name: GEOSERVER_ADMIN_USER
           valueFrom:
             secretKeyRef:
