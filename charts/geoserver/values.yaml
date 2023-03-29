@@ -10,8 +10,12 @@ geowebcacheCacheDir: /opt/geoserver/data_dir/gwc
 geoserverUser: admin
 
 dataIngestion:
-  initialData: dsp3tpz.azurecr.io/geoserver-initial:0.0.5
-  pdfsUrl: https://url
+  initialData: dsp3tpz.azurecr.io/geoserver-initial:0.0.6
+  pdfsUrlSW: https://url
+  pdfsUrlGW: https://url
+  pdfsUrlNVZ: https://url
+
+
 
 # For prefilled password
 # It will be stored in secret later

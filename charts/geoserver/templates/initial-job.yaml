@@ -12,8 +12,12 @@ spec:
         env:
         - name: URL
           value: geoserver.{{ .Values.ingress.host }}/geoserver
-        - name: PDFS_URL
-          value: {{ .Values.dataIngestion.pdfsUrl }}        
+        - name: PDFS_URL_GROUNDWATER
+          value: {{ .Values.dataIngestion.pdfsUrlGW }}
+        - name: PDFS_URL_SURFACEWATER
+          value: {{ .Values.dataIngestion.pdfsUrlSW }}
+        - name: PDFS_URL_NITRATE
+          value: {{ .Values.dataIngestion.pdfsUrlNVZ }}
         - name: GEOSERVER_ADMIN_USER
           valueFrom:
             secretKeyRef:
