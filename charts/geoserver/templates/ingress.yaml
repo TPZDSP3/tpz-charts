@@ -22,10 +22,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   rules:
-  - host: geoserver.{{ .Values.ingress.host }}
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
-        - path: /geoserver
+        - path: /data-services
           pathType: Prefix
           backend:
             service:
@@ -35,7 +35,7 @@ spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        - geoserver.{{ .Values.ingress.host }}
+        - {{ .Values.ingress.host }}
       secretName: {{ .Values.ingress.tls.secretName }}
   {{- end }}
 {{- end }}

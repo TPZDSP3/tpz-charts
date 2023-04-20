@@ -11,7 +11,7 @@ spec:
         image: {{ .Values.dataIngestion.initialData }}
         env:
         - name: URL
-          value: geoserver.{{ .Values.ingress.host }}/geoserver
+          value: {{ .Values.ingress.host }}/data-services
         - name: PDFS_URL_GROUNDWATER
           value: {{ .Values.dataIngestion.pdfsUrlGW }}
         - name: PDFS_URL_SURFACEWATER

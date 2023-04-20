@@ -50,7 +50,7 @@ spec:
           {{- end }}
           env:
             - name: HTTP_PROXY_NAME
-              value: geoserver.{{ .Values.ingress.host }}
+              value: {{ .Values.ingress.host }}
             - name: HTTP_SCHEME
               value: https
             - name: COMMUNITY_EXTENSIONS
@@ -90,13 +90,13 @@ spec:
           {{- else }}
           startupProbe:
             httpGet:
-              path: /geoserver
+              path: /data-services
               port: http-geoserver
             failureThreshold: 300
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /geoserver
+              path: /data-services
               port: http-geoserver
               scheme: HTTP
             failureThreshold: 3
@@ -104,7 +104,7 @@ spec:
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /geoserver
+              path: /data-services
               port: http-geoserver
               scheme: HTTP
             failureThreshold: 3

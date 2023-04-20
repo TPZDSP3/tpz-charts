@@ -1,7 +1,7 @@
 image:
   registry: dsp3tpz.azurecr.io
   repository: geoserver
-  tag: "0.5.0"
+  tag: "0.6.0"
   pullPolicy: IfNotPresent
 
 geoserverDataDir: /opt/geoserver/data_dir
