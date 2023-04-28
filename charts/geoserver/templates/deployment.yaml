@@ -54,7 +54,9 @@ spec:
             - name: HTTP_SCHEME
               value: https
             - name: COMMUNITY_EXTENSIONS
-              value: gsr-plugin
+              value: gsr-plugin,geopkg-plugin
+            - name: STABLE_EXTENSIONS
+              value: ogr-wfs-plugin
             {{- if .Values.enableJSONP }}
             - name: ENABLE_JSONP
               value: {{ .Values.enableJSONP | quote }}
