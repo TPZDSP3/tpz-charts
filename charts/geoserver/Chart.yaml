@@ -1,7 +1,7 @@
 apiVersion: v2
 name: geoserver
-version: 0.6.4
-appVersion: 0.6.0
+version: 0.6.5
+appVersion: 0.6.5
 description: Chart for GeoServer with ingested data
 keywords:
   - GeoServer
@@ -10,7 +10,7 @@ home: http://geoserver.org
 sources:
   - https://github.com/geoserver/geoserver
 maintainers:
-  - name: lucernae
-    email: lana.pcfre@gmail.com
+  - name: rnoguera
+    email: ricardo.noguera@telespazio.com
 engine: gotpl
 icon: https://raw.githubusercontent.com/kartoza/charts/master/assets/logo/GeoServer_500.png
