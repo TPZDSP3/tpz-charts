@@ -39,8 +39,8 @@ spec:
     spec:
       securityContext:
         runAsUser: 1000
-        fsGroup: 10001    
-        runAsGroup: 10001
+        fsGroup: 1000  
+        runAsGroup: 1000
       containers:
         - name: {{ template "geoserver.fullname" . }}
           image: {{ template "geoserver.image" . }}
