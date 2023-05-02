@@ -37,10 +37,10 @@ spec:
         {{- (tpl . $) | nindent 8 }}
         {{- end }}
     spec:
-      securityContext:
-        runAsUser: 1000
-        fsGroup: 1000  
-        runAsGroup: 1000
+      # securityContext:
+      #   runAsUser: 1000
+      #   fsGroup: 1000  
+      #   runAsGroup: 1000
       containers:
         - name: {{ template "geoserver.fullname" . }}
           image: {{ template "geoserver.image" . }}
