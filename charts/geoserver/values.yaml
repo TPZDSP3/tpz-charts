@@ -10,7 +10,7 @@ geowebcacheCacheDir: /opt/geoserver/data_dir/gwc
 geoserverUser: admin
 
 dataIngestion:
-  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v0.9.1
+  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v0.9.2
   pdfsUrlSW: https://url
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
