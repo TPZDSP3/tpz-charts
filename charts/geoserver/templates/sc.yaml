@@ -1,0 +1,14 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.persistence.blob.storageClassname }}
+provisioner: blob.csi.azure.com
+parameters:
+  resourceGroup: {{ .Values.persistence.blob.resourceGroup }}
+  storageAccount: {{ .Values.persistence.blob.storageAccount }}
+  containerName: {{ .Values.persistence.blob.containerName }}
+  protocol: fuse2
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - -o allow_other

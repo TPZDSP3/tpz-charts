@@ -45,3 +45,16 @@ spec:
       storage: {{ .Values.persistence.geowebcacheCacheDir.size | quote }}
 ...
 {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "geoserver.fullname" . }}-rpa-blob
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.persistence.blob.size }}
+  # volumeName: pv-blob
+  storageClassName: {{ .Values.persistence.blob.storageClassname }}
