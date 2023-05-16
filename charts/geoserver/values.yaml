@@ -11,7 +11,7 @@ geoserverUser: admin
 
 dataIngestion:
   initialData: dsp3tpz.azurecr.io/geoserver-initial:v0.9.3
-  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.1.5
+  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.1.6
   pdfsUrlSW: https://url
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
