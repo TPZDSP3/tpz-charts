@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: ReplicaSet
 metadata:
   name: {{ template "geoserver.fullname" . }}
   labels:
@@ -14,7 +14,7 @@ metadata:
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: {{ template "geoserver.fullname" . }}
