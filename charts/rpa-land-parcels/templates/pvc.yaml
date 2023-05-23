@@ -6,7 +6,6 @@ spec:
   storageClassName: "azurefile-retain"
   accessModes:
     - ReadWriteMany
-  volumeName:
   resources:
     requests:
       storage: 1Gi

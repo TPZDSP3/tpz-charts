@@ -18,15 +18,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ .Chart.Name }}-db
+    {{- include "rpa-land-parcels.labels" . | nindent 4 }}
   name: {{ .Chart.Name }}-db
 spec:
+  type: {{ .Values.service.type }}
   ports:
-  - port: 27017
-    protocol: TCP
-    name: http-rpa-db
-    targetPort: http-rpa-db
+    - port: 27017
+      protocol: TCP
+      name: http-rpa-db
+      targetPort: http-rpa-db
   selector:
-    app: {{ .Chart.Name }}-db
-status:
-  loadBalancer: {}
+    {{- include "rpa-land-parcels.selectorLabels" . | nindent 4 }}
