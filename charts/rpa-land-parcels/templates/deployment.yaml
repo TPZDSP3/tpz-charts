@@ -43,8 +43,8 @@ spec:
               port: http-rpa
           readinessProbe:
             httpGet:
-              path: /rpa-rpa
-              port: http
+              path: /rpa
+              port: http-rpa
           env:
             - name: API_KEY
               value: {{ .Values.apiKey }}
