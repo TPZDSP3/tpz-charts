@@ -28,25 +28,71 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-UI
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 3000
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /rpa
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /rpa
               port: http
+          env:
+            - name: API_KEY
+              value: {{ .Values.apiKey }}
+              name: MONGODB_URI
+              value: mongodb://{{ .Values.mongoUser }}:{{ .Values.mongoPassword }}@{{ .Chart.Name }}-DB:27017
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - image: mongo
+          name: {{ .Chart.Name }}-DB
+          args: ["--dbpath","/data/db"]
+          livenessProbe:
+            exec:
+              command:
+                - mongo
+                - --disableImplicitSessions
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - mongo
+                - --disableImplicitSessions
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: {{ .Values.mongoUser }}
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: {{ .Values.mongoPassword }}
+            - name: MONGO_INITDB_DATABASE
+              value: {{ .Values.mongoInitDb }}
+          volumeMounts:
+            - name: "mongo-data-dir"
+              mountPath: "/data/db"
+      volumes:
+        - name: "mongo-data-dir"
+          persistentVolumeClaim:
+          claimName: "pvc"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
