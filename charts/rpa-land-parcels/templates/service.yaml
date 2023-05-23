@@ -24,6 +24,7 @@ spec:
   ports:
   - port: 27017
     protocol: TCP
+    name: http-rpa-db
     targetPort: http-rpa-db
   selector:
     app: {{ .Chart.Name }}-db
