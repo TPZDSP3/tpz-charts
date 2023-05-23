@@ -59,7 +59,6 @@ spec:
             exec:
               command:
                 - mongosh
-                - --disableImplicitSessions
                 - --eval
                 - "db.adminCommand('ping')"
             initialDelaySeconds: 30
@@ -71,7 +70,6 @@ spec:
             exec:
               command:
                 - mongosh
-                - --disableImplicitSessions
                 - --eval
                 - "db.adminCommand('ping')"
             initialDelaySeconds: 30
