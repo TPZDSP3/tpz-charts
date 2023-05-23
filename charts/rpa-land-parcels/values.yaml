@@ -8,7 +8,7 @@ image:
   repository: dsp3tpz.azurecr.io/rpa-land-parcels-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.1"
+  tag: "v0.0.5"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -82,3 +82,4 @@ apiKey: h9!sa-7suFos_3qjl~cakYyw-P
 mongoUser: rpa-app-admin
 mongoPassword: eilUssp-7tulVr_htx9o
 mongoInitDb: rpa
+geoserverPath: data-services
