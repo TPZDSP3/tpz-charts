@@ -28,7 +28,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-UI
+        - name: {{ .Chart.Name }}-ui
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -53,7 +53,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo
-          name: {{ .Chart.Name }}-DB
+          name: {{ .Chart.Name }}-db
           args: ["--dbpath","/data/db"]
           livenessProbe:
             exec:
