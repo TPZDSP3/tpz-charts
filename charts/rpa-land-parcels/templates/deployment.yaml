@@ -34,16 +34,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: http-rpa
               containerPort: 3000
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /rpa
-              port: http
+              port: http-rpa
           readinessProbe:
             httpGet:
-              path: /rpa
+              path: /rpa-rpa
               port: http
           env:
             - name: API_KEY
@@ -87,6 +87,10 @@ spec:
           volumeMounts:
             - name: "mongo-data-dir"
               mountPath: "/data/db"
+          ports:
+            - name: http-rpa-db
+              containerPort: 27017
+              protocol: TCP              
       volumes:
         - name: "mongo-data-dir"
           persistentVolumeClaim:

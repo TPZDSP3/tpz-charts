@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: http-rpa
       protocol: TCP
-      name: http
+      name: http-rpa
   selector:
     {{- include "rpa-land-parcels.selectorLabels" . | nindent 4 }}
 ---
@@ -24,10 +24,8 @@ spec:
   ports:
   - port: 27017
     protocol: TCP
-    targetPort: 27017
-    nodePort: 32000
+    targetPort: http-rpa-db
   selector:
     app: {{ .Chart.Name }}-db
-  type: NodePort
 status:
   loadBalancer: {}
