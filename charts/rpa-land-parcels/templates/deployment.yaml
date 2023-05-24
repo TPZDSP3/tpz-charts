@@ -52,6 +52,12 @@ spec:
               value: https://{{ .Values.ingress.host }}/{{ .Values.geoserverPath }}              
             - name: MONGODB_URI
               value: mongodb://{{ .Values.mongoUser }}:{{ .Values.mongoPassword }}@{{ .Chart.Name }}-db:27017
+            - name: PARCELS_LAYER
+              value: {{ .Values.parcelsLayer }}
+            - name: COVERS_LAYER
+            value: {{ .Values.coversLayer }}
+            - name: HEDGES_LAYER
+            value: {{ .Values.hedgesLayer }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo

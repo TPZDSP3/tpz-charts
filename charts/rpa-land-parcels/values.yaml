@@ -83,3 +83,6 @@ mongoUser: rpa-app-admin
 mongoPassword: eilUssp-7tulVr_htx9o
 mongoInitDb: rpa
 geoserverPath: data-services
+parcelsLayer: 2
+coversLayer: 1
+hedgesLayer: 0
