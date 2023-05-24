@@ -55,9 +55,9 @@ spec:
             - name: PARCELS_LAYER
               value: {{ .Values.parcelsLayer }}
             - name: COVERS_LAYER
-            value: {{ .Values.coversLayer }}
+              value: {{ .Values.coversLayer }}
             - name: HEDGES_LAYER
-            value: {{ .Values.hedgesLayer }}
+              value: {{ .Values.hedgesLayer }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo
