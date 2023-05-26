@@ -78,9 +78,12 @@ tolerations: []
 
 affinity: {}
 
-apiKey: h9!sa-7suFos_3qjl~cakYyw-P
+# Use this if you have predefined secrets
+existingSecret: |
+
 mongoUser: rpa-app-admin
-mongoPassword: eilUssp-7tulVr_htx9o
+mongoPassword:
+apiKey:
 mongoInitDb: rpa
 geoserverPath: data-services
 parcelsLayer: 2

@@ -60,3 +60,38 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "rpa-land-parcels.secretName" -}}
+{{- if .Values.existingSecret -}}
+    {{- printf "%s" (tpl .Values.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s" (include "rpa-land-parcels.fullname" .) -}}
+{{- end -}}
+{{- end -}}
+
+
+
+{{/*
+Return rpa-land-parcels password
+*/}}
+{{- define "rpa-land-parcels.password" -}}
+{{- if .Values.mongoPassword -}}
+    {{- .Values.mongoPassword -}}
+{{- else -}}
+    {{- randAlphaNum 10 -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return rpa-land-parcels apiKey
+*/}}
+{{- define "rpa-land-parcels.apiKey" -}}
+{{- if .Values.apiKey -}}
+    {{- .Values.apiKey -}}
+{{- else -}}
+    {{- randAlphaNum 10 -}}
+{{- end -}}
+{{- end -}}

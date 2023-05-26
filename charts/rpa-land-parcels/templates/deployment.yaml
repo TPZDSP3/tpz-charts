@@ -46,18 +46,31 @@ spec:
               path: /rpa
               port: http-rpa
           env:
-            - name: API_KEY
-              value: {{ .Values.apiKey }}
             - name: GEOSERVER_URL
-              value: https://{{ .Values.ingress.host }}/{{ .Values.geoserverPath }}              
-            - name: MONGODB_URI
-              value: mongodb://{{ .Values.mongoUser }}:{{ .Values.mongoPassword }}@{{ .Chart.Name }}-db:27017
+              value: https://{{ .Values.ingress.host }}/{{ .Values.geoserverPath }}
             - name: PARCELS_LAYER
               value: {{ .Values.parcelsLayer }}
             - name: COVERS_LAYER
               value: {{ .Values.coversLayer }}
             - name: HEDGES_LAYER
               value: {{ .Values.hedgesLayer }}
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rpa-land-parcels.secretName" . }}
+                  key: user
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rpa-land-parcels.secretName" . }}
+                  key: password
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rpa-land-parcels.secretName" . }}
+                  key: apiKey
+            - name: MONGODB_URI
+              value: "mongodb://$(MONGO_USER):$(MONGO_PASS)@{{ .Chart.Name }}-db:27017"     
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo
@@ -87,9 +100,15 @@ spec:
             failureThreshold: 6
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: {{ .Values.mongoUser }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rpa-land-parcels.secretName" . }}
+                  key: user  
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: {{ .Values.mongoPassword }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "rpa-land-parcels.secretName" . }}
+                  key: password
             - name: MONGO_INITDB_DATABASE
               value: {{ .Values.mongoInitDb }}
           volumeMounts:
