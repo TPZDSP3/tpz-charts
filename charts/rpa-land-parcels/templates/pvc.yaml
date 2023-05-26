@@ -1,11 +1,24 @@
+
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc
+  name: {{ template "rpa-land-parcels.fullname" . }}-mongodb-data-dir
+{{- with .Values.persistence.annotations }}
+  annotations:
+  {{- range $key, $value := . }}
+    {{ $key }}: {{ $value }}
+  {{- end }}
+{{- end }}
 spec:
-  storageClassName: "azurefile-retain"
   accessModes:
-    - ReadWriteMany
+  {{- range .Values.persistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  storageClassName: {{ .Values.persistence.storageClass }}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ .Values.persistence.size | quote }}
+...
+{{- end }}

@@ -89,3 +89,14 @@ geoserverPath: data-services
 parcelsLayer: 2
 coversLayer: 1
 hedgesLayer: 0
+
+persistence:
+  enabled: true
+  existingClaim: false
+  mountPath: "/data/db"
+  subPath: "db"
+  size: 8Gi
+  storageClass: "default"
+  accessModes:
+    - ReadWriteOnce
+  annotations: {}
