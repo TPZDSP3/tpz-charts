@@ -93,8 +93,8 @@ hedgesLayer: 0
 persistence:
   enabled: true
   existingClaim: false
-  mountPath: "/data/db"
-  subPath: "db"
+  mountPath: "/data/data_dir"
+  subPath: "data_dir"
   size: 8Gi
   storageClass: "default"
   accessModes:
