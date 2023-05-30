@@ -83,6 +83,10 @@ spec:
         - image: mongo
           name: {{ .Chart.Name }}-db
           args: ["--dbpath","/data/db"]
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            fsGroup: 999
           livenessProbe:
             exec:
               command:
