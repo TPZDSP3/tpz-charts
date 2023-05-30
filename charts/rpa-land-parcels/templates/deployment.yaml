@@ -36,11 +36,11 @@ spec:
           ports:
             - name: http-rpa
               containerPort: 3000
-              protocol: TCP
           livenessProbe:
             httpGet:
               path: /rpa
               port: http-rpa
+              scheme: HTTP
             failureThreshold: 3
             successThreshold: 1
             periodSeconds: 10              
@@ -48,6 +48,7 @@ spec:
             httpGet:
               path: /rpa
               port: http-rpa
+              scheme: HTTP
             failureThreshold: 3
             successThreshold: 1
             periodSeconds: 10              
