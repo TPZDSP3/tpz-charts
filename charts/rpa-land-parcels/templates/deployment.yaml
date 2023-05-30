@@ -41,10 +41,16 @@ spec:
             httpGet:
               path: /rpa
               port: http-rpa
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10              
           readinessProbe:
             httpGet:
               path: /rpa
               port: http-rpa
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10              
           env:
             - name: GEOSERVER_URL
               value: https://{{ .Values.ingress.host }}/{{ .Values.geoserverPath }}
