@@ -82,7 +82,8 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo
           name: {{ .Chart.Name }}-db
-          args: ["--dbpath",{{ .Values.persistence.mountPath }}]
+          command: ["mongod"]
+          args: ["--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
           livenessProbe:
             exec:
               command:
