@@ -120,6 +120,9 @@ spec:
             - name: MONGO_INITDB_DATABASE
               value: {{ .Values.mongoInitDb }}
           volumeMounts:
+            - name : mongodb-scripts
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
             {{- if .Values.persistence.enabled }}
             - name: "mongo-data-dir"
               mountPath: {{ .Values.persistence.mountPath }}
@@ -130,6 +133,12 @@ spec:
               containerPort: 27017
               protocol: TCP              
       volumes:
+        - name: mongodb-scripts
+          configMap:
+            - name: {{ template "rpa-land-parcels.fullname" . }}
+              items:
+                - key: init-mongo.sh
+                  path: init-mongo.sh
 {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
         - name: mongo-data-dir
           persistentVolumeClaim:
