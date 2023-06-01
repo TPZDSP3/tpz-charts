@@ -135,10 +135,10 @@ spec:
       volumes:
         - name: mongodb-scripts
           configMap:
-            - name: {{ template "rpa-land-parcels.fullname" . }}
-              items:
-                - key: init-mongo.sh
-                  path: init-mongo.sh
+            name: {{ template "rpa-land-parcels.fullname" . }}
+            items:
+              - key: init-mongo.sh
+                path: init-mongo.sh
 {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
         - name: mongo-data-dir
           persistentVolumeClaim:
