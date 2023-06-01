@@ -84,10 +84,6 @@ spec:
           name: {{ .Chart.Name }}-db
           command: ["mongod"]
           args: ["--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/docker-entrypoint-initdb.d/init-mongo.sh"]
           livenessProbe:
             exec:
               command:
