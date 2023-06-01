@@ -136,6 +136,7 @@ spec:
         - name: mongodb-scripts
           configMap:
             name: {{ template "rpa-land-parcels.fullname" . }}
+            defaultMode: 0777
             items:
               - key: init-mongo.sh
                 path: init-mongo.sh
