@@ -15,8 +15,10 @@ metadata:
   {{- end }}
 data:
   init-mongo.sh: |
+    #/bin/bash
     set -e
-
+    echo Using database $MONGO_INITDB_DATABASE
+    touch /testfilefrom.sh
     mongosh <<EOF
     use $MONGO_INITDB_DATABASE
 
