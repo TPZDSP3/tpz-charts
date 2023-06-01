@@ -16,6 +16,9 @@ metadata:
 data:
   init-mongo.sh: |
     #!/bin/bash
+    until mongosh --eval "db.adminCommand('ping')"
+      do sleep 1
+    done
     set -e
     echo Using database $MONGO_INITDB_DATABASE
     touch /testfilefrom.sh
