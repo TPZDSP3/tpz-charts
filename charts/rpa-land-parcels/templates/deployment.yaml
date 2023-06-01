@@ -82,7 +82,12 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
         - image: mongo
           name: {{ .Chart.Name }}-db
-          args: ["mongod", "--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
+          command: ["mongod"]
+          args: ["--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/docker-entrypoint-initdb.d/init-mongo.sh"]
           livenessProbe:
             exec:
               command:
