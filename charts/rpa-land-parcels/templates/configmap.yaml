@@ -1,4 +1,3 @@
-{{- if .Values.extraConfigMap -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -16,21 +15,20 @@ metadata:
   {{- end }}
 data:
   init-mongo.sh: |
+    set -e
+
     mongosh <<EOF
     use $MONGO_INITDB_DATABASE
-    
-    db.createUser(
-      {
+
+    db.createUser({
         user:'$MONGO_INITDB_USER',
         pwd: '$MONGO_INITDB_PASS',
-        roles:[
-          {
+        roles:[{
             role:'readWrite',
             db: '$MONGO_INITDB_DATABASE'
-          }]
-      })
+        }]
+    })
     EOF
   {{- with .Values.extraConfigMap }}
   {{- tpl . $ | nindent 2 }}
   {{- end }}
-{{- end -}}
