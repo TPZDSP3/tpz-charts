@@ -20,7 +20,7 @@ dataIngestion:
   workspace: RPA
   datastore: RPA
   dataDir: /mnt/data_dir
-  blobDir:
+  blobDir: /mnt/blob_dir
 
 
 
@@ -131,7 +131,8 @@ persistence:
       - ReadWriteOnce
     annotations: {}
   blob:
-    storageClassname: blob-fuse
+    enabled: true
+    storageClassname:
     size: 124Gi
 
 networkPolicy:
