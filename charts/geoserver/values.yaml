@@ -11,6 +11,7 @@ geowebcacheCacheDir: /opt/geoserver/data_dir/gwc
 geoserverUser: admin
 
 dataIngestion:
+  enabled: false
   initialData: dsp3tpz.azurecr.io/geoserver-initial:v0.9.3
   rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.1.6
   pdfsUrlSW: https://url
@@ -19,7 +20,7 @@ dataIngestion:
   workspace: RPA
   datastore: RPA
   dataDir: /mnt/data_dir
-  blobDir: /mnt/blob_dir
+  blobDir:
 
 
 
@@ -132,9 +133,6 @@ persistence:
   blob:
     storageClassname: blob-fuse
     size: 124Gi
-    resourceGroup: dsp-apps-test-rg
-    storageAccount: dsptpzrpatest
-    containerName: rpa-ingest
 
 networkPolicy:
   ## Enable creation of NetworkPolicy resources. Only Ingress traffic is filtered for now.

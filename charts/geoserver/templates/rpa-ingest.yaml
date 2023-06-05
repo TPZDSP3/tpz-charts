@@ -1,8 +1,8 @@
+{{- if .Values.dataIngestion.blobDir }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: rpa-index-deployment
-  namespace: geoserver
 spec:
   schedule: "0 2 * * *"
   jobTemplate:
@@ -57,4 +57,5 @@ spec:
 {{- else if not .Values.persistence.geoserverDataDir.enabled }}
             - name: geoserver-data-dir
               emptyDir: {}
+{{- end }}
 {{- end }}
