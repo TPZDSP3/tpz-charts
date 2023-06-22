@@ -17,7 +17,7 @@ dataIngestionDW:
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
 dataIngestionRPA:
-  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.0
+  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.5
   workspace: RPA
   datastore: RPA
   cronjobExpression: "0 2 * * *"
