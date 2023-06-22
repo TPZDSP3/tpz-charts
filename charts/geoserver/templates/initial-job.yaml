@@ -1,4 +1,4 @@
-{{- if .Values.dataIngestion.enabled }}
+{{- if .Values.dataIngestionDW.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -9,16 +9,16 @@ spec:
       restartPolicy: Never
       containers:
       - name: initial-data
-        image: {{ .Values.dataIngestion.initialData }}
+        image: {{ .Values.dataIngestionDW.initialData }}
         env:
         - name: URL
-          value: {{ template "geoserver.fullname" . }}/data-services
+          value: {{ template "geoserver.fullname" . }}{{ .Values.ingress.path }}
         - name: PDFS_URL_GROUNDWATER
-          value: {{ .Values.dataIngestion.pdfsUrlGW }}
+          value: {{ .Values.dataIngestionDW.pdfsUrlGW }}
         - name: PDFS_URL_SURFACEWATER
-          value: {{ .Values.dataIngestion.pdfsUrlSW }}
+          value: {{ .Values.dataIngestionDW.pdfsUrlSW }}
         - name: PDFS_URL_NITRATE
-          value: {{ .Values.dataIngestion.pdfsUrlNVZ }}
+          value: {{ .Values.dataIngestionDW.pdfsUrlNVZ }}
         - name: GEOSERVER_ADMIN_USER
           valueFrom:
             secretKeyRef:
