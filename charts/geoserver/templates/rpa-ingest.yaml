@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: rpa-index-deployment
 spec:
-  schedule: "0 2 * * *"
+  schedule: {{ .Values.dataIngestionRPA.cronjobExpression }}
   jobTemplate:
     spec:
       template:
@@ -12,18 +12,18 @@ spec:
           restartPolicy: Never
           containers:
           - name: rpa-index
-            image: {{ .Values.dataIngestion.rpaData }}
+            image: {{ .Values.dataIngestionRPA.rpaData }}
             env:
             - name: URL
-              value: {{ template "geoserver.fullname" . }}/data-services
+              value: {{ template "geoserver.fullname" . }}{{ .Values.ingress.path }}
             - name: WORKSPACE
-              value: {{ .Values.dataIngestion.workspace }}
+              value: {{ .Values.dataIngestionRPA.workspace }}
             - name: DATASTORE
-              value: {{ .Values.dataIngestion.datastore }}
+              value: {{ .Values.dataIngestionRPA.datastore }}
             - name: DATA_DIR
-              value: {{ .Values.dataIngestion.dataDir }}
+              value: {{ .Values.dataIngestionRPA.dataDir }}
             - name: BLOB_DIR
-              value: {{ .Values.dataIngestion.blobDir }}
+              value: {{ .Values.dataIngestionRPA.blobDir }}
             - name: GEOSERVER_ADMIN_USER
               valueFrom:
                 secretKeyRef:
@@ -36,9 +36,9 @@ spec:
                   key: geoserver-password    
             volumeMounts:
               - name: blob01
-                mountPath: {{ .Values.dataIngestion.blobDir }}
+                mountPath: {{ .Values.dataIngestionRPA.blobDir }}
               - name: geoserver-data-dir
-                mountPath: {{ .Values.dataIngestion.dataDir }}
+                mountPath: {{ .Values.dataIngestionRPA.dataDir }}
                 subPath: {{ .Values.persistence.geoserverDataDir.subPath }}
           volumes:
             - name: blob01

@@ -92,13 +92,13 @@ spec:
           {{- else }}
           startupProbe:
             httpGet:
-              path: /data-services
+              path: {{ .Values.ingress.path }}
               port: http-geoserver
             failureThreshold: 300
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /data-services
+              path: {{ .Values.ingress.path }}
               port: http-geoserver
               scheme: HTTP
             failureThreshold: 3
@@ -106,7 +106,7 @@ spec:
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /data-services
+              path: {{ .Values.ingress.path }}
               port: http-geoserver
               scheme: HTTP
             failureThreshold: 3

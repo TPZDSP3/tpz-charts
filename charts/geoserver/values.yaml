@@ -10,15 +10,17 @@ geowebcacheCacheDir: /opt/geoserver/data_dir/gwc
 
 geoserverUser: admin
 
-dataIngestion:
+dataIngestionDW:
   enabled: false
   initialData: dsp3tpz.azurecr.io/geoserver-initial:v0.9.3
-  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.1.6
   pdfsUrlSW: https://url
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
+dataIngestionRPA:
+  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.0
   workspace: RPA
   datastore: RPA
+  cronjobExpression: "0 2 * * *"
   dataDir: /mnt/data_dir
   blobDir: /mnt/blob_dir
 
@@ -95,6 +97,7 @@ tolerations: {}
 
 ingress:
   enabled: true
+  path: /data-services
   annotations: {}
   labels: {}
   host: hostname
