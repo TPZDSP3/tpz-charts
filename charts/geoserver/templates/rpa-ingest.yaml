@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: rpa-index-deployment
 spec:
-  schedule: "0 2 * * *"
+  schedule: {{ .Values.dataIngestionRPA.cronjobExpression }}
   jobTemplate:
     spec:
       template:

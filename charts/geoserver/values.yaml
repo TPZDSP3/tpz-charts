@@ -20,6 +20,7 @@ dataIngestionRPA:
   rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.0
   workspace: RPA
   datastore: RPA
+  cronjobExpression: "0 2 * * *"
   dataDir: /mnt/data_dir
   blobDir: /mnt/blob_dir
 
