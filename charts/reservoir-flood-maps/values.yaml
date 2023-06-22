@@ -1,0 +1,19 @@
+
+app:
+  version: ""  # use .Chart.AppVersion by default
+
+staticApp:
+  vhost: dsptpzbuildartefacts.z33.web.core.windows.net
+  target: /tags/reservoir-flood-maps/{{ .Values.app.version | default .Chart.AppVersion }}
+
+metadata:
+  vhost: app.agrimetrics.co.uk
+  target: /backend/dsp/download?fileDataSetId=6acd670a-d98b-4ade-a10f-e869c4554bda&fileId=metadata.json
+
+ingress:
+  enabled: true
+  host: dsp-test.agrimetrics.co.uk
+  pathPrefix: /reservoir-flood-maps
+  class: nginx
+  clusterIssuer: ""
+  whitelistSourceRange: 0.0.0.0/0
