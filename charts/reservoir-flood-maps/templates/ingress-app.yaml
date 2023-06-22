@@ -34,7 +34,7 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - path: {{ .Values.ingress.pathPrefix }}(/|$)(?!search/metadata.json)(.*)
+          - path: {{ .Values.ingress.pathPrefix }}(/|$)(?!metadata.json)(.*)
             pathType: Prefix
             backend:
               service:
