@@ -8,7 +8,8 @@ image:
   repository: dsp3tpz.azurecr.io/rpa-land-parcels-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.1.4"
+  # Leave blank by default so as to fall back to .Chart.appVersion.
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
