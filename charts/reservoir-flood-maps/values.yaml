@@ -12,8 +12,11 @@ metadata:
 
 ingress:
   enabled: true
-  host: dsp-test.agrimetrics.co.uk
-  pathPrefix: /reservoir-flood-maps
+  hosts: 
+  - host: dsp-test.agrimetrics.co.uk
+    pathPrefix: /reservoir-flood-maps
+  - host: environment-test.data.gov.uk
+    pathPrefix: /reservoir-flood-maps
   class: nginx
   clusterIssuer: ""
   whitelistSourceRange: 0.0.0.0/0
