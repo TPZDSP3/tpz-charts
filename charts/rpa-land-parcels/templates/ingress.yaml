@@ -30,20 +30,24 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
 spec:
   rules:
-  - host: {{ .Values.ingress.host }}
+  {{- range .Values.ingress.hosts }}
+  - host: {{ .host | quote }}
     http:
       paths:
         - path: /rpa
           pathType: Prefix
           backend:
             service:
-              name: {{ include "rpa-land-parcels.fullname" . }}
+              name: {{ include "rpa-land-parcels.fullname" $ }}
               port:
                 number: 80
+  {{- end }}
   {{- if .Values.ingress.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.ingress.host }}
+        {{- range .Values.ingress.hosts }}
+        - {{ .host }}
+        {{- end }}
       secretName: {{ .Values.ingress.tls.secretName }}
   {{- end }}
 {{- end }}

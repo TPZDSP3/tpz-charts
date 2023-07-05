@@ -47,7 +47,9 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: tpzdsp3.com
+  hosts:
+  - host: dsp-test.agrimetrics.co.uk
+  - host: environment-test.data.gov.uk
   tls: 
       secretName: rpa-land-parcels-tls
   #  - secretName: chart-example-tls
@@ -86,7 +88,7 @@ mongoUser: rpa-app-admin
 mongoPassword:
 apiKey:
 mongoInitDb: rpa
-geoserverPath: data-services
+geoserverUrl: dsp-test.agrimetrics.co.uk/data-services
 parcelsLayer: 2
 coversLayer: 1
 hedgesLayer: 0

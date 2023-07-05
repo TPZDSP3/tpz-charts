@@ -54,7 +54,7 @@ spec:
             periodSeconds: 10              
           env:
             - name: GEOSERVER_URL
-              value: https://{{ .Values.ingress.host }}/{{ .Values.geoserverPath }}
+              value: https://{{ .Values.geoserverUrl }}
             - name: PARCELS_LAYER
               value: {{ .Values.parcelsLayer | quote }}
             - name: COVERS_LAYER
