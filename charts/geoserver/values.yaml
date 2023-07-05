@@ -100,9 +100,13 @@ ingress:
   path: /data-services
   annotations: {}
   labels: {}
-  host: hostname
+  hosts: 
+  hosts: 
+  - host: dsp-test.agrimetrics.co.uk
+  - host: environment-test.data.gov.uk
+  httpProxy: dsp-test.agrimetrics.co.uk
   tls:
-    enabled: true
+    enabled: false
     ## Provide secret name if tls is enabled
     secretName: geoserver-tls
 

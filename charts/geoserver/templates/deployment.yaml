@@ -50,7 +50,7 @@ spec:
           {{- end }}
           env:
             - name: HTTP_PROXY_NAME
-              value: {{ .Values.ingress.host }}
+              value: {{ .Values.ingress.httpProxy }}
             - name: HTTP_SCHEME
               value: https
             - name: COMMUNITY_EXTENSIONS
