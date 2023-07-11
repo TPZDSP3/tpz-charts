@@ -49,10 +49,6 @@ spec:
           resources: {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
           env:
-            - name: HTTP_PROXY_NAME
-              value: {{ .Values.ingress.httpProxy }}
-            - name: HTTP_SCHEME
-              value: https
             - name: COMMUNITY_EXTENSIONS
               value: gsr-plugin,geopkg-plugin,ogcapi-plugin
             - name: STABLE_EXTENSIONS
