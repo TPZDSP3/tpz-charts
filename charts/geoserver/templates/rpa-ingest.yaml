@@ -13,6 +13,7 @@ spec:
           containers:
           - name: rpa-index
             image: {{ .Values.dataIngestionRPA.rpaData }}
+            imagePullPolicy: {{ .Values.dataIngestionRPA.pullPolicy }}
             env:
             - name: URL
               value: {{ template "geoserver.fullname" . }}{{ .Values.ingress.path }}

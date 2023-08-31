@@ -10,6 +10,7 @@ spec:
       containers:
       - name: initial-data
         image: {{ .Values.dataIngestionDW.initialData }}
+        imagePullPolicy: {{ .Values.dataIngestionDW.pullPolicy }}        
         env:
         - name: URL
           value: {{ template "geoserver.fullname" . }}{{ .Values.ingress.path }}

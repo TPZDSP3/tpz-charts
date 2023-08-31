@@ -12,12 +12,14 @@ geoserverUser: admin
 
 dataIngestionDW:
   enabled: false
-  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v1.0.0
+  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v1.0.1
+  pullPolicy: Always
   pdfsUrlSW: https://url
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
 dataIngestionRPA:
   rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.5
+  pullPolicy: IfNotPresent
   workspace: RPA
   datastore: RPA
   cronjobExpression: "0 2 * * *"
