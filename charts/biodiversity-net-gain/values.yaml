@@ -1,0 +1,18 @@
+
+app:
+  version: "" # use .Chart.AppVersion by default
+
+staticApp:
+  vhost: dsptpzbuildartefacts.z33.web.core.windows.net
+  target: /tags/bng-biodiversity-net-gain/{{ .Values.app.version | default .Chart.AppVersion }}
+
+ingress:
+  enabled: true
+  hosts:
+  - host: dsp-test.agrimetrics.co.uk
+    pathPrefix: /biodiversity-net-gain
+  - host: environment-test.data.gov.uk
+    pathPrefix: /biodiversity-net-gain
+  class: nginx
+  clusterIssuer: ""
+  whitelistSourceRange: 0.0.0.0/0
