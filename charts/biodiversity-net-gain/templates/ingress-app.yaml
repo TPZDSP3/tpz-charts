@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "biodiversity-net-gain.fullname" . -}}
+{{- $fullname := include "biodiversity-net-gain.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
