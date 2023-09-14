@@ -2,8 +2,8 @@ apiVersion: v2
 name: rpa-land-parcels
 description: A Helm chart for the rpa-land-parcels app with mongodb database to store land agent details
 type: application
-version: 0.4.7
-appVersion: "v0.2.2"
+version: 0.4.8
+appVersion: "v0.2.3"
 maintainers:
 - email: tom.day@telespazio.com
   name: tday
