@@ -1,0 +1,167 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "marine-plans-explorer.fullname" . }}
+  labels:
+    {{- include "marine-plans-explorer.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "marine-plans-explorer.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "marine-plans-explorer.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "marine-plans-explorer.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-ui
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-mmo
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /marine-plans-explorer
+              port: http-mmo
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /marine-plans-explorer
+              port: http-mmo
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10
+          env:
+            - name: ARCGIS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: apiKey
+            - name: WEB_MAP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: webMapId
+            - name: CONTACT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "marine-plans-explorer.fullname" . }}
+                  keys: contactUrl
+            - name: MARINE_PLANNING_DOCUMENTS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "marine-plans-explorer.fullname" . }}
+                  keys: marinePlanningDocumentsUrl
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-db
+          image: mongo
+          command: ["mongod"]
+          args: ["--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/docker-entrypoint-initdb.d/init-mongo.sh"]
+          livenessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: user
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: password
+            - name: MONGO_INITDB_DATABASE
+              value: {{ .Values.mongoInitDb }}
+          volumeMounts:
+            - name : mongodb-scripts
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+            {{- if .Values.persistence.enabled }}
+            - name: "mongo-data-dir"
+              mountPath: {{ .Values.persistence.mountPath }}
+              subPath: {{ .Values.persistence.subPath }}
+            {{- end }}
+          ports:
+            - name: http-mmo-db
+              containerPort: 27017
+              protocol: TCP
+      volumes:
+        - name: mongodb-scripts
+          configMap:
+            name: {{ template "marine-plans-explorer.fullname" . }}
+            defaultMode: 0777
+            items:
+              - key: init-mongo.sh
+                path: init-mongo.sh
+{{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
+        - name: mongo-data-dir
+          persistentVolumeClaim:
+{{- with .Values.persistence.existingClaim }}
+            claimName: {{ tpl . $ }}
+{{- end }}
+{{- else if .Values.persistence.enabled }}
+        - name: mongo-data-dir
+          persistentVolumeClaim:
+            claimName: {{ template "marine-plans-explorer.fullname" . }}-mongodb-data-dir
+{{- else if not .Values.persistence.enabled }}
+        - name: mongo-data-dir
+          emptyDir: {}
+{{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

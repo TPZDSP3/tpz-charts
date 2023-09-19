@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "marine-plans-explorer.fullname" . }}
+  labels:
+    {{- include "marine-plans-explorer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http-mmo
+      protocol: TCP
+      name: http-mmo
+  selector:
+    {{- include "marine-plans-explorer.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "marine-plans-explorer.labels" . | nindent 4 }}
+  name: {{ .Chart.Name }}-db
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 27017
+      protocol: TCP
+      name: http-mmo-db
+      targetPort: http-mmo-db
+  selector:
+    {{- include "marine-plans-explorer.selectorLabels" . | nindent 4 }}
