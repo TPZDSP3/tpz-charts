@@ -66,12 +66,12 @@ spec:
             - name: CONTACT_URL
               valueFrom:
                 configMapKeyRef:
-                  name: {{ template "marine-plans-explorer.fullname" . }}
+                  name: {{ template "marine-plans-explorer.fullname" . }}-cm
                   keys: contactUrl
             - name: MARINE_PLANNING_DOCUMENTS_URL
               valueFrom:
                 configMapKeyRef:
-                  name: {{ template "marine-plans-explorer.fullname" . }}
+                  name: {{ template "marine-plans-explorer.fullname" . }}-cm
                   keys: marinePlanningDocumentsUrl
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

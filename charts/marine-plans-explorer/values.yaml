@@ -90,6 +90,10 @@ apiKey:
 webMapId:
 mongoInitDb: mmo
 
+# Config map values
+contactUrl: mailto:planning@marinemanagement.org.uk
+marinePlanningDocumentsUrl: https://www.gov.uk/topic/planning-development/marine-planning
+
 persistence:
   enabled: true
   existingClaim: false

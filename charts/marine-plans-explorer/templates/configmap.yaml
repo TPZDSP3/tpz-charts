@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "marine-plans-explorer.fullname" . }}
+  name: {{ template "marine-plans-explorer.fullname" . }}-cm
   labels:
     app: {{ template "marine-plans-explorer.fullname" . }}
     chart: {{ template "marine-plans-explorer.chart" . }}
@@ -14,8 +14,8 @@ metadata:
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
 data:
-  contactUrl: "mailto:planning@marinemanagement.org.uk"
-  marinePlanningDocumentsUrl: "https://www.gov.uk/topic/planning-development/marine-planning"
+  contactUrl: {{ .Values.contactUrl }}
+  marinePlanningDocumentsUrl: {{ .Values.marinePlanningDocumentsUrl }}
   init-mongo.sh: |
     #!/bin/bash
     until mongosh --eval "db.adminCommand('ping')"
