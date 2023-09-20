@@ -64,15 +64,9 @@ spec:
                   name: {{ template "marine-plans-explorer.secretName" . }}
                   key: webMapId
             - name: CONTACT_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "marine-plans-explorer.fullname" . }}-cm
-                  keys: contactUrl
+              value: {{ .Values.contactUrl }}
             - name: MARINE_PLANNING_DOCUMENTS_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "marine-plans-explorer.fullname" . }}-cm
-                  keys: marinePlanningDocumentsUrl
+              value: {{ .Values.marinePlanningDocumentsUrl }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-db
