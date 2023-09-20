@@ -84,10 +84,10 @@ Return marine-plans-explorer password
 {{- end -}}
 
 {{/*
-Return marine-plans-explorer arcGisApiKey
+Return marine-plans-explorer apiKey
 */}}
-{{- define "marine-plans-explorer.arcGisApiKey" -}}
-    {{- .Values.arcGisApiKey -}}
+{{- define "marine-plans-explorer.apiKey" -}}
+    {{- .Values.apiKey -}}
 {{- end -}}
 
 {{/*

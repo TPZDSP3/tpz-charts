@@ -86,7 +86,7 @@ existingSecret: |
 
 mongoUser: mmo-app-admin
 mongoPassword:
-arcGisApiKey:
+apiKey:
 webMapId:
 mongoInitDb: mmo
 
