@@ -127,7 +127,7 @@ spec:
         - image: mongo
           name: {{ .Chart.Name }}-db
           command: ["mongod"]
-          args: ["--replSet", "rs0", --bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
+          args: ["--replSet", "rs0", "--bind_ip_all", "--dbpath",{{ .Values.persistence.mountPath }}]
           lifecycle:
             postStart:
               exec:
