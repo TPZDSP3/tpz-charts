@@ -75,10 +75,24 @@ spec:
                 secretKeyRef:
                   name: {{ template "marine-plans-explorer.secretName" . }}
                   key: webMapId
+            - name: GA_MEASUREMENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: googleAnaliticsId
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "marine-plans-explorer.secretName" . }}
+                  key: nextAuthSecret
             - name: CONTACT_URL
               value: {{ .Values.contactUrl }}
             - name: MARINE_PLANNING_DOCUMENTS_URL
               value: {{ .Values.marinePlanningDocumentsUrl }}
+            - name: ENVIRONMENT_HOME_URL
+              value: {{ .Values.environmentHomeUrl }}
+            - name: APP_VERSION
+              value: {{ .Chart.appVersion }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

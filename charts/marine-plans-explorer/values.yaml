@@ -84,15 +84,18 @@ affinity: {}
 # Use this if you have predefined secrets
 existingSecret: |
 
+mongoInitDb: mmo
 mongoUser: mmo-app-admin
 mongoPassword:
 apiKey:
 webMapId:
-mongoInitDb: mmo
+googleAnalyticsId:
+nextAuthSecret:
 
 # Config map values
 contactUrl: mailto:planning@marinemanagement.org.uk
 marinePlanningDocumentsUrl: https://www.gov.uk/topic/planning-development/marine-planning
+environmentHomeUrl:
 
 persistence:
   enabled: true
