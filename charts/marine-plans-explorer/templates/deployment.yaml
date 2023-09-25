@@ -92,7 +92,7 @@ spec:
             - name: ENVIRONMENT_HOME_URL
               value: {{ .Values.environmentHomeUrl }}
             - name: APP_VERSION
-              value: {{ .Chart.appVersion }}
+              value: {{ .Chart.AppVersion }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
