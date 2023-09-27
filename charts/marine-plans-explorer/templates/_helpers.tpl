@@ -96,3 +96,17 @@ Return marine-plans-explorer webMapId
 {{- define "marine-plans-explorer.webMapId" -}}
     {{- .Values.webMapId -}}
 {{- end -}}
+
+{{/*
+Return marine-plans-explorer googleAnalyticsId
+*/}}
+{{- define "marine-plans-explorer.googleAnalyticsId" -}}
+    {{- .Values.googleAnalyticsId -}}
+{{- end -}}
+
+{{/*
+Return marine-plans-explorer nextAuthSecret
+*/}}
+{{- define "marine-plans-explorer.nextAuthSecret" -}}
+    {{- .Values.nextAuthSecret -}}
+{{- end -}}
