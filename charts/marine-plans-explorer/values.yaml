@@ -91,6 +91,8 @@ apiKey:
 webMapId:
 googleAnalyticsId:
 nextAuthSecret:
+nextAuthApiUrl:
+nextAuthUrl:
 
 # Config map values
 contactUrl: mailto:planning@marinemanagement.org.uk
