@@ -97,7 +97,8 @@ nextAuthUrl:
 # Config map values
 contactUrl: mailto:planning@marinemanagement.org.uk
 marinePlanningDocumentsUrl: https://www.gov.uk/topic/planning-development/marine-planning
-environmentHomeUrl:
+marinePoliciesUrl: https://explore-marine-plans.marineservices.org.uk/policy/
+environmentHomeUrl: https://environment.data.gov.uk
 
 persistence:
   enabled: true
