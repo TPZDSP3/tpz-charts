@@ -91,8 +91,6 @@ spec:
               value: {{ .Values.marinePlanningDocumentsUrl }}
             - name: MARINE_POLICIES_URL
               value: {{ .Values.marinePoliciesUrl }}
-            - name: ENVIRONMENT_HOME_URL
-              value: {{ .Values.environmentHomeUrl }}
             - name: APP_VERSION
               value: {{ .Chart.AppVersion }}
             - name: NEXT_PUBLIC_API_URL

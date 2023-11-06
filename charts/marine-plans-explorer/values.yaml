@@ -98,7 +98,6 @@ nextAuthUrl:
 contactUrl: mailto:planning@marinemanagement.org.uk
 marinePlanningDocumentsUrl: https://www.gov.uk/topic/planning-development/marine-planning
 marinePoliciesUrl:
-environmentHomeUrl: https://www.gov.uk
 
 persistence:
   enabled: true
