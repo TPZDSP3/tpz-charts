@@ -60,3 +60,14 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the password secret.
+*/}}
+{{- define "biodiversity-net-gain.secretName" -}}
+{{- if .Values.existingSecret -}}
+    {{- printf "%s" (tpl .Values.existingSecret $) -}}
+{{- else -}}
+    {{- printf "%s" (include "biodiversity-net-gain.fullname" .) -}}
+{{- end -}}
+{{- end -}}

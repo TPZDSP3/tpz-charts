@@ -1,18 +1,85 @@
+# Default values for biodiversity-net-gain.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
-app:
-  version: "" # use .Chart.AppVersion by default
+replicaCount: 1
 
-staticApp:
-  vhost: dsptpzbuildartefacts.z33.web.core.windows.net
-  target: /tags/bng-biodiversity-net-gain/{{ .Values.app.version | default .Chart.AppVersion }}
+image:
+  repository: dsp3tpz.azurecr.io/biodiversity-net-gain
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # Leave blank by default so as to fall back to .Chart.appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
 
 ingress:
   enabled: true
+  className: ""
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
   hosts:
   - host: dsp-test.agrimetrics.co.uk
-    pathPrefix: /biodiversity-net-gain
   - host: environment-test.data.gov.uk
-    pathPrefix: /biodiversity-net-gain
-  class: nginx
-  clusterIssuer: ""
-  whitelistSourceRange: 0.0.0.0/0
+  tls:
+    secretName: biodiversity-net-gain-tls
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+resources: {}
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Use this if you have predefined secrets
+existingSecret: ""
