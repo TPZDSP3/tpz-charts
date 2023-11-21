@@ -50,7 +50,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shinyimg
-  namespace: dev-dsp-tpz
   labels:
     app: shinyimg
 spec:
