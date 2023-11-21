@@ -74,7 +74,7 @@ metadata:
 spec:
   rules:
   {{- range .Values.shiny.ingress.hosts }}
-  - host: shiny.dev-tpz-apps.tpzdsp3.com
+  - host: {{ .host }}
     http:
       paths:
       - backend:
@@ -89,7 +89,7 @@ spec:
   tls:
     - hosts:
         {{- range .Values.shiny.ingress.hosts }}
-        - shiny.dev-tpz-apps.tpzdsp3.com
+        - {{ .host }}
         {{- end }}
       secretName: shiny-tls
   {{- end }}
