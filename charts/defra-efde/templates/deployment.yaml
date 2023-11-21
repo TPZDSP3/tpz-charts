@@ -45,8 +45,38 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shinyimg
+  namespace: dev-dsp-tpz
+  labels:
+    app: shinyimg
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: shinyimg
+  template:
+    metadata:
+      labels:
+        app: shinyimg
+    spec:
+      containers:
+      - name: shinyimg
+        image: "{{ .Values.shiny.image.repository }}:{{ .Values.shiny.image.tag | default .Chart.AppVersion }}"
+        ports:
+          - containerPort: 3838
+            name: http-shiny
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}            
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

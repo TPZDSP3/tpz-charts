@@ -61,7 +61,19 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
+shiny:
+  ingress:
+    enabled : true
+    tls:     
+      enabled : true
+    hosts:
+    - host: dsp-test.agrimetrics.co.uk
+    - host: environment-test.data.gov.uk
+  image:
+    repository: dsp3tpz.azurecr.io/shinyimg
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.2"    
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
