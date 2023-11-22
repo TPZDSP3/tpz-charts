@@ -63,6 +63,7 @@ ingress:
   #      - chart-example.local
 shiny:
   ingress:
+    path: /ecology/explorer
     enabled : true
     tls:     
       enabled : true
