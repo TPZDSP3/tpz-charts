@@ -121,14 +121,15 @@ metadata:
   name: defra-efde-explorer
 spec:
   rules:
-    - host: tpz-apps.tpzdsp3.com
-      http:
-        paths:
-          - path: /ecology/explorer(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: defra-efde-explorer
-                port:
-                  number: 443
-
+  {{- range .Values.shiny.ingress.hosts }}
+  - host: {{ .host }}
+    http:
+      paths:
+      - backend:
+          service: 
+            name: defra-efde-explorer
+            port: 
+              number: 443
+        path: /ecology/explorer(/|$)(.*)
+        pathType: Prefix
+  {{- end }}
