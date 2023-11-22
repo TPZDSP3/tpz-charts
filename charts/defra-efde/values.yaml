@@ -61,6 +61,8 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+explorer:
+  version: v0.1.4
 shiny:
   ingress:
     enabled : true

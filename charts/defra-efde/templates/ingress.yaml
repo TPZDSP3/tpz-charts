@@ -104,3 +104,41 @@ spec:
       secretName: shiny-tls
   {{- end }}
 {{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/proxy-body-size: "0"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/upstream-vhost: dsptpzbuildartefacts.z33.web.core.windows.net
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /tags/ecology-fish-data-explorer/{{ .Values.explorer.version }}/$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/ecology/explorer)$ $1/ redirect;
+      gzip              on;
+      gzip_comp_level   1;
+      gzip_min_length   20;
+      gzip_http_version 1.1;
+      gzip_proxied      any;
+      gzip_types        text/css text/plain application/xml application/javascript application/json image/svg+xml;
+      gzip_vary         on;
+  name: defra-efde-explorer
+spec:
+  rules:
+    - host: tpz-apps.tpzdsp3.com
+      http:
+        paths:
+          - path: /ecology/explorer(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: defra-efde-explorer
+                port:
+                  number: 443
+

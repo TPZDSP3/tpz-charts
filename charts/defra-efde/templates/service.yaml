@@ -29,3 +29,11 @@ spec:
   selector:
     app: shinyimg
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: defra-efde-explorer
+spec:
+  type: ExternalName
+  externalName: dsptpzbuildartefacts.z33.web.core.windows.net
