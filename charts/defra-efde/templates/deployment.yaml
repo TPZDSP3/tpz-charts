@@ -95,4 +95,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-rpa-blob      
+            claimName: {{ include "defra-efde.fullname" . }}-data-blob
