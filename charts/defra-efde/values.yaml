@@ -72,7 +72,7 @@ shiny:
     - host: dsp-test.agrimetrics.co.uk
     - host: environment-test.data.gov.uk
   image:
-    repository: dsp3tpz.azurecr.io/shinyimg
+    repository: dsp3tpz.azurecr.io/defra-efde-shiny
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
