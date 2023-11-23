@@ -75,7 +75,7 @@ spec:
         volumeMounts:
           - name: data
             mountPath: /var/lib/data/csv
-            subPath: /efde/csv                
+            subPath: efde/csv                
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
