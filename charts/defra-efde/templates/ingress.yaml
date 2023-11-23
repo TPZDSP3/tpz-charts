@@ -108,7 +108,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /tags/ecology-fish-data-explorer/{{ .Values.explorer.version }}/$2
+    nginx.ingress.kubernetes.io/rewrite-target: /tags/ecology-fish-data-explorer/{{ .Values.explorer.version | default .Chart.AppVersion }}/$2
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^(/ecology/explorer)$ $1/ redirect;
       gzip              on;

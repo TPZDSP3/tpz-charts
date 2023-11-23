@@ -1,0 +1,14 @@
+---
+{{- if .Values.shiny.data.storageClassname }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-data-blob
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.shiny.data.size }}
+  storageClassName: {{ .Values.shiny.data.storageClassname }}
+{{- end }}
