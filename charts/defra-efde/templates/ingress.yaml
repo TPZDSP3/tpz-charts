@@ -82,7 +82,7 @@ spec:
             name: shiny-service
             port: 
               number: 80
-        path: /ecology/explorer/app/
+        path: /ecology/shiny/
         pathType: Prefix
   {{- end }}
   {{- if .Values.shiny.ingress.tls.enabled }}
