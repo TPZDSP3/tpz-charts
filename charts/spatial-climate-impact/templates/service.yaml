@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "spatial-climate-impact.fullname" . }}
+  labels:
+    {{- include "spatial-climate-impact.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http-sgt
+      protocol: TCP
+      name: http-sgt
+  selector:
+    {{- include "spatial-climate-impact.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "spatial-climate-impact.labels" . | nindent 4 }}
+  name: {{ .Chart.Name }}-db
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 27017
+      protocol: TCP
+      name: http-sgt-db
+      targetPort: http-sgt-db
+  selector:
+    {{- include "spatial-climate-impact.selectorLabels" . | nindent 4 }}
