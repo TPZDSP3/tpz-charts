@@ -34,7 +34,7 @@ spec:
   - host: {{ .host | quote }}
     http:
       paths:
-        - path: /spatial-climate-impact
+        - path: {{ .Values.basePath }}
           pathType: Prefix
           backend:
             service:
