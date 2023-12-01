@@ -88,7 +88,7 @@ mongoInitDb: sgt
 mongoUser: sgt-app-admin
 mongoPassword:
 
-basePath: "/cs-now"
+basePath: /cs-now
 
 persistence:
   enabled: true
