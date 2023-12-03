@@ -83,3 +83,5 @@ affinity: {}
 
 # Use this if you have predefined secrets
 existingSecret: ""
+
+NEXT_PUBLIC_API_URL:
