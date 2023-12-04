@@ -52,6 +52,10 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             periodSeconds: 10
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: {{ .Values.NEXT_PUBLIC_API_URL }}
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
