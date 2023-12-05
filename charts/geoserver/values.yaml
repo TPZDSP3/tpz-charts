@@ -25,6 +25,15 @@ dataIngestionRPA:
   cronjobExpression: "0 2 * * *"
   dataDir: /mnt/data_dir
   blobDir: /mnt/blob_dir
+dataIngestionSCI:
+  sciData: dsp3tpz.azurecr.io/geoserver-sci-ingest:v0.0.1
+  pullPolicy: IfNotPresent
+  workspace: SCI
+  zoomstackDatastore: SCI-ZOOMSTACK
+  csNowDatastore: SCI-CS-NOW
+  cronjobExpression: "0 3 * * *"
+  dataDir: /mnt/data_dir
+  blobDir: /mnt/blob_dir/sci
 
 
 

@@ -1,0 +1,64 @@
+{{- if .Values.persistence.blob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sci-index-deployment
+spec:
+  schedule: {{ .Values.dataIngestionSCI.cronjobExpression }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: sci-index
+            image: {{ .Values.dataIngestionSCI.sciData }}
+            imagePullPolicy: {{ .Values.dataIngestionSCI.pullPolicy }}
+            env:
+            - name: URL
+              value: {{ template "geoserver.fullname" . }}{{ .Values.ingress.path }}
+            - name: WORKSPACE
+              value: {{ .Values.dataIngestionSCI.workspace }}
+            - name: ZOOMSTACK_DATASTORE
+              value: {{ .Values.dataIngestionSCI.zoomstackDatastore }}
+            - name: CS_NOW_DATASTORE
+              value: {{ .Values.dataIngestionSCI.csNowDatastore }}
+            - name: DATA_DIR
+              value: {{ .Values.dataIngestionSCI.dataDir }}
+            - name: BLOB_DIR
+              value: {{ .Values.dataIngestionSCI.blobDir }}
+            - name: GEOSERVER_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "geoserver.secretName" . }}
+                  key: geoserver-user
+            - name: GEOSERVER_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "geoserver.secretName" . }}
+                  key: geoserver-password
+            volumeMounts:
+              - name: blob01
+                mountPath: {{ .Values.dataIngestionSCI.blobDir }}
+              - name: geoserver-data-dir
+                mountPath: {{ .Values.dataIngestionSCI.dataDir }}
+                subPath: {{ .Values.persistence.geoserverDataDir.subPath }}
+          volumes:
+            - name: blob01
+              persistentVolumeClaim:
+                claimName: {{ template "geoserver.fullname" . }}-sci-blob
+{{- if and .Values.persistence.geoserverDataDir.enabled .Values.persistence.geoserverDataDir.existingClaim }}
+            - name: geoserver-data-dir
+              persistentVolumeClaim:
+{{- with .Values.persistence.geoserverDataDir.existingClaim }}
+                claimName: {{ tpl . $ }}
+{{- end }}
+{{- else if .Values.persistence.geoserverDataDir.enabled }}
+            - name: geoserver-data-dir
+              persistentVolumeClaim:
+                claimName: {{ template "geoserver.fullname" . }}-geoserver-data-dir
+{{- else if not .Values.persistence.geoserverDataDir.enabled }}
+            - name: geoserver-data-dir
+              emptyDir: {}
+{{- end }}
+{{- end }}

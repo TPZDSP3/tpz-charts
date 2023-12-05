@@ -60,3 +60,18 @@ spec:
   # volumeName: pv-blob
   storageClassName: {{ .Values.persistence.blob.storageClassname }}
 {{- end }}
+---
+{{- if .Values.persistence.blob.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ template "geoserver.fullname" . }}-sci-blob
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.persistence.blob.size }}
+  # volumeName: pv-blob
+  storageClassName: {{ .Values.persistence.blob.storageClassname }}
+{{- end }}
