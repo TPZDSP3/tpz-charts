@@ -1,16 +1,16 @@
 apiVersion: v2
 name: geoserver
-version: 0.8.8
+version: 0.8.9
 appVersion: v2.23.2
 description: Chart for GeoServer with ingested data
 keywords:
-  - GeoServer
-  - GIS
+- GeoServer
+- GIS
 home: http://geoserver.org
 sources:
-  - https://github.com/geoserver/geoserver
+- https://github.com/geoserver/geoserver
 maintainers:
-  - name: rnoguera
-    email: ricardo.noguera@telespazio.com
+- name: rnoguera
+  email: ricardo.noguera@telespazio.com
 engine: gotpl
 icon: https://raw.githubusercontent.com/kartoza/charts/master/assets/logo/GeoServer_500.png

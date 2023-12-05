@@ -73,5 +73,5 @@ spec:
     requests:
       storage: {{ .Values.persistence.blob.size }}
   # volumeName: pv-blob
-  storageClassName: {{ .Values.persistence.blob.storageClassname }}
+  storageClassName: {{ .Values.persistence.blob.storageClassname }}-sci
 {{- end }}
