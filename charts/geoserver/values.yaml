@@ -33,7 +33,7 @@ dataIngestionSCI:
   csNowDatastore: SCI-CS-NOW
   cronjobExpression: "0 3 * * *"
   dataDir: /mnt/data_dir
-  blobDir: /mnt/blob_dir/sci
+  blobDir: /mnt/blob_dir
 
 
 
