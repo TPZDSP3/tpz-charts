@@ -26,7 +26,7 @@ dataIngestionRPA:
   dataDir: /mnt/data_dir
   blobDir: /mnt/blob_dir
 dataIngestionSCI:
-  sciData: dsp3tpz.azurecr.io/geoserver-sci-ingest:v0.0.1
+  sciData: dsp3tpz.azurecr.io/geoserver-sci-ingest:v0.0.2
   pullPolicy: IfNotPresent
   workspace: SCI
   zoomstackDatastore: SCI-ZOOMSTACK
@@ -111,7 +111,7 @@ ingress:
   path: /data-services
   annotations: {}
   labels: {}
-  hosts: 
+  hosts:
   - host: dsp-test.agrimetrics.co.uk
   - host: environment-test.data.gov.uk
   tls:
