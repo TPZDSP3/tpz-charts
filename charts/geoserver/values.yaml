@@ -26,7 +26,7 @@ dataIngestionRPA:
   dataDir: /mnt/data_dir
   blobDir: /mnt/blob_dir
 dataIngestionSCI:
-  sciData: dsp3tpz.azurecr.io/geoserver-sci-ingest:v0.0.2
+  sciData: dsp3tpz.azurecr.io/geoserver-sci-ingest:v0.0.3
   pullPolicy: IfNotPresent
   workspace: SCI
   zoomstackDatastore: SCI-ZOOMSTACK
