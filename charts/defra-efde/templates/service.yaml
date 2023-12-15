@@ -19,7 +19,7 @@ kind: Service
 metadata:
   labels:
     app: {{ include "defra-efde.fullname" . }}-shiny
-  name: shiny-service
+  name: {{ include "defra-efde.fullname" . }}-shiny
 spec:
   ports:
     - name: http-shiny
