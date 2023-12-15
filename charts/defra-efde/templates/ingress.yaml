@@ -64,13 +64,13 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: shiny-ingress
+  name: {{ include "defra-efde.fullname" . }}-shiny
   annotations:
     kubernetes.io/ingress.class: nginx    
     cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/proxy-body-size: '0'   
   labels:
-    app: shinyimg
+    app: {{ include "defra-efde.fullname" . }}-shiny
 spec:
   rules:
   {{- range .Values.shiny.ingress.hosts }}
@@ -79,7 +79,7 @@ spec:
       paths:
       - backend:
           service: 
-            name: shiny-service
+            name: {{ include "defra-efde.fullname" $ }}-shiny
             port: 
               number: 80
         path: /ecology/shiny/
@@ -127,7 +127,7 @@ spec:
       paths:
       - backend:
           service: 
-            name: defra-efde-explorer
+            name: {{ include "defra-efde.fullname" $ }}-explorer
             port: 
               number: 443
         path: /ecology/explorer(/|$)(.*)

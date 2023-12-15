@@ -49,23 +49,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shinyimg
+  name: {{ include "defra-efde.fullname" . }}-shiny
   labels:
-    app: shinyimg
+    app: {{ include "defra-efde.fullname" . }}-shiny
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: shinyimg
+      app: {{ include "defra-efde.fullname" . }}-shiny
   template:
     metadata:
       labels:
-        app: shinyimg
+        app: {{ include "defra-efde.fullname" . }}-shiny
     spec:
       containers:
-      - name: shinyimg
+      - name: {{ include "defra-efde.fullname" . }}-shiny
         image: "{{ .Values.shiny.image.repository }}:{{ .Values.shiny.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.shiny.image.pullPolicy }}
         ports:
@@ -101,25 +101,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: defra-efde-db
+  name: {{ include "defra-efde.fullname" . }}-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: defra-efde-db
+      app: {{ include "defra-efde.fullname" . }}-db
   strategy:
     type: Recreate
   revisionHistoryLimit: 0
   template:
     metadata:
       labels:
-        app: defra-efde-db
+        app: {{ include "defra-efde.fullname" . }}-db
     spec:
       containers:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
           args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
           imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
-          name: defra-efde-db
+          name: {{ include "defra-efde.fullname" . }}-db
           ports:
             - containerPort: 7200
               protocol: TCP
