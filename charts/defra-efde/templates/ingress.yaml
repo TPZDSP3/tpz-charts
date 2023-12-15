@@ -33,7 +33,7 @@ spec:
         {{- range .hosts }}
         - {{ . | quote }}
         {{- end }}
-      secretName: {{ .secretName }}
+      secretName: {{ include "defra-efde.fullname" $ }}-api-tls
     {{- end }}
   {{- end }}
   rules:
@@ -91,7 +91,7 @@ spec:
         {{- range .Values.shiny.ingress.hosts }}
         - {{ .host }}
         {{- end }}
-      secretName: shiny-tls
+      secretName: {{ include "defra-efde.fullname" . }}-shiny-tls
   {{- end }}
 {{- end }}
 ---
