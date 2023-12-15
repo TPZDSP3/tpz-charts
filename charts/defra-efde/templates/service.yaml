@@ -43,7 +43,7 @@ kind: Service
 metadata:
   labels:
     app: defra-efde-db
-  name: graphdb-node
+  name: defra-efde-db
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:
