@@ -12,3 +12,42 @@ spec:
       storage: {{ .Values.shiny.data.size }}
   storageClassName: {{ .Values.shiny.data.storageClassname }}
 {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-logs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: {{ .Values.graphdb.storageClassName }}
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-databases
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: {{ .Values.graphdb.storageClassName }}
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-import
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: {{ .Values.graphdb.import.storageClassName }}
+  volumeMode: Filesystem    

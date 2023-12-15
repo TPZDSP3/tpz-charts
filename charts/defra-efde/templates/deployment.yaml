@@ -67,11 +67,12 @@ spec:
       containers:
       - name: shinyimg
         image: "{{ .Values.shiny.image.repository }}:{{ .Values.shiny.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.shiny.image.pullPolicy }}
         ports:
           - containerPort: 3838
             name: http-shiny
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.shiny.resources | nindent 12 }}
         volumeMounts:
           - name: data
             mountPath: /var/lib/data/csv
@@ -84,11 +85,11 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.shiny.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.shiny.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -96,3 +97,60 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "defra-efde.fullname" . }}-data-blob
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: defra-efde-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: defra-efde-db
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: defra-efde-db
+    spec:
+      containers:
+        - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
+          args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
+          imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
+          name: defra-efde-db
+          ports:
+            - containerPort: 7200
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.graphdb.resources | nindent 12 }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/graphdb/dist/logs
+              name: graphdb-logs          
+            - mountPath: /opt/graphdb/home/graphdb-import
+              name: graphdb-import
+            - mountPath: /opt/graphdb/dist/data/repositories
+              name: graphdb-databases
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.graphdb.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphdb.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}      
+      volumes:
+        - name: graphdb-import
+          persistentVolumeClaim:
+            claimName: {{ include "defra-efde.fullname" . }}-import
+        - name: graphdb-logs
+          persistentVolumeClaim:
+            claimName: {{ include "defra-efde.fullname" . }}-logs            
+        - name: graphdb-databases
+          persistentVolumeClaim:
+            claimName: {{ include "defra-efde.fullname" . }}-databases            

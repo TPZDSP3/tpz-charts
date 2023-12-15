@@ -63,6 +63,18 @@ ingress:
   #      - chart-example.local
 explorer:
   version: ""
+graphdb:
+  storageClassName: dev-tpzuk-disk-retain
+  import:
+    storageClassName: dev-tpzuk-blob-ttl
+  resources: {}
+  tolerations: []
+  affinity: {}
+  image:
+    repository: ontotext/graphdb
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "10.4.1"
 shiny:
   ingress:
     enabled : true
@@ -79,7 +91,11 @@ shiny:
   data:
     size: 5G
     storageClassname: tpzuk-blob-ttl
-resources: {}
+  resources: {}
+  tolerations: []
+  affinity: {}
+
+resources: {}  
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
