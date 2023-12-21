@@ -81,7 +81,7 @@ shiny:
     tls:     
       enabled : true
     hosts:
-    - host: environment-test.data.gov.uk
+    - host: dsp-test.agrimetrics.co.uk
   image:
     repository: dsp3tpz.azurecr.io/defra-efde-shiny
     pullPolicy: IfNotPresent
