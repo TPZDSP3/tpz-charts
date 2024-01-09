@@ -120,7 +120,7 @@ metadata:
       gzip_proxied      any;
       gzip_types        text/css text/plain application/xml application/javascript application/json image/svg+xml;
       gzip_vary         on;
-  name: {{ include "defra-efde.fullname" . }}-explorer
+  name: {{ include "defra-efde.fullname" . }}-explorer-{{ .Values.release }}
 spec:
   rules:
   {{- range .Values.shiny.ingress.hosts }}
@@ -129,7 +129,7 @@ spec:
       paths:
       - backend:
           service: 
-            name: {{ include "defra-efde.fullname" $ }}-explorer
+            name: {{ include "defra-efde.fullname" $ }}-explorer-{{ $.Values.release }}
             port: 
               number: 443
         path: /ecology/explorer(/|$)(.*)
