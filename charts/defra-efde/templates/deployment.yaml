@@ -45,6 +45,9 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            - name: GDB_ENDPOINT_COLOUR
+              value: "green"
 ---
 apiVersion: apps/v1
 kind: Deployment
