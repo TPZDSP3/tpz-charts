@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
+release: green
 image:
   repository: dsp3tpz.azurecr.io/defra-efde-api
   pullPolicy: IfNotPresent

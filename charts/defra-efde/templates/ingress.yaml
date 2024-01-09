@@ -15,7 +15,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}-api
+  name: {{ $fullName }}-api-{{ .Values.release }}
   labels:
     {{- include "defra-efde.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -64,14 +64,14 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-shiny
+  name: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
   annotations:
     kubernetes.io/ingress.class: nginx    
     cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/proxy-body-size: '0'
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
   labels:
-    app: {{ include "defra-efde.fullname" . }}-shiny
+    app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
 spec:
   rules:
   {{- range .Values.shiny.ingress.hosts }}
@@ -80,7 +80,7 @@ spec:
       paths:
       - backend:
           service: 
-            name: {{ include "defra-efde.fullname" $ }}-shiny
+            name: {{ include "defra-efde.fullname" $ }}-shiny-{{ $.Values.release }}
             port: 
               number: 80
         path: /ecology/shiny/

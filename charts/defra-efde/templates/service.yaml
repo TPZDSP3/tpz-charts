@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-efde.fullname" . }}
+  name: {{ include "defra-efde.fullname" . }}-{{ .Values.release }}
   labels:
     {{- include "defra-efde.labels" . | nindent 4 }}
 spec:
@@ -18,8 +18,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-efde.fullname" . }}-shiny
-  name: {{ include "defra-efde.fullname" . }}-shiny
+    app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
+  name: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
 spec:
   ports:
     - name: http-shiny
@@ -27,13 +27,13 @@ spec:
       protocol: TCP
       targetPort: http-shiny
   selector:
-    app: {{ include "defra-efde.fullname" . }}-shiny
+    app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-explorer
+  name: {{ include "defra-efde.fullname" . }}-explorer-{{ .Values.release }}
 spec:
   type: ExternalName
   externalName: dsptpzbuildartefacts.z33.web.core.windows.net
@@ -42,8 +42,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-efde.fullname" . }}-db
-  name: {{ include "defra-efde.fullname" . }}-db
+    app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
+  name: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -54,6 +54,6 @@ spec:
       protocol: TCP
       targetPort: 7200
   selector:
-    app: {{ include "defra-efde.fullname" . }}-db
+    app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
   sessionAffinity: None
   type: ClusterIP

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-efde.fullname" . }}
+  name: {{ include "defra-efde.fullname" . }}-{{ .Values.release }}
   labels:
-    {{- include "defra-efde.labels" . | nindent 4 }}
+    {{- include "defra-efde.labels" . | nindent 4 }}-{{ .Values.release }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "defra-efde.selectorLabels" . | nindent 6 }}
+      {{- include "defra-efde.selectorLabels" . | nindent 6 }}-{{ .Values.release }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -47,25 +47,25 @@ spec:
               port: http
           env:
             - name: GDB_ENDPOINT_COLOUR
-              value: "green"
+              value: {{ .Values.release }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-shiny
+  name: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
   labels:
-    app: {{ include "defra-efde.fullname" . }}-shiny
+    app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-efde.fullname" . }}-shiny
+      app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
   template:
     metadata:
       labels:
-        app: {{ include "defra-efde.fullname" . }}-shiny
+        app: {{ include "defra-efde.fullname" . }}-shiny-{{ .Values.release }}
     spec:
       containers:
       - name: {{ include "defra-efde.fullname" . }}-shiny
@@ -99,30 +99,30 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-data-blob
+            claimName: {{ include "defra-efde.fullname" . }}-data-blob-{{ .Values.release }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-db
+  name: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "defra-efde.fullname" . }}-db
+      app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
   strategy:
     type: Recreate
   revisionHistoryLimit: 0
   template:
     metadata:
       labels:
-        app: {{ include "defra-efde.fullname" . }}-db
+        app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
     spec:
       containers:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
           args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
           imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
-          name: {{ include "defra-efde.fullname" . }}-db
+          name: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
           ports:
             - containerPort: 7200
               protocol: TCP
@@ -132,11 +132,11 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /opt/graphdb/dist/logs
-              name: graphdb-logs          
+              name: graphdb-logs-{{ .Values.release }}          
             - mountPath: /opt/graphdb/home/graphdb-import
-              name: graphdb-import
+              name: graphdb-import-{{ .Values.release }}
             - mountPath: /opt/graphdb/dist/data/repositories
-              name: graphdb-databases
+              name: graphdb-databases-{{ .Values.release }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       {{- with .Values.graphdb.affinity }}
@@ -150,10 +150,10 @@ spec:
       volumes:
         - name: graphdb-import
           persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-import
+            claimName: {{ include "defra-efde.fullname" . }}-import-{{ .Values.release }}
         - name: graphdb-logs
           persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-logs            
+            claimName: {{ include "defra-efde.fullname" . }}-logs-{{ .Values.release }}           
         - name: graphdb-databases
           persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-databases            
+            claimName: {{ include "defra-efde.fullname" . }}-databases-{{ .Values.release }}           
