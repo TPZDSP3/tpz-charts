@@ -34,7 +34,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "defra-efde.labels" -}}
-helm.sh/chart: {{ include "defra-efde.chart" . }}
+helm.sh/chart: {{ include "defra-efde.chart" . }}-{{ .Values.release }}
 {{ include "defra-efde.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -46,7 +46,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "defra-efde.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "defra-efde.name" . }}
+app.kubernetes.io/name: {{ include "defra-efde.name" . }}-{{ .Values.release }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
