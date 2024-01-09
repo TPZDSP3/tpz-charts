@@ -132,11 +132,11 @@ spec:
           terminationMessagePolicy: File
           volumeMounts:
             - mountPath: /opt/graphdb/dist/logs
-              name: graphdb-logs-{{ .Values.release }}          
+              name: graphdb-logs      
             - mountPath: /opt/graphdb/home/graphdb-import
-              name: graphdb-import-{{ .Values.release }}
+              name: graphdb-import
             - mountPath: /opt/graphdb/dist/data/repositories
-              name: graphdb-databases-{{ .Values.release }}
+              name: graphdb-databases
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       {{- with .Values.graphdb.affinity }}
