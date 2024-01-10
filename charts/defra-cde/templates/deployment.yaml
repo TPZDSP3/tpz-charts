@@ -25,10 +25,9 @@ spec:
             name: http-app
         resources:
           {{- toYaml .Values.app.resources | nindent 12 }}
-        # volumeMounts:
-        #   - name: data
-        #     mountPath: /var/lib/data/csv
-        #     subPath: efde/csv                
+        env:
+          - name: GDB_ENDPOINT_COLOUR
+            value: {{ .Values.release }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
