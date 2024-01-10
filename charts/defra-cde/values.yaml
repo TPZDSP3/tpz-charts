@@ -60,7 +60,7 @@ graphdb:
     # Overrides the image tag whose default is the chart appVersion.
     tag: "10.4.1"
 
-cde-app:
+app:
   ingress:
     enabled : true
     tls:

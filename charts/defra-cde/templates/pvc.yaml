@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-logs
+  name: {{ include "defra-cde.fullname" . }}-logs
 spec:
   accessModes:
     - ReadWriteOnce
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-databases
+  name: {{ include "defra-cde.fullname" . }}-databases
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-import
+  name: {{ include "defra-cde.fullname" . }}-import
 spec:
   accessModes:
     - ReadWriteMany

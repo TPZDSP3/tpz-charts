@@ -18,13 +18,13 @@ spec:
     spec:
       containers:
       - name: {{ include "defra-cde.fullname" . }}-app
-        image: "{{ .Values.cde-app.image.repository }}:{{ .Values.cde-app.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.cde-app.image.pullPolicy }}
+        image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
         ports:
           - containerPort: 3000
             name: http-app
         resources:
-          {{- toYaml .Values.cde-app.resources | nindent 12 }}
+          {{- toYaml .Values.app.resources | nindent 12 }}
         # volumeMounts:
         #   - name: data
         #     mountPath: /var/lib/data/csv
@@ -37,11 +37,11 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.cde-app.affinity }}
+      {{- with .Values.app.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.cde-app.tolerations }}
+      {{- with .Values.app.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
