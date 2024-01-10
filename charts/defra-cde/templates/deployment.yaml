@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-cde.fullname" . }}-app
+  name: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
   labels:
-    app: {{ include "defra-cde.fullname" . }}-app
+    app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-cde.fullname" . }}-app
+      app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
   template:
     metadata:
       labels:
-        app: {{ include "defra-cde.fullname" . }}-app
+        app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
     spec:
       containers:
       - name: {{ include "defra-cde.fullname" . }}-app
@@ -53,19 +53,19 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-cde.fullname" . }}-db
+  name: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "defra-cde.fullname" . }}-db
+      app: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
   strategy:
     type: Recreate
   revisionHistoryLimit: 0
   template:
     metadata:
       labels:
-        app: {{ include "defra-cde.fullname" . }}-db
+        app: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
     spec:
       containers:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
@@ -99,10 +99,10 @@ spec:
       volumes:
         - name: graphdb-import
           persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-import
+            claimName: {{ include "defra-cde.fullname" . }}-import-{{ .Values.release }}
         - name: graphdb-logs
           persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-logs            
+            claimName: {{ include "defra-cde.fullname" . }}-logs-{{ .Values.release }}
         - name: graphdb-databases
           persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-databases            
+            claimName: {{ include "defra-cde.fullname" . }}-databases-{{ .Values.release }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-cde.fullname" . }}
+  name: {{ include "defra-cde.fullname" . }}-{{ .Values.release }}
   labels:
     {{- include "defra-cde.labels" . | nindent 4 }}
 spec:
@@ -18,8 +18,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-cde.fullname" . }}-app
-  name: {{ include "defra-cde.fullname" . }}-app
+    app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
+  name: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
 spec:
   ports:
     - name: http-app
@@ -27,15 +27,15 @@ spec:
       protocol: TCP
       targetPort: http-app
   selector:
-    app: {{ include "defra-cde.fullname" . }}-app
+    app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-cde.fullname" . }}-db
-  name: {{ include "defra-cde.fullname" . }}-db
+    app: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
+  name: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -46,6 +46,6 @@ spec:
       protocol: TCP
       targetPort: 7200
   selector:
-    app: {{ include "defra-cde.fullname" . }}-db
+    app: {{ include "defra-cde.fullname" . }}-db-{{ .Values.release }}
   sessionAffinity: None
   type: ClusterIP
