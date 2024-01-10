@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-cde.fullname" . }}-app
+  labels:
+    app: {{ include "defra-cde.fullname" . }}-app
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-cde.fullname" . }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-cde.fullname" . }}-app
+    spec:
+      containers:
+      - name: {{ include "defra-cde.fullname" . }}-app
+        image: "{{ .Values.cde-app.image.repository }}:{{ .Values.cde-app.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.cde-app.image.pullPolicy }}
+        ports:
+          - containerPort: 3000
+            name: http-app
+        resources:
+          {{- toYaml .Values.cde-app.resources | nindent 12 }}
+        # volumeMounts:
+        #   - name: data
+        #     mountPath: /var/lib/data/csv
+        #     subPath: efde/csv                
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cde-app.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.cde-app.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # volumes:
+      #   - name: data
+      #     persistentVolumeClaim:
+      #       claimName: {{ include "defra-cde.fullname" . }}-data-blob
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-cde.fullname" . }}-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "defra-cde.fullname" . }}-db
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-cde.fullname" . }}-db
+    spec:
+      containers:
+        - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
+          args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
+          imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
+          name: {{ include "defra-cde.fullname" . }}-db
+          ports:
+            - containerPort: 7200
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.graphdb.resources | nindent 12 }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/graphdb/dist/logs
+              name: graphdb-logs          
+            - mountPath: /opt/graphdb/home/graphdb-import
+              name: graphdb-import
+            - mountPath: /opt/graphdb/dist/data/repositories
+              name: graphdb-databases
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.graphdb.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphdb.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}      
+      volumes:
+        - name: graphdb-import
+          persistentVolumeClaim:
+            claimName: {{ include "defra-cde.fullname" . }}-import
+        - name: graphdb-logs
+          persistentVolumeClaim:
+            claimName: {{ include "defra-cde.fullname" . }}-logs            
+        - name: graphdb-databases
+          persistentVolumeClaim:
+            claimName: {{ include "defra-cde.fullname" . }}-databases            

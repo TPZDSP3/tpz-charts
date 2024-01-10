@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-cde.fullname" . }}
+  labels:
+    {{- include "defra-cde.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "defra-cde.selectorLabels" . | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ include "defra-cde.fullname" . }}-app
+  name: {{ include "defra-cde.fullname" . }}-app
+spec:
+  ports:
+    - name: http-app
+      port: 80
+      protocol: TCP
+      targetPort: http-app
+  selector:
+    app: {{ include "defra-cde.fullname" . }}-app
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ include "defra-cde.fullname" . }}-db
+  name: {{ include "defra-cde.fullname" . }}-db
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 7200
+      protocol: TCP
+      targetPort: 7200
+  selector:
+    app: {{ include "defra-cde.fullname" . }}-db
+  sessionAffinity: None
+  type: ClusterIP
