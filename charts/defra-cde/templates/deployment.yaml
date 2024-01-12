@@ -39,7 +39,6 @@ spec:
         - name: cache
           persistentVolumeClaim:
             claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}
-      volumes:
         - name: static
           persistentVolumeClaim:
             claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                              
