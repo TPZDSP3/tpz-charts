@@ -26,7 +26,16 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-
+cache:
+  enabled: true
+  data:
+    size: 5G
+    storageClassname: tpzuk-blob-ttl
+  image:
+    repository: dsp3tpz.azurecr.io/defra-cde-web-cache
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""     
 # explorer:
 #   version: ""
 graphdb:

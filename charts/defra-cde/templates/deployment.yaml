@@ -28,6 +28,14 @@ spec:
         env:
           - name: GDB_ENDPOINT_COLOUR
             value: {{ .Values.release }}
+        volumeMounts:
+          - name: cache
+            mountPath: /app/classpath
+            subPath: cde/{{ .Values.release }}
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                        
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
