@@ -21,7 +21,7 @@ spec:
             name: {{ include "defra-cde.fullname" $ }}-app-{{ $.Values.release }}
             port: 
               number: 80
-        path: /catchment-planning/
+        path: /catchment-planning(/|$)(.*)
         pathType: Prefix
   {{- end }}
   {{- if .Values.app.ingress.tls.enabled }}
