@@ -34,7 +34,7 @@ spec:
             subPath: cde/{{ .Values.release }}/cache
           - name: cache
             mountPath: /app/static
-            subPath: cde/{{ .Values.release }}/static/catchment-planning         
+            subPath: cde/{{ .Values.release }}/static     
       volumes:
         - name: cache
           persistentVolumeClaim:
