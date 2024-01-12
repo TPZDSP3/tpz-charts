@@ -32,16 +32,13 @@ spec:
           - name: cache
             mountPath: /app/cache
             subPath: cde/{{ .Values.release }}/cache
-          - name: static
+          - name: cache
             mountPath: /app/static
             subPath: cde/{{ .Values.release }}/static            
       volumes:
         - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}
-        - name: static
-          persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                              
+            claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                            
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
