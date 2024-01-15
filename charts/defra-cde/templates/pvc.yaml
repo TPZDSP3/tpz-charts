@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 20Gi
   storageClassName: {{ .Values.graphdb.storageClassName }}
   volumeMode: Filesystem
 ---
