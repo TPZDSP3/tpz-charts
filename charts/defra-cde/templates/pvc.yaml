@@ -38,7 +38,6 @@ spec:
   storageClassName: {{ .Values.graphdb.import.storageClassName }}
   volumeMode: Filesystem
 ---
-{{- if .Values.cache.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -50,5 +49,4 @@ spec:
     requests:
       storage: {{ .Values.cache.size }}
   storageClassName: {{ .Values.cache.storageClassname }}
-{{- end }}
 ---   
