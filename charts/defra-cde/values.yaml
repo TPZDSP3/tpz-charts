@@ -34,7 +34,9 @@ cache:
     repository: dsp3tpz.azurecr.io/defra-cde-web-cache
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""     
+    tag: ""
+  pathCache: /app/cache
+  pathStatic: /app/static     
 # explorer:
 #   version: ""
 graphdb:

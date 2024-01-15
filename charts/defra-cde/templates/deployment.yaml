@@ -30,10 +30,10 @@ spec:
             value: {{ .Values.release }}
         volumeMounts:
           - name: cache
-            mountPath: /app/cache
+            mountPath: {{ .Values.cache.pathCache }}
             subPath: cde/{{ .Values.release }}/cache
           - name: cache
-            mountPath: /app/static
+            mountPath: {{ .Values.cache.pathStatic }}
             subPath: cde/{{ .Values.release }}/static     
       volumes:
         - name: cache
