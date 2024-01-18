@@ -94,6 +94,7 @@ spec:
               name: graphdb-logs          
             - mountPath: /opt/graphdb/home/graphdb-import
               name: graphdb-import
+              subPath: cde/{{ .Values.release }}/{{ .Values.graphdb.import.subpath }}
             - mountPath: /opt/graphdb/dist/data/repositories
               name: graphdb-databases
       dnsPolicy: ClusterFirst
