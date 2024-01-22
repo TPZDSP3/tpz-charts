@@ -42,7 +42,7 @@ cache:
 graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
-    subpath: cde_live
+    subpath: importdb
     storageClassName: dev-tpzuk-blob-ttl
   resources: {}
   tolerations: []
