@@ -64,6 +64,9 @@ api:
     #   enabled: true
     hosts:
       - host: dsp-test.agrimetrics.co.uk
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
     className: ""
     annotations: {}
   image:
