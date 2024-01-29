@@ -24,10 +24,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-processor
+    - name: http-wims-proc
       port: 80
       protocol: TCP
-      targetPort: http-wims-processor
+      targetPort: http-wims-proc
   selector:
     app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
 

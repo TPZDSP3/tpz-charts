@@ -25,14 +25,18 @@ spec:
               name: http-api
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
+          volumeMounts:
+            - name: api-config
+              mountPath: /etc/api
+              readOnly: true
       volumes:
-        - name: {{ include "defra-wims.fullname" . }}-tomcat-api-conf
+        - name: api-config
           configMap:
             name: {{ template "defra-wims.fullname" . }}
             defaultMode: 0644
             items:
               - key: app.conf
-                path: /opt/wims/
+                path: app.conf
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -70,12 +74,12 @@ spec:
         app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
     spec:
       containers:
-        - name: {{ include "defra-wims.fullname" . }}-processor
+        - name: {{ include "defra-wims.fullname" . }}-proc
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
-          # ports:
-          #   - containerPort: 8080
-          #     name: http-processor
+          ports:
+            - containerPort: 8080
+              name: http-processor
           resources:
             {{- toYaml .Values.processor.resources | nindent 12 }}
           env:
