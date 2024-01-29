@@ -50,7 +50,7 @@ fuseki:
     tag: ""
   data:
     size: 5G
-    storageClassname: dev-tpzuk-blob-ttl
+    storageClassName: dev-tpzuk-blob-ttl
   resources: {}
   tolerations: []
   affinity: {}
