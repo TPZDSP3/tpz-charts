@@ -79,7 +79,7 @@ spec:
     spec:
       containers:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
-          args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
+          args: {{ .Values.graphdb.args }}
           imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
           name: {{ include "defra-cde.fullname" . }}-db
           ports:

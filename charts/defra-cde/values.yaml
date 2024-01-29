@@ -52,6 +52,10 @@ graphdb:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "10.4.1"
+  args:
+   - "-XX:MaxRAMPercentage=70"
+   - "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"
+   - "-Dgraphdb.logger.root.level=DEBUG" 
 
 app:
   ingress:
