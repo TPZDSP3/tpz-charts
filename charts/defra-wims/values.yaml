@@ -36,6 +36,26 @@ existingSecret: |
 extraSecret: |
 
 # Config for the API
+fuseki:
+  ingress:
+    enabled: true
+    tls:
+      enabled: true
+    hosts:
+    - host: dsp-test.agrimetrics.co.uk
+  image:
+    repository: dsp3tpz.azurecr.io/defra-wims-fuseki-db
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  # data:
+  #   size: 5G
+  #   storageClassname: tpzuk-blob-ttl
+  resources: {}
+  tolerations: []
+  affinity: {}
+
+# Config for the API
 api:
   ingress:
     enabled: true
