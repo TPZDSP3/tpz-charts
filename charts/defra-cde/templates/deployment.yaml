@@ -81,7 +81,7 @@ spec:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
           args:
           {{ range .Values.graphdb.args }}
-            {{ . }}
+            - {{ . }}
           {{ end }}
           imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
           name: {{ include "defra-cde.fullname" . }}-db
