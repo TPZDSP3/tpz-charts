@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-api
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: http-wims-api
+  selector:
+    {{- include "defra-wims.selectorLabels" . | nindent 4 }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-processor
+      port: 80
+      protocol: TCP
+      targetPort: http-wims-processor
+  selector:
+    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-ui
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
