@@ -48,9 +48,9 @@ fuseki:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-  # data:
-  #   size: 5G
-  #   storageClassname: tpzuk-blob-ttl
+  data:
+    size: 5G
+    storageClassname: dev-tpzuk-blob-ttl
   resources: {}
   tolerations: []
   affinity: {}
@@ -59,10 +59,13 @@ fuseki:
 api:
   ingress:
     enabled: true
-    tls:
-      enabled: true
+    tls: []
+    # tls:
+    #   enabled: true
     hosts:
-    - host: dsp-test.agrimetrics.co.uk
+      - host: dsp-test.agrimetrics.co.uk
+    className: ""
+    annotations: {}
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-api
     pullPolicy: IfNotPresent
