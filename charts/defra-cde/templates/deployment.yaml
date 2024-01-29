@@ -79,7 +79,10 @@ spec:
     spec:
       containers:
         - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
-          args: {{ .Values.graphdb.args }}
+          args:
+          {{ range .Values.graphdb.args }}
+            {{ . }}
+          {{ end }}
           imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
           name: {{ include "defra-cde.fullname" . }}-db
           ports:
