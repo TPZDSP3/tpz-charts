@@ -1,6 +1,63 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+    spec:
+      containers:
+        - name: {{ include "defra-wims.fullname" . }}-fuseki-db
+          image: "{{ .Values.fuseki.image.repository }}:{{ .Values.fuseki.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.fuseki.image.pullPolicy }}
+          ports:
+            - containerPort: 3030
+              name: http-fuseki
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+          volumeMounts:
+            - name: fuseki-logs
+              mountPath: /fuseki/logs
+            - name: fuseki-databases
+              mountPath: /fuseki/databases
+      volumes:
+        - name: fuseki-logs
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-logs-{{ .Values.release }}
+        - name: fuseki-databases
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.api.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
   labels:
     app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
@@ -25,14 +82,18 @@ spec:
               name: http-api
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
+          volumeMounts:
+            - name: api-config
+              mountPath: /etc/api
+              readOnly: true
       volumes:
-        - name: {{ include "defra-wims.fullname" . }}-tomcat-api-conf
+        - name: api-config
           configMap:
             name: {{ template "defra-wims.fullname" . }}
             defaultMode: 0644
             items:
               - key: app.conf
-                path: /opt/wims/
+                path: app.conf
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -70,12 +131,12 @@ spec:
         app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
     spec:
       containers:
-        - name: {{ include "defra-wims.fullname" . }}-processor
+        - name: {{ include "defra-wims.fullname" . }}-proc
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
-          # ports:
-          #   - containerPort: 8080
-          #     name: http-processor
+          ports:
+            - containerPort: 8080
+              name: http-processor
           resources:
             {{- toYaml .Values.processor.resources | nindent 12 }}
           env:

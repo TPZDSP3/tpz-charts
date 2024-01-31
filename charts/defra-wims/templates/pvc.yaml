@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-logs-{{ .Values.release }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: {{ .Values.fuseki.data.storageClassName }}
+  volumeMode: Filesystem
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: {{ .Values.fuseki.data.storageClassName }}
+  volumeMode: Filesystem
