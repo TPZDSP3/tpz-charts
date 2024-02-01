@@ -55,7 +55,7 @@ graphdb:
   args:
    - "-XX:MaxRAMPercentage=70"
    - "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"
-   - "-Dgraphdb.logger.root.level=DEBUG" 
+   # - "-Dgraphdb.logger.root.level=DEBUG" 
 
 app:
   ingress:
