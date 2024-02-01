@@ -127,6 +127,6 @@ spec:
             service:
               name: {{ include "defra-wims.fullname" $ }}-ui-{{ $.Values.release }}
               port:
-                number: 443
+                number: 80
     {{- end }}
 {{- end }}

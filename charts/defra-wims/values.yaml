@@ -33,6 +33,9 @@ service:
 # Use this if you have predefined secrets
 existingSecret: |
 
+awsAccessKeyId:
+awsSecretAccessKey:
+
 extraSecret: |
 
 # Config for the API
@@ -50,7 +53,7 @@ fuseki:
     tag: ""
   data:
     size: 5G
-    storageClassName: dev-tpzuk-blob-ttl
+    storageClassName: dev-tpzuk-disk-retain
   resources: {}
   tolerations: []
   affinity: {}
