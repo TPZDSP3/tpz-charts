@@ -44,8 +44,6 @@ fuseki:
     enabled: true
     tls:
       enabled: true
-    hosts:
-    - host: dsp-test.agrimetrics.co.uk
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-fuseki-db
     pullPolicy: IfNotPresent
@@ -70,14 +68,8 @@ api:
       nginx.ingress.kubernetes.io/proxy-body-size: '0'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     enabled: true
-    tls: []
-    # tls:
-    #   enabled: true
-    hosts:
-      - host: dsp-test.agrimetrics.co.uk
-        paths:
-          - path: /wims
-            pathType: ImplementationSpecific
+    tls:
+      enabled: true
     className: ""
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-api
@@ -105,8 +97,6 @@ processor:
     enabled: true
     tls:
       enabled: true
-    hosts:
-    - host: dsp-test.agrimetrics.co.uk
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-processor
     pullPolicy: IfNotPresent
@@ -127,15 +117,14 @@ processor:
   javaOptions: -Xmx17g
   fusekiConf: /opt/wims-processor/fuseki-deploy.ttl
   fusekiVersion: 3.4.0
-
+hosts:
+- host: dev-tpz-apps.tpzdsp3.com
 # Config for the UI
 ui:
   ingress:
     enabled: true
     tls:
       enabled: true
-    hosts:
-    - host: dsp-test.agrimetrics.co.uk
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-ui
     pullPolicy: IfNotPresent
