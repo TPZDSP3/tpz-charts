@@ -25,7 +25,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - name: http-wims-proc
-      port: 80
+      port: 8080
       protocol: TCP
       targetPort: http-wims-proc
   selector:
@@ -47,3 +47,19 @@ spec:
       targetPort: 3000
   selector:
     app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-db
+      port: 3030
+      protocol: TCP
+      targetPort: 3030
+  selector:
+    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
