@@ -136,7 +136,7 @@ spec:
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
           ports:
             - containerPort: 8080
-              name: http-wims-processor
+              name: http-wims-proc
           resources:
             {{- toYaml .Values.processor.resources | nindent 12 }}
           env:

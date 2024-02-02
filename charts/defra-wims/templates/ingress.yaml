@@ -116,6 +116,14 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
 spec:
+  {{- if .Values.ui.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        {{- range .Values.ui.ingress.hosts }}
+        - {{ .host }}
+        {{- end }}
+      secretName: {{ include "defra-wims.fullname" $ }}-ui-tls
+  {{- end }}
   rules:
     {{- range .Values.ui.ingress.hosts }}
     - host: {{ .host }}
