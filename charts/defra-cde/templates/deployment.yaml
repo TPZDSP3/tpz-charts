@@ -27,7 +27,7 @@ spec:
           {{- toYaml .Values.app.resources | nindent 12 }}
         env:
           - name: GDB_ENDPOINT_COLOUR
-            value: {{ .Values.release }}
+            value: tvuk
         volumeMounts:
           - name: cache
             mountPath: {{ .Values.cache.pathCache }}
