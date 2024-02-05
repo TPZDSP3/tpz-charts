@@ -46,8 +46,8 @@ spec:
               path: /
               port: http
           env:
-            - name: GDB_ENDPOINT_COLOUR
-              value: {{ .Values.release }}
+            - name: API_ENDPOINT
+              value: {{ .Values.graphEndpoint }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -100,60 +100,3 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "defra-efde.fullname" . }}-data-blob-{{ .Values.release }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
-  strategy:
-    type: Recreate
-  revisionHistoryLimit: 0
-  template:
-    metadata:
-      labels:
-        app: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
-    spec:
-      containers:
-        - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
-          args: ["-XX:MaxRAMPercentage=70", "-Dgraphdb.workbench.importDirectory=/opt/graphdb/home/graphdb-import"]
-          imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
-          name: {{ include "defra-efde.fullname" . }}-db-{{ .Values.release }}
-          ports:
-            - containerPort: 7200
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.graphdb.resources | nindent 12 }}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-            - mountPath: /opt/graphdb/dist/logs
-              name: graphdb-logs      
-            - mountPath: /opt/graphdb/home/graphdb-import
-              name: graphdb-import
-            - mountPath: /opt/graphdb/dist/data/repositories
-              name: graphdb-databases
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      {{- with .Values.graphdb.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.graphdb.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}      
-      volumes:
-        - name: graphdb-import
-          persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-import-{{ .Values.release }}
-        - name: graphdb-logs
-          persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-logs-{{ .Values.release }}           
-        - name: graphdb-databases
-          persistentVolumeClaim:
-            claimName: {{ include "defra-efde.fullname" . }}-databases-{{ .Values.release }}           

@@ -64,18 +64,7 @@ ingress:
   #      - chart-example.local
 explorer:
   version: ""
-graphdb:
-  storageClassName: dev-tpzuk-disk-retain
-  import:
-    storageClassName: dev-tpzuk-blob-ttl
-  resources: {}
-  tolerations: []
-  affinity: {}
-  image:
-    repository: ontotext/graphdb
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "10.4.1"
+graphEndpoint: http://localhost:7200/repositories/defra-efde
 shiny:
   ingress:
     enabled : true
