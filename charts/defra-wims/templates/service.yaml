@@ -42,9 +42,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - name: http-wims-ui
-      port: 3000
+      port: 80
       protocol: TCP
-      targetPort: 3000
+      targetPort: 80
   selector:
     app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
 ---
