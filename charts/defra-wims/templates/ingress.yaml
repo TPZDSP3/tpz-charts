@@ -39,7 +39,7 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: /wims
+          - path: /water-quality(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
