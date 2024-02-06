@@ -19,6 +19,7 @@ spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-db
           image: "{{ .Values.fuseki.image.repository }}:{{ .Values.fuseki.image.tag | default .Chart.AppVersion }}"
+          args: ["--loc", "/fuseki/databases/DS-DB", "/ds"]
           imagePullPolicy: {{ .Values.fuseki.image.pullPolicy }}
           ports:
             - containerPort: 3030
