@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
   labels:
-    app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+      app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-fuseki-{{ .Values.release }}
+        app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
     spec:
       containers:
-        - name: {{ include "defra-wims.fullname" . }}-fuseki-db
+        - name: {{ include "defra-wims.fullname" . }}-db
           image: "{{ .Values.fuseki.image.repository }}:{{ .Values.fuseki.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.fuseki.image.pullPolicy }}
           ports:
