@@ -207,6 +207,10 @@ spec:
           env:
             - name: API_HOST
               value: {{ .Values.ui.apiHost }}
+            - name: GOOGLE_ANALYTICS_ID
+              value: {{ .Values.ui.googleAnalyticsId }}
+            - name: OS_API_KEY
+              value: {{ .Values.ui.osApiKey }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

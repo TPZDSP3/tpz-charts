@@ -59,7 +59,7 @@ fuseki:
 # Config for the API
 api:
   ingress:
-    annotations:     
+    annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       ingress.kubernetes.io/proxy-body-size: '0'
       ingress.kubernetes.io/ssl-redirect: 'true'
@@ -139,6 +139,8 @@ ui:
 
   # Code Env Vars.
   apiHost:
+  googleAnalyticsId:
+  osApiKey:
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious
