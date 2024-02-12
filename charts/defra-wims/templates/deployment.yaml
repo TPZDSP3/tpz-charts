@@ -1,3 +1,4 @@
+{{- if not .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -54,8 +55,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
+{{- end }}
 ---
+{{- if not .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -90,7 +92,7 @@ spec:
       volumes:
         - name: api-config
           configMap:
-            name: {{ template "defra-wims.fullname" . }}
+            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
             defaultMode: 0644
             items:
               - key: app.conf
@@ -111,8 +113,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
+{{- end }}
 ---
+{{- if .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -175,8 +178,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
+{{- end }}
 ---
+{{- if not .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -227,4 +231,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
+{{- end }}
