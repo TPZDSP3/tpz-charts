@@ -18,7 +18,7 @@ data:
     vcl 4.0;
     # this points at the ecology reitit api:
     backend default {
-        .host = "{{ include "defra-efde.fullname" . }}-app-{{ .Values.release }}";
+        .host = "{{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}";
         .port = "8080";
     }
 
