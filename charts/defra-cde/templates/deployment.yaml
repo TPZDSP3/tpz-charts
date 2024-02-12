@@ -141,7 +141,7 @@ spec:
       containers:
         - image: "varnish:7.4.2"
           command: ["varnishd"]
-          args: ["-F", "-a", "8888", "-f", "/etc/varnish/default.vcl"]
+          args: ["-F", "-a", ":8888", "-f", "/etc/varnish/default.vcl"]
           name: {{ include "defra-cde.fullname" . }}-varnish
           ports:
             - containerPort: 8888
