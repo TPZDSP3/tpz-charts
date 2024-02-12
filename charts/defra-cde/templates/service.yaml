@@ -1,18 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-cde.fullname" . }}-{{ .Values.release }}
+  name: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
   labels:
     {{- include "defra-cde.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 8888
+      targetPort: 8888
       protocol: TCP
-      name: http
   selector:
-    {{- include "defra-cde.selectorLabels" . | nindent 4 }}
+    app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +22,7 @@ metadata:
 spec:
   ports:
     - name: http-app
-      port: 80
+      port: 3000
       protocol: TCP
       targetPort: http-app
   selector:

@@ -1,35 +1,35 @@
-{{- if .Values.app.ingress.enabled }}
+{{- if .Values.varnish.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
+  name: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
   annotations:
     kubernetes.io/ingress.class: nginx    
     cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/proxy-body-size: '0'
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
   labels:
-    app: {{ include "defra-cde.fullname" . }}-app-{{ .Values.release }}
+    app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
 spec:
   rules:
-  {{- range .Values.app.ingress.hosts }}
+  {{- range .Values.varnish.ingress.hosts }}
   - host: {{ .host }}
     http:
       paths:
       - backend:
           service: 
-            name: {{ include "defra-cde.fullname" $ }}-app-{{ $.Values.release }}
+            name: {{ include "defra-cde.fullname" $ }}-varnish-{{ $.Values.release }}
             port: 
               number: 80
         path: /catchment-planning(/|$)(.*)
         pathType: Prefix
   {{- end }}
-  {{- if .Values.app.ingress.tls.enabled }}
+  {{- if .Values.varnish.ingress.tls.enabled }}
   tls:
     - hosts:
-        {{- range .Values.app.ingress.hosts }}
+        {{- range .Values.varnish.ingress.hosts }}
         - {{ .host }}
         {{- end }}
-      secretName: {{ include "defra-cde.fullname" . }}-app-tls
+      secretName: {{ include "defra-cde.fullname" . }}-varnish-tls
   {{- end }}
 {{- end }}
