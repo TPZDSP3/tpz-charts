@@ -1,18 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-{{ .Values.release }}
+  name: {{ include "defra-efde.fullname" . }}-varnish-{{ .Values.release }}
   labels:
     {{- include "defra-efde.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 80
+      targetPort: 8888
       protocol: TCP
-      name: http
   selector:
-    {{- include "defra-efde.selectorLabels" . | nindent 4 }}
+    app: {{ include "defra-efde.fullname" . }}-varnish-{{ .Values.release }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
 ---
 apiVersion: v1
 kind: Service
