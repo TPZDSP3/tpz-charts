@@ -55,6 +55,8 @@ spec:
           env:
             - name: NEXT_PUBLIC_API_URL
               value: {{ .Values.NEXT_PUBLIC_API_URL }}
+            - name: GA_MEASUREMENT_ID
+              value: {{ .Values.GA_MEASUREMENT_ID }}
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

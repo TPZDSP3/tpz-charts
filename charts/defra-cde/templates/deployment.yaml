@@ -120,3 +120,53 @@ spec:
         - name: graphdb-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-cde.fullname" . }}-databases-{{ .Values.release }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
+    spec:
+      containers:
+        - image: "varnish:7.4.2"
+          command: ["varnishd"]
+          args: ["-F", "-a", ":8888", "-f", "/etc/varnish/default.vcl"]
+          name: {{ include "defra-cde.fullname" . }}-varnish
+          ports:
+            - containerPort: 8888
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.varnish.resources | nindent 12 }}
+          volumeMounts:
+            - name: varnish-config
+              mountPath: /etc/varnish
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.varnish.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.varnish.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}      
+      volumes:
+        - name: varnish-config
+          configMap:
+            name: {{ template "defra-cde.fullname" . }}-{{ .Values.release }}
+            defaultMode: 0644
+            items:
+              - key: default.vcl
+                path: default.vcl

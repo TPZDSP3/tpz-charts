@@ -82,6 +82,7 @@ tolerations: []
 affinity: {}
 
 NEXT_PUBLIC_API_URL:
+GA_MEASUREMENT_ID:
 
 # Use this if you have predefined secrets
 existingSecret: ""

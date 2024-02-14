@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-efde.fullname" . }}-{{ .Values.release }}
+  name: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
   labels:
-    {{- include "defra-efde.labels" . | nindent 4 }}
+    app: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "defra-efde.selectorLabels" . | nindent 6 }}
+      app: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "defra-efde.selectorLabels" . | nindent 8 }}
+        app: {{ include "defra-efde.fullname" . }}-api-{{ .Values.release }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -100,3 +100,53 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ include "defra-efde.fullname" . }}-data-blob-{{ .Values.release }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-varnish-{{ .Values.release }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "defra-efde.fullname" . }}-varnish-{{ .Values.release }}
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-efde.fullname" . }}-varnish-{{ .Values.release }}
+    spec:
+      containers:
+        - image: "varnish:7.4.2"
+          command: ["varnishd"]
+          args: ["-F", "-a", ":8888", "-f", "/etc/varnish/default.vcl"]
+          name: {{ include "defra-efde.fullname" . }}-varnish
+          ports:
+            - containerPort: 8888
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.varnish.resources | nindent 12 }}
+          volumeMounts:
+            - name: varnish-config
+              mountPath: /etc/varnish
+              readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.varnish.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.varnish.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}      
+      volumes:
+        - name: varnish-config
+          configMap:
+            name: {{ template "defra-efde.fullname" . }}-{{ .Values.release }}
+            defaultMode: 0644
+            items:
+              - key: default.vcl
+                path: default.vcl            
