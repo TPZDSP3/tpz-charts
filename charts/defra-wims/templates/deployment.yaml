@@ -55,9 +55,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}
 ---
-{{- if not .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -113,8 +111,58 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+    spec:
+      containers:
+        - name: {{ include "defra-wims.fullname" . }}-ui
+          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+              name: http-wims-ui
+          resources:
+            {{- toYaml .Values.ui.resources | nindent 12 }}
+          env:
+            - name: API_HOST
+              value: {{ .Values.ui.apiHost }}
+            - name: GOOGLE_ANALYTICS_ID
+              value: {{ .Values.ui.googleAnalyticsId }}
+            - name: OS_API_KEY
+              value: {{ .Values.ui.osApiKey }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ui.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ui.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
 {{- if .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -182,59 +230,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.api.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-{{- end }}
----
-{{- if not .Values.processorMode -}}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
-  labels:
-    app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
-spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
-  template:
-    metadata:
-      labels:
-        app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
-    spec:
-      containers:
-        - name: {{ include "defra-wims.fullname" . }}-ui
-          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
-          ports:
-            - containerPort: 80
-              name: http-wims-ui
-          resources:
-            {{- toYaml .Values.ui.resources | nindent 12 }}
-          env:
-            - name: API_HOST
-              value: {{ .Values.ui.apiHost }}
-            - name: GOOGLE_ANALYTICS_ID
-              value: {{ .Values.ui.googleAnalyticsId }}
-            - name: OS_API_KEY
-              value: {{ .Values.ui.osApiKey }}
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.ui.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.ui.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

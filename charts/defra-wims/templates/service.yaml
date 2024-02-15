@@ -14,27 +14,23 @@ spec:
       targetPort: http-wims-api
   selector:
     app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
-{{- end }}
 ---
-{{- if .Values.processorMode -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
   labels:
-    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-proc
-      port: 8080
+    - name: http-wims-db
+      port: 3030
       protocol: TCP
-      targetPort: http-wims-proc
+      targetPort: 3030
   selector:
-    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
-{{- end }}
+    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
 ---
-{{- if not .Values.processorMode -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -51,21 +47,20 @@ spec:
   selector:
     app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
 {{- end }}
----
-{{- if not .Values.processorMode -}}
+{{- if .Values.processorMode -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
   labels:
-    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-db
-      port: 3030
+    - name: http-wims-proc
+      port: 8080
       protocol: TCP
-      targetPort: 3030
+      targetPort: http-wims-proc
   selector:
-    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
 {{- end }}
