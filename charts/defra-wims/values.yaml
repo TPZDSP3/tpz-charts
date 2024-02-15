@@ -91,6 +91,12 @@ api:
     baseUrl: http://environment-test.data.gov.uk/water-quality/
     documentationUrl: http://environment-test.data.gov.uk/TBD
     contextUrl: http://environment-test.data.gov.uk/water-quality/doc/context-TBD.jsonld
+    cache:
+      baseUrl:
+      containerName:
+      token:
+    queue:
+      tablePrefix:
 
 # Config for the Processor
 processor:
@@ -111,6 +117,18 @@ processor:
   affinity: {}
 
   # Code Env Vars.
+  apiConfig:
+    ssourceEndpoint: http://localhost:3030/ds/query
+    bsourceEndpoint: http://localhost:3030/ds/query
+    baseUrl: http://environment.data.gov.uk/water-quality/
+    documentationUrl: http://environment.data.gov.uk/TBD
+    contextUrl: http://environment.data.gov.uk/water-quality/doc/context-TBD.jsonld
+    cache:
+      baseUrl:
+      containerName:
+      token:
+    queue:
+      tablePrefix:
   aws:
     awsAccessKeyId:
     awsSecretAccessKey:

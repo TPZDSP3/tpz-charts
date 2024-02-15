@@ -52,21 +52,18 @@ data:
     searchProc.filterDistinct = true
 
     # Cache manager for batch results
-    cache                = com.epimorphics.armlib.impl.FileCacheManager
-    cache.cacheDir       = /tmp/wims/
-    cache.urlPrefix      = /water-quality/batch/result-download/
-    cache.defaultSuffix  = csv
+    cache                = com.epimorphics.wims.batch.AzureCacheManager
+    cache.baseUrl        = {{ .Values.api.appConfig.cache.baseUrl }}
+    cache.baseKey        = wims/
     cache.compressed     = true
-
-    #cache                = com.epimorphics.armlib.impl.S3CacheManager
-    #cache.bucket         = environment-open-data
-    #cache.baseKey        = wims
-    #cache.compressed     = true
+    cache.containerName  = {{ .Values.api.appConfig.cache.containerName }}
+    cache.token          = {{ .Values.api.appConfig.cache.token }}
+    cache.blobServiceClient = azure
 
     # Queue manager for batch preparation
-    queue                = com.epimorphics.armlib.impl.MemQueueManager
-    #queue                = com.epimorphics.armlib.impl.DynQueueManager
-    #queue.checkInterval  = 1500
+    queue                = com.epimorphics.armlib.impl.DynQueueManager
+    queue.tablePrefix    = {{ .Values.api.appConfig.queue.tablePrefix }}
+    queue.checkInterval  = 1500
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
@@ -114,6 +111,100 @@ data:
     api.defaultListTemplate = genericList.vm
     api.htmlNonDefault      = true
     api.configExtensions = $config
+  processor-app.conf: |
+    # app configuration
 
+    # Plugin extension for velocity library
+    apix                 = com.epimorphics.simpleAPI.webapi.LibAPI
 
+    # Velocity engine
+    velocity             = com.epimorphics.appbase.templates.VelocityRender
+    velocity.templates   = {webapp}/WEB-INF/templates
+    #velocity.templates   = /opt/epr/templates
+    velocity.root        = /ui
+    velocity.production  = false
+    velocity.plugin      = $apix
 
+    # Real data source
+    ssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
+    ssource.endpoint     = {{ .Values.processor.apiConfig.ssourceEndpoint }}
+
+    dsource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
+    dsource.source       = $ssource
+
+    # Set up default prefixes
+    prefixes             = com.epimorphics.appbase.core.PrefixService
+    prefixes.prefixFile  = {webapp}/WEB-INF/prefixes.ttl
+
+    # handle transform setup
+    # spatial = com.epimorphics.sparql.geo.GeoTransformByJenaSpatial
+    spatial = com.epimorphics.sparql.geo.GeoTransformBySparqlFilter
+    apptransforms         = com.epimorphics.simpleAPI.queryTransforms.AppTransforms
+    apptransforms.include = $spatial
+
+    # Request processors to support generic geo and start queries
+    geoProc    = com.epimorphics.simpleAPI.requests.GeoRequestProcessor
+
+    searchProc = com.epimorphics.simpleAPI.requests.SearchRequestProcessor
+    searchProc.filterDistinct = true
+
+    # Cache manager for batch results
+    cache                = com.epimorphics.wims.batch.AzureCacheManager
+    cache.baseUrl        = {{ .Values.processor.apiConfig.cache.baseUrl }}
+    cache.baseKey        = wims/
+    cache.compressed     = true
+    cache.containerName  = {{ .Values.processor.apiConfig.cache.containerName }}
+    cache.token          = {{ .Values.processor.apiConfig.cache.token }}
+    cache.blobServiceClient = azure
+
+    # Queue manager for batch preparation
+    queue                = com.epimorphics.armlib.impl.DynQueueManager
+    queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
+    queue.checkInterval  = 1500
+
+    # Batch Data source
+    bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
+    bssource.endpoint     = {{ .Values.processor.apiConfig.bsourceEndpoint }}
+    bssource.connectTimeout = 10000
+    bssource.remoteTimeout = 36000000
+
+    batchSource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
+    batchSource.source       = $bssource
+
+    # Batch request manager
+    reqm                 = com.epimorphics.armlib.impl.StandardRequestManager
+    reqm.cacheManager    = $cache
+    reqm.queueManager    = $queue
+
+    # Batch processor
+    batch                = com.epimorphics.wims.batch.BatchProcessor
+    batch.requestManager = $reqm
+    batch.source         = $batchSource
+
+    # Additional config
+    config               = com.epimorphics.appbase.core.GenericConfig
+    config.lastDate = 2015
+    config.firstDate = 2005
+    config.gtagUACode = g-tag-ua-code
+
+    # Set the API key for the OS maps API here
+    config.osMapsAPIKey =
+
+    # API configuration
+    api                  = com.epimorphics.simpleAPI.core.API
+    api.source           = $dsource
+    api.baseURI          = {{ .Values.processor.apiConfig.baseUrl }}
+    api.documentation    = {{ .Values.processor.apiConfig.documentationUrl }}
+    api.publisher        = Environment Agency
+    api.licence          = http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+    api.contextURL       = {{ .Values.processor.apiConfig.contextUrl }}
+    api.comment          = WARNING: Pre-alpha test service
+    api.endpointSpecDir  = {webapp}/WEB-INF/endpointSpecs
+    api.maxAge           = 86400
+    api.showLangTag      = false
+    api.fullPathsInCSVHeaders = true
+    api.requestProcessors = $geoProc, $searchProc
+    api.defaultItemTemplate = genericItem.vm
+    api.defaultListTemplate = genericList.vm
+    api.htmlNonDefault      = true
+    api.configExtensions = $config

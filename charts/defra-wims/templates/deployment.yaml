@@ -190,6 +190,18 @@ spec:
               name: http-wims-proc
           resources:
             {{- toYaml .Values.processor.resources | nindent 12 }}
+          volumeMounts:
+            - name: processor-api-config
+              mountPath: /etc/api
+              readOnly: true
+      volumes:
+        - name: processor-api-config
+          configMap:
+            name: {{ template "defra-wims.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: processor-app.conf
+                path: app.conf
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
