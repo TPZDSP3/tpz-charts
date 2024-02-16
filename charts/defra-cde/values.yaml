@@ -23,6 +23,8 @@ podSecurityContext: {}
 
 securityContext: {}
 
+graphEndpoint: http://localhost:7200/repositories/defra-efde
+
 service:
   type: ClusterIP
   port: 80

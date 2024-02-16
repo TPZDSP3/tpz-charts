@@ -27,7 +27,7 @@ spec:
           {{- toYaml .Values.app.resources | nindent 12 }}
         env:
           - name: API_ENDPOINT
-            value: {{ .Values.app.dbEndpoint }}
+            value: {{ .Values.graphEndpoint }}
         volumeMounts:
           - name: cache
             mountPath: {{ .Values.cache.pathCache }}
