@@ -190,18 +190,6 @@ spec:
               name: http-wims-proc
           resources:
             {{- toYaml .Values.processor.resources | nindent 12 }}
-          volumeMounts:
-            - name: processor-api-config
-              mountPath: /etc/api
-              readOnly: true
-      volumes:
-        - name: processor-api-config
-          configMap:
-            name: {{ template "defra-wims.fullname" . }}
-            defaultMode: 0644
-            items:
-              - key: processor-app.conf
-                path: app.conf
           env:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
@@ -222,12 +210,22 @@ spec:
             - name: FUSEKI_VERSION
               value: {{ .Values.processor.fusekiVersion }}
           volumeMounts:
+            - name: processor-api-config
+              mountPath: /etc/api
+              readOnly: true
             - name: fuseki-databases
               mountPath: /var/lib/fuseki/databases
             - mountPath: /var/lib/wims-staging/work/
               name: ttl-blob
               subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.ttl.subpath }}                         
       volumes:
+        - name: processor-api-config
+          configMap:
+            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}      
+            defaultMode: 0644
+            items:
+              - key: processor-app.conf
+                path: app.conf
         - name: ttl-blob
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}      
