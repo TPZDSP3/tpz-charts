@@ -51,8 +51,11 @@ fuseki:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   data:
-    size: 5G
+    size: 200G
     storageClassName: dev-tpzuk-disk-retain
+  ttl:
+    subpath: test
+    storageClassName: dev-tpzuk-blob-ttl    
   resources: {}
   tolerations: []
   affinity: {}

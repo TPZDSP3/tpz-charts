@@ -223,8 +223,14 @@ spec:
               value: {{ .Values.processor.fusekiVersion }}
           volumeMounts:
             - name: fuseki-databases
-              mountPath: /fuseki/databases
+              mountPath: /var/lib/fuseki/databases
+            - mountPath: /var/lib/wims-staging/work/
+              name: ttl-blob
+              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.ttl.subpath }}                         
       volumes:
+        - name: ttl-blob
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}      
         - name: fuseki-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}              
