@@ -30,7 +30,7 @@ data:
 
     # Real data source
     ssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    ssource.endpoint     = {{ .Values.api.appConfig.ssourceEndpoint }}
+    ssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
 
     dsource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
     dsource.source       = $ssource
@@ -52,13 +52,19 @@ data:
     searchProc.filterDistinct = true
 
     # Cache manager for batch results
-    cache                = com.epimorphics.wims.batch.AzureCacheManager
-    cache.baseUrl        = {{ .Values.api.appConfig.cache.baseUrl }}
-    cache.baseKey        = wims/
-    cache.compressed     = true
-    cache.containerName  = {{ .Values.api.appConfig.cache.containerName }}
-    cache.token          = {{ .Values.api.appConfig.cache.token }}
-    cache.blobServiceClient = azure
+    # cache                = com.epimorphics.wims.batch.AzureCacheManager
+    # cache.baseUrl        = {{ .Values.api.appConfig.cache.baseUrl }}
+    # cache.baseKey        = wims/
+    # cache.compressed     = true
+    # cache.containerName  = {{ .Values.api.appConfig.cache.containerName }}
+    # cache.token          = {{ .Values.api.appConfig.cache.token }}
+    # cache.blobServiceClient = azure
+
+    cache                = com.epimorphics.armlib.impl.FileCacheManager
+    cache.cacheDir       = /tmp/wims/
+    cache.urlPrefix      = /water-quality/batch/result-download/
+    cache.defaultSuffix  = csv
+    cache.compressed     = true    
 
     # Queue manager for batch preparation
     queue                = com.epimorphics.armlib.impl.DynQueueManager
@@ -67,7 +73,7 @@ data:
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    bssource.endpoint     = {{ .Values.api.appConfig.bsourceEndpoint }}
+    bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
     bssource.connectTimeout = 10000
     bssource.remoteTimeout = 36000000
 
@@ -96,11 +102,11 @@ data:
     # API configuration
     api                  = com.epimorphics.simpleAPI.core.API
     api.source           = $dsource
-    api.baseURI          = {{ .Values.api.appConfig.baseUrl }}
-    api.documentation    = {{ .Values.api.appConfig.documentationUrl }}
+    api.baseURI          = http://environment.data.gov.uk/water-quality/
+    api.documentation    = http://environment.data.gov.uk/water-quality/TBD
     api.publisher        = Environment Agency
     api.licence          = http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
-    api.contextURL       = {{ .Values.api.appConfig.contextUrl }}
+    api.contextURL       = http://environment.data.gov.uk/water-quality/doc/context-TBD.jsonld
     api.comment          = WARNING: Pre-alpha test service
     api.endpointSpecDir  = {webapp}/WEB-INF/endpointSpecs
     api.maxAge           = 86400
@@ -127,7 +133,7 @@ data:
 
     # Real data source
     ssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    ssource.endpoint     = {{ .Values.processor.apiConfig.ssourceEndpoint }}
+    ssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
 
     dsource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
     dsource.source       = $ssource
@@ -149,22 +155,28 @@ data:
     searchProc.filterDistinct = true
 
     # Cache manager for batch results
-    cache                = com.epimorphics.wims.batch.AzureCacheManager
-    cache.baseUrl        = {{ .Values.processor.apiConfig.cache.baseUrl }}
-    cache.baseKey        = wims/
+    # cache                = com.epimorphics.wims.batch.AzureCacheManager
+    # cache.baseUrl        = {{ .Values.processor.apiConfig.cache.baseUrl }}
+    # cache.baseKey        = wims/
+    # cache.compressed     = true
+    # cache.containerName  = {{ .Values.processor.apiConfig.cache.containerName }}
+    # cache.token          = {{ .Values.processor.apiConfig.cache.token }}
+    # cache.blobServiceClient = azure
+    cache                = com.epimorphics.armlib.impl.FileCacheManager
+    cache.cacheDir       = /tmp/wims/
+    cache.urlPrefix      = /water-quality/batch/result-download/
+    cache.defaultSuffix  = csv
     cache.compressed     = true
-    cache.containerName  = {{ .Values.processor.apiConfig.cache.containerName }}
-    cache.token          = {{ .Values.processor.apiConfig.cache.token }}
-    cache.blobServiceClient = azure
 
     # Queue manager for batch preparation
-    queue                = com.epimorphics.armlib.impl.DynQueueManager
-    queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
-    queue.checkInterval  = 1500
-
+    # queue                = com.epimorphics.armlib.impl.DynQueueManager
+    # queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
+    # queue.checkInterval  = 1500
+    queue                = com.epimorphics.armlib.impl.MemQueueManager
+    
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    bssource.endpoint     = {{ .Values.processor.apiConfig.bsourceEndpoint }}
+    bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
     bssource.connectTimeout = 10000
     bssource.remoteTimeout = 36000000
 
@@ -193,11 +205,11 @@ data:
     # API configuration
     api                  = com.epimorphics.simpleAPI.core.API
     api.source           = $dsource
-    api.baseURI          = {{ .Values.processor.apiConfig.baseUrl }}
-    api.documentation    = {{ .Values.processor.apiConfig.documentationUrl }}
+    api.baseURI          = http://environment.data.gov.uk/water-quality/
+    api.documentation    = http://environment.data.gov.uk/water-quality/TBD
     api.publisher        = Environment Agency
     api.licence          = http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
-    api.contextURL       = {{ .Values.processor.apiConfig.contextUrl }}
+    api.contextURL       = http://environment.data.gov.uk/water-quality/doc/context-TBD.jsonld
     api.comment          = WARNING: Pre-alpha test service
     api.endpointSpecDir  = {webapp}/WEB-INF/endpointSpecs
     api.maxAge           = 86400

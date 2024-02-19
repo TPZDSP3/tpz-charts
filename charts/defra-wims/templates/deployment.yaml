@@ -141,7 +141,7 @@ spec:
             {{- toYaml .Values.ui.resources | nindent 12 }}
           env:
             - name: API_HOST
-              value: {{ .Values.ui.apiHost }}
+              value: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.ui.googleAnalyticsId }}
             - name: OS_API_KEY
