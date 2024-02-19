@@ -218,14 +218,15 @@ spec:
                 secretKeyRef:
                   name: {{ template "defra-wims.secretName" . }}
                   key: awsSecretAccessKey
-            - name: BATCH_SERVICE
-              value: {{ .Values.processor.batchServiceUrl }}
-            - name: JAVA_OPTIONS
-              value: {{ .Values.processor.javaOptions }}
-            - name: FUSEKI_CONF
-              value: {{ .Values.processor.fusekiConf }}
-            - name: FUSEKI_VERSION
-              value: {{ .Values.processor.fusekiVersion }}
+            - name: AZ_BLOB_ACCOUNT
+              value: {{ .Values.processor.azureBlobUrl }}
+            - name: AZ_BLOB_DATA
+              value: {{ .Values.processor.azureBlobPath }}
+            - name: AZ_BLOB_DATA_SAS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "defra-wims.secretName" . }}
+                  key: azureBlobDataSas
           volumeMounts:
             - name: processor-api-config
               mountPath: /etc/api

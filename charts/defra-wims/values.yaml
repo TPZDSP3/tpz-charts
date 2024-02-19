@@ -129,7 +129,8 @@ processor:
   aws:
     awsAccessKeyId:
     awsSecretAccessKey:
-  batchServiceUrl:
+  azureBlobUrl: https://dsp3data.blob.core.windows.net
+  azureBlobPath:
   javaOptions: -Xmx17g
   fusekiConf: /opt/wims-processor/fuseki-deploy.ttl
   fusekiVersion: 3.4.0
