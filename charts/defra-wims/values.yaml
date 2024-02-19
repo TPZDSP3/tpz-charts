@@ -99,8 +99,7 @@ api:
       containerName:
       token:
     queue:
-      tablePrefix:
-
+      tablePrefix: "wims-test-"
 # Config for the Processor
 processor:
   ingress:

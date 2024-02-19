@@ -52,14 +52,6 @@ data:
     searchProc.filterDistinct = true
 
     # Cache manager for batch results
-    # cache                = com.epimorphics.wims.batch.AzureCacheManager
-    # cache.baseUrl        = {{ .Values.api.appConfig.cache.baseUrl }}
-    # cache.baseKey        = wims/
-    # cache.compressed     = true
-    # cache.containerName  = {{ .Values.api.appConfig.cache.containerName }}
-    # cache.token          = {{ .Values.api.appConfig.cache.token }}
-    # cache.blobServiceClient = azure
-
     cache                = com.epimorphics.armlib.impl.FileCacheManager
     cache.cacheDir       = /opt/cache/
     cache.urlPrefix      = /water-quality/batch/result-download/
@@ -155,13 +147,6 @@ data:
     searchProc.filterDistinct = true
 
     # Cache manager for batch results
-    # cache                = com.epimorphics.wims.batch.AzureCacheManager
-    # cache.baseUrl        = {{ .Values.processor.apiConfig.cache.baseUrl }}
-    # cache.baseKey        = wims/
-    # cache.compressed     = true
-    # cache.containerName  = {{ .Values.processor.apiConfig.cache.containerName }}
-    # cache.token          = {{ .Values.processor.apiConfig.cache.token }}
-    # cache.blobServiceClient = azure
     cache                = com.epimorphics.armlib.impl.FileCacheManager
     cache.cacheDir       = /opt/cache/
     cache.urlPrefix      = /water-quality/batch/result-download/
