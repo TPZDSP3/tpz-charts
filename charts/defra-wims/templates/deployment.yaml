@@ -87,6 +87,9 @@ spec:
             - name: api-config
               mountPath: /etc/api
               readOnly: true
+            - mountPath: /opt/cache/
+              name: cache-blob
+              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}              
       volumes:
         - name: api-config
           configMap:
@@ -95,6 +98,9 @@ spec:
             items:
               - key: app.conf
                 path: app.conf
+        - name: cache-blob
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}                  
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -141,7 +147,7 @@ spec:
             {{- toYaml .Values.ui.resources | nindent 12 }}
           env:
             - name: API_HOST
-              value: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+              value: http://{{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}:80
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.ui.googleAnalyticsId }}
             - name: OS_API_KEY
@@ -215,9 +221,9 @@ spec:
               readOnly: true
             - name: fuseki-databases
               mountPath: /var/lib/fuseki/databases
-            - mountPath: /var/lib/wims-staging/work/
-              name: ttl-blob
-              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.ttl.subpath }}                         
+            - mountPath: /opt/cache/
+              name: cache-blob
+              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}                         
       volumes:
         - name: processor-api-config
           configMap:
@@ -226,7 +232,7 @@ spec:
             items:
               - key: processor-app.conf
                 path: app.conf
-        - name: ttl-blob
+        - name: cache-blob
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}      
         - name: fuseki-databases

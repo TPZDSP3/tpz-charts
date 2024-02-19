@@ -34,5 +34,5 @@ spec:
   resources:
     requests:
       storage: 200Gi
-  storageClassName: {{ .Values.fuseki.ttl.storageClassName }}
+  storageClassName: {{ .Values.fuseki.cache.storageClassName }}
   volumeMode: Filesystem

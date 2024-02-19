@@ -61,7 +61,7 @@ data:
     # cache.blobServiceClient = azure
 
     cache                = com.epimorphics.armlib.impl.FileCacheManager
-    cache.cacheDir       = /tmp/wims/
+    cache.cacheDir       = /opt/cache/
     cache.urlPrefix      = /water-quality/batch/result-download/
     cache.defaultSuffix  = csv
     cache.compressed     = true    
@@ -163,7 +163,7 @@ data:
     # cache.token          = {{ .Values.processor.apiConfig.cache.token }}
     # cache.blobServiceClient = azure
     cache                = com.epimorphics.armlib.impl.FileCacheManager
-    cache.cacheDir       = /tmp/wims/
+    cache.cacheDir       = /opt/cache/
     cache.urlPrefix      = /water-quality/batch/result-download/
     cache.defaultSuffix  = csv
     cache.compressed     = true
@@ -173,7 +173,7 @@ data:
     # queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
     # queue.checkInterval  = 1500
     queue                = com.epimorphics.armlib.impl.MemQueueManager
-    
+
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
     bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
