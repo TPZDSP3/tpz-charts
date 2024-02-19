@@ -88,7 +88,7 @@ spec:
               mountPath: /etc/api
               readOnly: true
             - mountPath: /opt/cache/
-              name: cache-blob
+              name: cache
               subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}              
       volumes:
         - name: api-config
@@ -98,9 +98,9 @@ spec:
             items:
               - key: app.conf
                 path: app.conf
-        - name: cache-blob
+        - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}                  
+            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}                  
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -222,7 +222,7 @@ spec:
             - name: fuseki-databases
               mountPath: /var/lib/fuseki/databases
             - mountPath: /opt/cache/
-              name: cache-blob
+              name: cache
               subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}                         
       volumes:
         - name: processor-api-config
@@ -232,9 +232,9 @@ spec:
             items:
               - key: processor-app.conf
                 path: app.conf
-        - name: cache-blob
+        - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}      
+            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}      
         - name: fuseki-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}              

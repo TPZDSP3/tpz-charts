@@ -27,10 +27,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-blob-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 200Gi

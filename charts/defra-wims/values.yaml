@@ -54,8 +54,8 @@ fuseki:
     size: 200G
     storageClassName: dev-tpzuk-disk-retain
   cache:
+    storageClassName: dev-tpzuk-disk-retain
     subpath: test
-    storageClassName: dev-tpzuk-blob-ttl    
   resources: {}
   tolerations: []
   affinity: {}
