@@ -83,13 +83,24 @@ spec:
               name: http-wims-api
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "defra-wims.secretName" . }}
+                  key: awsAccessKeyId
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "defra-wims.secretName" . }}
+                  key: awsSecretAccessKey
           volumeMounts:
             - name: api-config
               mountPath: /etc/api
               readOnly: true
             - mountPath: /opt/cache/
               name: cache
-              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}              
+              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
       volumes:
         - name: api-config
           configMap:
@@ -100,7 +111,7 @@ spec:
                 path: app.conf
         - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}                  
+            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -223,21 +234,21 @@ spec:
               mountPath: /var/lib/fuseki/databases
             - mountPath: /opt/cache/
               name: cache
-              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}                         
+              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
       volumes:
         - name: processor-api-config
           configMap:
-            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}      
+            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
             defaultMode: 0644
             items:
               - key: processor-app.conf
                 path: app.conf
         - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}      
+            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
         - name: fuseki-databases
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}              
+            claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
