@@ -56,7 +56,7 @@ data:
     cache.cacheDir       = /opt/cache/
     cache.urlPrefix      = /water-quality/batch/result-download/
     cache.defaultSuffix  = csv
-    cache.compressed     = true    
+    cache.compressed     = true
 
     # Queue manager for batch preparation
     queue                = com.epimorphics.armlib.impl.DynQueueManager
@@ -154,10 +154,9 @@ data:
     cache.compressed     = true
 
     # Queue manager for batch preparation
-    # queue                = com.epimorphics.armlib.impl.DynQueueManager
-    # queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
-    # queue.checkInterval  = 1500
-    queue                = com.epimorphics.armlib.impl.MemQueueManager
+    queue                = com.epimorphics.armlib.impl.DynQueueManager
+    queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
+    queue.checkInterval  = 1500
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
