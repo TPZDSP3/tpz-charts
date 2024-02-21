@@ -232,7 +232,7 @@ spec:
               mountPath: /etc/api
               readOnly: true
             - name: fuseki-databases
-              mountPath: /var/lib/fuseki/databases
+              mountPath: /var/lib/wims-staging/deploy/
             - mountPath: /opt/cache/
               name: cache
               subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}

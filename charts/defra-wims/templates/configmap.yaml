@@ -125,7 +125,7 @@ data:
 
     # Real data source
     ssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    ssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
+    ssource.endpoint     = http://localhost:3030/ds/query
 
     dsource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
     dsource.source       = $ssource
@@ -160,7 +160,7 @@ data:
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
+    bssource.endpoint     = http://localhost:3030/ds/query
     bssource.connectTimeout = 10000
     bssource.remoteTimeout = 36000000
 
