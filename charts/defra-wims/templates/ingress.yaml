@@ -44,7 +44,7 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $fullName }}-api-{{ $.Values.release }}
+                name: {{ $fullName }}-api
                 port:
                   number: {{ $svcPort }}
               {{- else }}
@@ -89,7 +89,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: {{ include "defra-wims.fullname" $ }}-ui-{{ $.Values.release }}
+              name: {{ include "defra-wims.fullname" $ }}-ui
               port:
                 number: 80
     {{- end }}
