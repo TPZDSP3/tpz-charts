@@ -101,10 +101,7 @@ api:
       tablePrefix: "wims-test-"
 # Config for the Processor
 processor:
-  ingress:
-    enabled: true
-    tls:
-      enabled: true
+  cronjobExpression: "0 2 * * *"
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-processor
     pullPolicy: IfNotPresent

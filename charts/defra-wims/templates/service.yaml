@@ -45,19 +45,3 @@ spec:
       targetPort: 80
   selector:
     app: {{ include "defra-wims.fullname" . }}-ui
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "defra-wims.fullname" . }}-processor
-  labels:
-    app: {{ include "defra-wims.fullname" . }}-processor
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - name: http-wims-proc
-      port: 8080
-      protocol: TCP
-      targetPort: http-wims-proc
-  selector:
-    app: {{ include "defra-wims.fullname" . }}-processor

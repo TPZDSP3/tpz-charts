@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-processor
+  labels:
+    app: {{ include "defra-wims.fullname" . }}-processor
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "defra-wims.fullname" . }}-processor
+  schedule: {{ .Values.processor.cronjobExpression }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: myapp-container
+              image: busybox:1.28
+              command: ['sh', '-c', 'echo Kill fuseki deployment! && sleep 3600']
+          initContainers:
+            - name: {{ include "defra-wims.fullname" . }}-proc
+              image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
+              resources:
+                {{- toYaml .Values.processor.resources | nindent 16 }}
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ template "defra-wims.secretName" . }}
+                      key: awsAccessKeyId
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ template "defra-wims.secretName" . }}
+                      key: awsSecretAccessKey
+                - name: AZ_BLOB_ACCOUNT
+                  value: {{ .Values.processor.azureBlobUrl }}
+                - name: AZ_BLOB_DATA
+                  value: {{ .Values.processor.azureBlobPath }}
+                - name: AZ_BLOB_DATA_SAS
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ template "defra-wims.secretName" . }}
+                      key: azureBlobDataSas
+              volumeMounts:
+                - name: processor-api-config
+                  mountPath: /etc/api
+                  readOnly: true
+                - name: fuseki-databases
+                  mountPath: /var/lib/wims-staging/deploy/
+                - mountPath: /opt/cache/
+                  name: cache
+                  subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
+          volumes:
+            - name: processor-api-config
+              configMap:
+                name: {{ template "defra-wims.fullname" . }}
+                defaultMode: 0644
+                items:
+                  - key: processor-app.conf
+                    path: app.conf
+            - name: cache
+              persistentVolumeClaim:
+                claimName: {{ include "defra-wims.fullname" . }}-cache
+            - name: fuseki-databases
+              persistentVolumeClaim:
+                claimName: {{ include "defra-wims.fullname" . }}-databases
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.api.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.api.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}

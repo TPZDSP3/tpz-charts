@@ -19,7 +19,6 @@ spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-db
           image: "{{ .Values.fuseki.image.repository }}:{{ .Values.fuseki.image.tag | default .Chart.AppVersion }}"
-          args: ["--loc", "/fuseki/databases/DS-DB", "/ds"]
           imagePullPolicy: {{ .Values.fuseki.image.pullPolicy }}
           ports:
             - containerPort: 3030
@@ -175,93 +174,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.ui.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: {{ include "defra-wims.fullname" . }}-processor
-  labels:
-    app: {{ include "defra-wims.fullname" . }}-processor
-spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
-  selector:
-    matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-processor
-  template:
-    metadata:
-      labels:
-        app: {{ include "defra-wims.fullname" . }}-processor
-    spec:
-      containers:
-        - name: {{ include "defra-wims.fullname" . }}-proc
-          image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
-          ports:
-            - containerPort: 8080
-              name: http-wims-proc
-          resources:
-            {{- toYaml .Values.processor.resources | nindent 12 }}
-          env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "defra-wims.secretName" . }}
-                  key: awsAccessKeyId
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "defra-wims.secretName" . }}
-                  key: awsSecretAccessKey
-            - name: AZ_BLOB_ACCOUNT
-              value: {{ .Values.processor.azureBlobUrl }}
-            - name: AZ_BLOB_DATA
-              value: {{ .Values.processor.azureBlobPath }}
-            - name: AZ_BLOB_DATA_SAS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "defra-wims.secretName" . }}
-                  key: azureBlobDataSas
-          volumeMounts:
-            - name: processor-api-config
-              mountPath: /etc/api
-              readOnly: true
-            - name: fuseki-databases
-              mountPath: /var/lib/wims-staging/deploy/
-            - mountPath: /opt/cache/
-              name: cache
-              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
-      volumes:
-        - name: processor-api-config
-          configMap:
-            name: {{ template "defra-wims.fullname" . }}
-            defaultMode: 0644
-            items:
-              - key: processor-app.conf
-                path: app.conf
-        - name: cache
-          persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-cache
-        - name: fuseki-databases
-          persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-databases
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.api.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.api.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
