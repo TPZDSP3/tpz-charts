@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-logs-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-logs
 spec:
   accessModes:
     - ReadWriteOnce
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-databases
 spec:
   accessModes:
     - ReadWriteOnce
@@ -27,7 +27,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-cache
 spec:
   accessModes:
     - ReadWriteOnce

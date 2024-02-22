@@ -1,21 +1,20 @@
-{{- if not .Values.processorMode -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-db
   labels:
-    app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-db
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+      app: {{ include "defra-wims.fullname" . }}-db
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}
+        app: {{ include "defra-wims.fullname" . }}-db
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-db
@@ -35,10 +34,10 @@ spec:
       volumes:
         - name: fuseki-logs
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-logs-{{ .Values.release }}
+            claimName: {{ include "defra-wims.fullname" . }}-logs
         - name: fuseki-databases
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
+            claimName: {{ include "defra-wims.fullname" . }}-databases
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -59,20 +58,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-api
   labels:
-    app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-api
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+      app: {{ include "defra-wims.fullname" . }}-api
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}
+        app: {{ include "defra-wims.fullname" . }}-api
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-api
@@ -104,14 +103,14 @@ spec:
       volumes:
         - name: api-config
           configMap:
-            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
+            name: {{ template "defra-wims.fullname" . }}
             defaultMode: 0644
             items:
               - key: app.conf
                 path: app.conf
         - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
+            claimName: {{ include "defra-wims.fullname" . }}-cache
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -132,20 +131,20 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-ui
   labels:
-    app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-ui
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+      app: {{ include "defra-wims.fullname" . }}-ui
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-ui-{{ .Values.release }}
+        app: {{ include "defra-wims.fullname" . }}-ui
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-ui
@@ -158,7 +157,7 @@ spec:
             {{- toYaml .Values.ui.resources | nindent 12 }}
           env:
             - name: API_HOST
-              value: http://{{ include "defra-wims.fullname" . }}-api-{{ .Values.release }}:80
+              value: http://{{ include "defra-wims.fullname" . }}-api:80
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.ui.googleAnalyticsId }}
             - name: OS_API_KEY
@@ -179,24 +178,24 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- else }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+  name: {{ include "defra-wims.fullname" . }}-processor
   labels:
-    app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+    app: {{ include "defra-wims.fullname" . }}-processor
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+      app: {{ include "defra-wims.fullname" . }}-processor
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-processor-{{ .Values.release }}
+        app: {{ include "defra-wims.fullname" . }}-processor
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-proc
@@ -239,17 +238,17 @@ spec:
       volumes:
         - name: processor-api-config
           configMap:
-            name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
+            name: {{ template "defra-wims.fullname" . }}
             defaultMode: 0644
             items:
               - key: processor-app.conf
                 path: app.conf
         - name: cache
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-cache-{{ .Values.release }}
+            claimName: {{ include "defra-wims.fullname" . }}-cache
         - name: fuseki-databases
           persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-databases-{{ .Values.release }}
+            claimName: {{ include "defra-wims.fullname" . }}-databases
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -266,4 +265,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{- end }}

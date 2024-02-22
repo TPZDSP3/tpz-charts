@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
+  name: {{ template "defra-wims.fullname" . }}
   labels:
-    app: {{ template "defra-wims.fullname" . }}-{{ .Values.release }}
+    app: {{ template "defra-wims.fullname" . }}
     chart: {{ template "defra-wims.chart" . }}
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
@@ -30,7 +30,7 @@ data:
 
     # Real data source
     ssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    ssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
+    ssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db:3030/ds/query
 
     dsource              = com.epimorphics.simpleAPI.query.impl.SparqlDataSource
     dsource.source       = $ssource
@@ -65,7 +65,7 @@ data:
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
-    bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db-{{ .Values.release }}:3030/ds/query
+    bssource.endpoint     = http://{{ include "defra-wims.fullname" . }}-db:3030/ds/query
     bssource.connectTimeout = 10000
     bssource.remoteTimeout = 36000000
 
