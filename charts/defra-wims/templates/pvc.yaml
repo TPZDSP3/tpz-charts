@@ -17,7 +17,7 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-databases
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 200Gi
@@ -30,7 +30,7 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-cache
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 200Gi

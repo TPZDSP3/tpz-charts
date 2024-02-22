@@ -48,10 +48,10 @@ spec:
                   mountPath: /etc/api
                   readOnly: true
                 - name: fuseki-databases
-                  mountPath: /var/lib/wims-staging/deploy/
-                - mountPath: /opt/cache/
+                  mountPath: /fuseki/databases
+                - mountPath: /opt
                   name: cache
-                  subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
+                  subPath: {{ .Values.fuseki.cache.subpath }}
           volumes:
             - name: processor-api-config
               configMap:

@@ -96,9 +96,9 @@ spec:
             - name: api-config
               mountPath: /etc/api
               readOnly: true
-            - mountPath: /opt/cache/
+            - mountPath: /opt/
               name: cache
-              subPath: wims/{{ .Values.release }}/{{ .Values.fuseki.cache.subpath }}
+              subPath: {{ .Values.fuseki.cache.subpath }}
       volumes:
         - name: api-config
           configMap:
