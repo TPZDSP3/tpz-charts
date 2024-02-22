@@ -9,14 +9,17 @@ spec:
     matchLabels:
       app: {{ include "defra-wims.fullname" . }}-processor
   schedule: {{ .Values.processor.cronjobExpression }}
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
         spec:
+          serviceAccountName: restart-wims-db-user
+          restartPolicy: Never
           containers:
-            - name: myapp-container
-              image: busybox:1.28
-              command: ['sh', '-c', 'echo Kill fuseki deployment! && sleep 3600']
+            - name: kubectl
+              image: bitnami/kubectl
+              command: ['kubectl', 'rollout', 'restart', 'deployment/defra-wims-db']
           initContainers:
             - name: {{ include "defra-wims.fullname" . }}-proc
               image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
