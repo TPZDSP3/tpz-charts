@@ -46,8 +46,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "defra-wims.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "defra-wims.name" . }}-{{ .Values.release }}
-app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.release }}
+app.kubernetes.io/name: {{ include "defra-wims.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
