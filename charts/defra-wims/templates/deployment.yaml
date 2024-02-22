@@ -96,7 +96,7 @@ spec:
             - name: api-config
               mountPath: /etc/api
               readOnly: true
-            - mountPath: /opt/
+            - mountPath: /opt/cache
               name: cache
               subPath: {{ .Values.fuseki.cache.subpath }}
       volumes:

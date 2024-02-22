@@ -52,7 +52,7 @@ spec:
                   readOnly: true
                 - name: fuseki-databases
                   mountPath: /fuseki/databases
-                - mountPath: /opt
+                - mountPath: /opt/cache
                   name: cache
                   subPath: {{ .Values.fuseki.cache.subpath }}
           volumes:
