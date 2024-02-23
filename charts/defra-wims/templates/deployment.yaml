@@ -158,7 +158,7 @@ spec:
             - name: API_HOST
               value: http://{{ include "defra-wims.fullname" . }}-api:80
             - name: GOOGLE_ANALYTICS_ID
-              value: {{ .Values.ui.googleAnalyticsId }}
+              value: {{ .Values.googleAnalyticsId }}
             - name: OS_API_KEY
               value: {{ .Values.ui.osApiKey }}
       {{- with .Values.imagePullSecrets }}

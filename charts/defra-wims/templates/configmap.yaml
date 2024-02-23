@@ -86,7 +86,7 @@ data:
     config               = com.epimorphics.appbase.core.GenericConfig
     config.lastDate = 2015
     config.firstDate = 2005
-    config.gtagUACode = g-tag-ua-code
+    config.gtagUACode = {{ .Values.googleAnalyticsId }}
 
     # Set the API key for the OS maps API here
     config.osMapsAPIKey =
@@ -181,7 +181,7 @@ data:
     config               = com.epimorphics.appbase.core.GenericConfig
     config.lastDate = 2015
     config.firstDate = 2005
-    config.gtagUACode = g-tag-ua-code
+    config.gtagUACode = {{ .Values.googleAnalyticsId }}
 
     # Set the API key for the OS maps API here
     config.osMapsAPIKey =
