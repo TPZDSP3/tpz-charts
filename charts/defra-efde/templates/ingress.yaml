@@ -54,7 +54,7 @@ spec:
       paths:
       - backend:
           service: 
-            name: {{ include "defra-efde.fullname" $ }}-shiny-{{ $.Values.release }}
+            name: {{ include "defra-efde.fullname" $ }}-varnish-shiny-{{ $.Values.release }}
             port: 
               number: 80
         path: /ecology/shiny/
