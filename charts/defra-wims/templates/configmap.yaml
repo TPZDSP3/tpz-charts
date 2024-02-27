@@ -59,9 +59,10 @@ data:
     cache.compressed     = true
 
     # Queue manager for batch preparation
-    queue                = com.epimorphics.armlib.impl.DynQueueManager
-    queue.tablePrefix    = {{ .Values.api.appConfig.queue.tablePrefix }}
-    queue.checkInterval  = 1500
+    queue                = com.epimorphics.armlib.impl.MemQueueManager
+    # queue                = com.epimorphics.armlib.impl.DynQueueManager
+    # queue.tablePrefix    = {{ .Values.api.appConfig.queue.tablePrefix }}
+    # queue.checkInterval  = 1500
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
@@ -154,9 +155,10 @@ data:
     cache.compressed     = true
 
     # Queue manager for batch preparation
-    queue                = com.epimorphics.armlib.impl.DynQueueManager
-    queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
-    queue.checkInterval  = 1500
+    queue                = com.epimorphics.armlib.impl.MemQueueManager
+    # queue                = com.epimorphics.armlib.impl.DynQueueManager
+    # queue.tablePrefix    = {{ .Values.processor.apiConfig.queue.tablePrefix }}
+    # queue.checkInterval  = 1500
 
     # Batch Data source
     bssource              = com.epimorphics.appbase.data.impl.RemoteSparqlSource
