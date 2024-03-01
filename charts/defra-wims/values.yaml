@@ -102,6 +102,7 @@ api:
       tablePrefix: "wims-test-"
 # Config for the Processor
 processor:
+  cronjobSuspend: true
   cronjobExpression: "0 2 * * *"
   image:
     repository: dsp3tpz.azurecr.io/defra-wims-processor
