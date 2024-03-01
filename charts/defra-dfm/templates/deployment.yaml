@@ -1,0 +1,172 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+  labels:
+    app: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+    spec:
+      containers:
+      - name: {{ include "defra-dfm.fullname" . }}-app
+        image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        ports:
+          - containerPort: 3000
+            name: http-app
+        resources:
+          {{- toYaml .Values.app.resources | nindent 12 }}
+        env:
+          - name: API_ENDPOINT
+            value: {{ .Values.graphEndpoint }}
+        # volumeMounts:
+        #   - name: cache
+        #     mountPath: {{ .Values.cache.pathCache }}
+        #     subPath: cde/{{ .Values.release }}/cache
+        #   - name: cache
+        #     mountPath: {{ .Values.cache.pathStatic }}
+        #     subPath: cde/{{ .Values.release }}/static     
+      # volumes:
+      #   - name: cache
+      #     persistentVolumeClaim:
+      #       claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                            
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.app.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # volumes:
+      #   - name: data
+      #     persistentVolumeClaim:
+      #       claimName: {{ include "defra-cde.fullname" . }}-data-blob
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
+    spec:
+      containers:
+        - image: "{{ .Values.graphdb.image.repository }}:{{ .Values.graphdb.image.tag }}"
+          args:
+          {{ range .Values.graphdb.args }}
+            - {{ . }}
+          {{ end }}
+          imagePullPolicy: {{ .Values.graphdb.image.pullPolicy }}
+          name: {{ include "defra-dfm.fullname" . }}-db
+          ports:
+            - containerPort: 7200
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.graphdb.resources | nindent 12 }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/graphdb/dist/logs
+              name: graphdb-logs          
+            - mountPath: /opt/graphdb/home/graphdb-import
+              name: graphdb-import
+              subPath: cde/{{ .Values.release }}/{{ .Values.graphdb.import.subpath }}
+            - mountPath: /opt/graphdb/dist/data/repositories
+              name: graphdb-databases
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.graphdb.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.graphdb.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}      
+      volumes:
+        - name: graphdb-import
+          persistentVolumeClaim:
+            claimName: {{ include "defra-dfm.fullname" . }}-import-{{ .Values.release }}
+        - name: graphdb-logs
+          persistentVolumeClaim:
+            claimName: {{ include "defra-dfm.fullname" . }}-logs-{{ .Values.release }}
+        - name: graphdb-databases
+          persistentVolumeClaim:
+            claimName: {{ include "defra-dfm.fullname" . }}-databases-{{ .Values.release }}
+---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: {{ include "defra-dfm.fullname" . }}-varnish-{{ .Values.release }}
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: {{ include "defra-dfm.fullname" . }}-varnish-{{ .Values.release }}
+#   strategy:
+#     type: Recreate
+#   revisionHistoryLimit: 0
+#   template:
+#     metadata:
+#       labels:
+#         app: {{ include "defra-dfm.fullname" . }}-varnish-{{ .Values.release }}
+#     spec:
+#       containers:
+#         - image: "varnish:7.4.2"
+#           command: ["varnishd"]
+#           args: ["-F", "-a", ":8888", "-f", "/etc/varnish/default.vcl"]
+#           name: {{ include "defra-dfm.fullname" . }}-varnish
+#           ports:
+#             - containerPort: 8888
+#               protocol: TCP
+#           resources:
+#             {{- toYaml .Values.varnish.resources | nindent 12 }}
+#           volumeMounts:
+#             - name: varnish-config
+#               mountPath: /etc/varnish
+#               readOnly: true
+#       dnsPolicy: ClusterFirst
+#       restartPolicy: Always
+#       {{- with .Values.varnish.affinity }}
+#       affinity:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}
+#       {{- with .Values.varnish.tolerations }}
+#       tolerations:
+#         {{- toYaml . | nindent 8 }}
+#       {{- end }}      
+#       volumes:
+#         - name: varnish-config
+#           configMap:
+#             name: {{ template "defra-dfm.fullname" . }}-{{ .Values.release }}
+#             defaultMode: 0644
+#             items:
+#               - key: default.vcl
+#                 path: default.vcl
