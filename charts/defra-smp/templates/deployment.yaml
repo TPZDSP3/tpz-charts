@@ -67,6 +67,9 @@ spec:
         - name: {{ include "defra-smp.fullname" . }}-web
           image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
           imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+          env:
+            name: FUSEKI_HOST
+            value: {{ include "defra-smp.fullname" . }}-db
           ports:
             - containerPort: 3001
               name: http-smp-web
