@@ -12,6 +12,7 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      suspend: {{ .Values.processor.cronjobSuspend }}
       template:
         spec:
           serviceAccountName: restart-wims-db-user
