@@ -7,10 +7,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-web
+    - name: http-smp-web
       port: 3001
       protocol: TCP
-      targetPort: http-wims-web
+      targetPort: http-smp-web
   selector:
     app: {{ include "defra-smp.fullname" . }}-web
 ---
@@ -23,7 +23,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-db
+    - name: http-smp-db
       port: 3030
       protocol: TCP
       targetPort: 3030
@@ -39,7 +39,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: http-wims-nginx
+    - name: http-smp-nginx
       port: 80
       protocol: TCP
       targetPort: 80
