@@ -1,0 +1,47 @@
+webVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-web
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-web
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-web
+      port: 3001
+      protocol: TCP
+      targetPort: http-wims-web
+  selector:
+    app: {{ include "defra-smp.fullname" . }}-web
+---
+webVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-db
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-db
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-db
+      port: 3030
+      protocol: TCP
+      targetPort: 3030
+  selector:
+    app: {{ include "defra-smp.fullname" . }}-db
+---
+webVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-nginx
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-nginx
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-wims-nginx
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: {{ include "defra-smp.fullname" . }}-nginx

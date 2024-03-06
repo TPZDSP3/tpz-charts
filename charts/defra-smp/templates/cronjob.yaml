@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-processor
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-processor
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "defra-smp.fullname" . }}-processor
+  schedule: {{ .Values.processor.cronjobExpression }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: {{ include "defra-smp.fullname" . }}-data
+              image: "{{ .Values.processor.imageData.repository }}:{{ .Values.processor.imageData.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.processor.imageData.pullPolicy }}
+              resources:
+                {{- toYaml .Values.processor.resources | nindent 16 }}
+          initContainers:
+            - name: {{ include "defra-smp.fullname" . }}-tile
+              image: "{{ .Values.processor.imageTile.repository }}:{{ .Values.processor.imageTile.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.processor.imageTile.pullPolicy }}
+              resources:
+                {{- toYaml .Values.processor.resources | nindent 16 }}
+              volumeMounts:
+                - mountPath: /opt/defra-smp/
+                  name: tiles
+                  subPath: {{ .Values.processor.data.subpath }}
+          volumes:
+            - name: tiles
+              persistentVolumeClaim:
+                claimName: {{ include "defra-smp.fullname" . }}-tiles
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.processor.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.processor.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}

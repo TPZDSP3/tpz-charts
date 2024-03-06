@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-db
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-db
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-smp.fullname" . }}-db
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-smp.fullname" . }}-db
+    spec:
+      containers:
+        - name: {{ include "defra-smp.fullname" . }}-db
+          image: "{{ .Values.fuseki.image.repository }}:{{ .Values.fuseki.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.fuseki.image.pullPolicy }}
+          ports:
+            - containerPort: 3030
+              name: http-smp-db
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+          volumeMounts:
+            - name: fuseki-databases
+              mountPath: /fuseki/databases
+      volumes:
+        - name: fuseki-databases
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-databases
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.fuseki.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.fuseki.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-web
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-web
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-smp.fullname" . }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-smp.fullname" . }}-web
+    spec:
+      containers:
+        - name: {{ include "defra-smp.fullname" . }}-web
+          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+          ports:
+            - containerPort: 3001
+              name: http-smp-web
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.web.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.web.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-nginx
+  labels:
+    app: {{ include "defra-smp.fullname" . }}-nginx
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-smp.fullname" . }}-nginx
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-smp.fullname" . }}-nginx
+    spec:
+      containers:
+        - name: {{ include "defra-smp.fullname" . }}-nginx
+          image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.nginx.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+              name: http-smp-nginx
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+              readOnly: true          
+            - mountPath: /opt/defra-smp/
+              name: tiles
+              subPath: {{ .Values.processor.data.subpath }}
+      volumes:
+        - name: tiles
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-tiles
+        - name: nginx-config
+          configMap:
+            name: {{ template "defra-smp.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: reverse-proxy.conf
+                path: reverse-proxy.conf
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      

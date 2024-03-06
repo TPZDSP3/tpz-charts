@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "defra-smp.fullname" . }}-test-connection"
+  labels:
+    {{- include "defra-smp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "defra-smp.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
