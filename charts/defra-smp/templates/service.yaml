@@ -1,4 +1,4 @@
-webVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "defra-smp.fullname" . }}-web
@@ -14,7 +14,7 @@ spec:
   selector:
     app: {{ include "defra-smp.fullname" . }}-web
 ---
-webVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "defra-smp.fullname" . }}-db
@@ -30,7 +30,7 @@ spec:
   selector:
     app: {{ include "defra-smp.fullname" . }}-db
 ---
-webVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "defra-smp.fullname" . }}-nginx
