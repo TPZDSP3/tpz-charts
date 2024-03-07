@@ -36,24 +36,6 @@ spec:
           ports:
             - name: http-mmo
               containerPort: 3000
-          livenessProbe:
-            httpGet:
-              path: /marine-plans-explorer
-              port: http-mmo
-              scheme: HTTP
-            failureThreshold: 3
-            successThreshold: 1
-            periodSeconds: 10
-            timeoutSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /marine-plans-explorer
-              port: http-mmo
-              scheme: HTTP
-            failureThreshold: 3
-            successThreshold: 1
-            periodSeconds: 10
-            timeoutSeconds: 10
           env:
             - name: MONGO_USER
               valueFrom:
