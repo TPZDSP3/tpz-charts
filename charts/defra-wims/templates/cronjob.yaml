@@ -53,9 +53,11 @@ spec:
                   readOnly: true
                 - name: fuseki-databases
                   mountPath: /fuseki/databases
-                - mountPath: /opt/cache
-                  name: cache
+                - name: cache
+                  mountPath: /opt/cache
                   subPath: {{ .Values.fuseki.cache.subpath }}
+                - name: processor-work
+                  mountPath: /var/lib/wims-staging
           volumes:
             - name: processor-api-config
               configMap:
@@ -70,6 +72,9 @@ spec:
             - name: fuseki-databases
               persistentVolumeClaim:
                 claimName: {{ include "defra-wims.fullname" . }}-databases
+            - name: processor-work
+              persistentVolumeClaim:
+                claimName: {{ include "defra-wims.fullname" . }}-work
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 8 }}

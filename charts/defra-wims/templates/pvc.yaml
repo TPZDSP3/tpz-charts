@@ -36,3 +36,16 @@ spec:
       storage: 200Gi
   storageClassName: {{ .Values.fuseki.cache.storageClassName }}
   volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-work
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 150Gi
+  storageClassName: {{ .Values.fuseki.cache.storageClassName }}
+  volumeMode: Filesystem
