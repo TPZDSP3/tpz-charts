@@ -9,8 +9,8 @@ spec:
       restartPolicy: Never
       containers:
       - name: initial-data
-        image: "{{ .Values.processor.docuementData.repository }}:{{ .Values.processor.docuementData.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.processor.docuementData.pullPolicy }}        
+        image: "{{ .Values.processor.documentData.repository }}:{{ .Values.processor.documentData.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.processor.documentData.pullPolicy }}        
         env:
         - name: ENVIRONMENT
           value: {{ .Values.processor.environment }}       

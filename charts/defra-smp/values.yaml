@@ -93,8 +93,8 @@ processor:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
   tag: ""   
-  environment: live
-  secret: defra-smp-secret
+  environment: test
+  secret: defra-smp
   resources: {}
   tolerations: []
   affinity: {}
