@@ -1,0 +1,43 @@
+{{- if .Values.processor.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: initial-data
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: initial-data
+        image: "{{ .Values.processor.docuementData.repository }}:{{ .Values.processor.docuementData.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.processor.docuementData.pullPolicy }}        
+        env:
+        - name: ENVIRONMENT
+          value: {{ .Values.processor.environment }}       
+        - name: CONTAINER_NAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.processor.secret }}
+                key: CONTAINER_NAME   
+        - name: ACCOUNT_NAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.processor.secret }}
+                key: ACCOUNT_NAME
+        - name: SAS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.processor.secret }}
+                key: SAS_TOKEN                
+        - name: DB_URL
+          value: {{ include "defra-smp.fullname" . }}-db
+        volumeMounts:
+          - mountPath: /opt/defra-smp/assets
+            name: tiles
+            subPath: {{ .Values.processor.data.subpath }}/documents
+    volumes:
+      - name: tiles
+        persistentVolumeClaim:
+          claimName: {{ include "defra-smp.fullname" . }}-tiles          
+  backoffLimit: 4
+{{- end }}

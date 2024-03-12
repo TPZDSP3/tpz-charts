@@ -1,3 +1,4 @@
+{{- if .Values.processor.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -21,16 +22,65 @@ spec:
               imagePullPolicy: {{ .Values.processor.imageData.pullPolicy }}
               resources:
                 {{- toYaml .Values.processor.resources | nindent 16 }}
+              env:
+              - name: ENVIRONMENT
+                value: {{ .Values.processor.environment }}
+              - name: CONTAINER_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: CONTAINER_NAME   
+              - name: ACCOUNT_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: ACCOUNT_NAME
+              - name: SAS_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: SAS_TOKEN                
+              - name: DB_URL
+                value: {{ include "defra-smp.fullname" . }}-db
+              volumeMounts:
+                - mountPath: /opt/output
+                  name: tiles
+                  subPath: {{ .Values.processor.data.subpath }}/zxy                           
           initContainers:
             - name: {{ include "defra-smp.fullname" . }}-tile
               image: "{{ .Values.processor.imageTile.repository }}:{{ .Values.processor.imageTile.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.processor.imageTile.pullPolicy }}
+              env:
+              - name: ENVIRONMENT
+                value: {{ .Values.processor.environment }} 
+              - name: BASE_PATH
+                value: /var/opt/tile-loader                     
+              - name: CONTAINER_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: CONTAINER_NAME   
+              - name: ACCOUNT_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: ACCOUNT_NAME
+              - name: SAS_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: SAS_TOKEN                
+              - name: AGRIMETRICS_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.processor.secret }}
+                      key: AGRIMETRICS_API_KEY              
               resources:
                 {{- toYaml .Values.processor.resources | nindent 16 }}
               volumeMounts:
-                - mountPath: /opt/defra-smp/
+                - mountPath: /var/opt/tile-loader/output
                   name: tiles
-                  subPath: {{ .Values.processor.data.subpath }}
+                  subPath: {{ .Values.processor.data.subpath }}/zxy
           volumes:
             - name: tiles
               persistentVolumeClaim:
@@ -51,3 +101,4 @@ spec:
           tolerations:
             {{- toYaml . | nindent 8 }}
           {{- end }}
+{{- end }}

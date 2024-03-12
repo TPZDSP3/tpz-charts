@@ -73,9 +73,10 @@ web:
 
 # Config for the Processor
 processor:
+  enabled: true
   data:
     storageClassName: dev-tpzuk-disk-retain
-    subpath: test
+    subpath: defra-smp
   cronjobExpression: "0 2 * * *"
   imageTile:
     repository: dsp3tpz.azurecr.io/defra-smp-tile-loader
@@ -86,10 +87,14 @@ processor:
     repository: dsp3tpz.azurecr.io/defra-smp-data-loader
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""    
-  # data:
-  #   size: 5G
-  #   storageClassname: tpzuk-blob-ttl
+    tag: "" 
+  documentData:
+    repository: dsp3tpz.azurecr.io/defra-smp-document-loader
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+  tag: ""   
+  environment: live
+  secret: defra-smp-secret
   resources: {}
   tolerations: []
   affinity: {}
