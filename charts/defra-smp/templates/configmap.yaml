@@ -25,7 +25,7 @@ data:
                     proxy_set_header Host $host;
                     proxy_set_header X-NginX-Proxy true;
                     proxy_set_header X-Forwarded-Proto $scheme;
-                    proxy_pass http://{{ include "defra-smp.fullname" . }}-web:3001/shoreline-planning;
+                    proxy_pass https://{{ include "defra-smp.fullname" . }}-web:3001/shoreline-planning;
                     add_header Access-Control-Allow-Origin *;
             }
             location /shoreline-planning/zxy {
