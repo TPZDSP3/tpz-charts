@@ -75,7 +75,8 @@ web:
 processor:
   enabled: true
   data:
-    storageClassName: dev-tpzuk-disk-retain
+    storageClassName: dev-tpzuk-blob-ttl
+    storageClassNameWork: dev-tpzuk-disk-retain
     subpath: defra-smp
   cronjobExpression: "0 2 * * *"
   imageTile:
