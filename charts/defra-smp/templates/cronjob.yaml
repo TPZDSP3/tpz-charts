@@ -25,23 +25,23 @@ spec:
               env:
               - name: ENVIRONMENT
                 value: {{ .Values.processor.environment }}
-              - name: CONTAINER_NAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: CONTAINER_NAME   
-              - name: ACCOUNT_NAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: ACCOUNT_NAME
-              - name: SAS_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: SAS_TOKEN                
               - name: DB_URL
-                value: {{ include "defra-smp.fullname" . }}-db
+                value: {{ include "defra-smp.fullname" . }}-db                
+              - name: CONTAINER_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: CONTAINER_NAME   
+              - name: ACCOUNT_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: ACCOUNT_NAME
+              - name: SAS_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: SAS_TOKEN
               volumeMounts:
                 - mountPath: /opt/output
                   name: tiles
@@ -56,25 +56,25 @@ spec:
               - name: BASE_PATH
                 value: /var/opt/tile-loader                     
               - name: CONTAINER_NAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: CONTAINER_NAME   
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: CONTAINER_NAME   
               - name: ACCOUNT_NAME
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: ACCOUNT_NAME
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: ACCOUNT_NAME
               - name: SAS_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: SAS_TOKEN                
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: SAS_TOKEN                
               - name: AGRIMETRICS_API_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ .Values.processor.secret }}
-                      key: AGRIMETRICS_API_KEY              
+                valueFrom:
+                  secretKeyRef:
+                    name: {{ template "defra-smp.secretName" . }}
+                    key: AGRIMETRICS_API_KEY              
               resources:
                 {{- toYaml .Values.processor.resources | nindent 16 }}
               volumeMounts:

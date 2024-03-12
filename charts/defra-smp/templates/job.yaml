@@ -12,32 +12,31 @@ spec:
         image: "{{ .Values.processor.documentData.repository }}:{{ .Values.processor.documentData.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.processor.documentData.pullPolicy }}        
         env:
-        - name: ENVIRONMENT
-          value: {{ .Values.processor.environment }}       
-        - name: CONTAINER_NAME
+          - name: ENVIRONMENT
+            value: {{ .Values.processor.environment }}
+          - name: DB_URL
+            value: {{ include "defra-smp.fullname" . }}-db
+          - name: CONTAINER_NAME
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.processor.secret }}
+                name: {{ template "defra-smp.secretName" . }}
                 key: CONTAINER_NAME   
-        - name: ACCOUNT_NAME
+          - name: ACCOUNT_NAME
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.processor.secret }}
+                name: {{ template "defra-smp.secretName" . }}
                 key: ACCOUNT_NAME
-        - name: SAS_TOKEN
+          - name: SAS_TOKEN
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.processor.secret }}
-                key: SAS_TOKEN                
-        - name: DB_URL
-          value: {{ include "defra-smp.fullname" . }}-db
+                name: {{ template "defra-smp.secretName" . }}
+                key: SAS_TOKEN
         volumeMounts:
           - mountPath: /opt/defra-smp/assets
             name: tiles
             subPath: {{ .Values.processor.data.subpath }}/documents
-    volumes:
-      - name: tiles
-        persistentVolumeClaim:
-          claimName: {{ include "defra-smp.fullname" . }}-tiles          
-  backoffLimit: 4
+      volumes:
+        - name: tiles
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-tiles          
 {{- end }}

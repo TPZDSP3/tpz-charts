@@ -94,7 +94,7 @@ processor:
     # Overrides the image tag whose default is the chart appVersion.
   tag: ""   
   environment: test
-  secret: defra-smp
+  secret:
   resources: {}
   tolerations: []
   affinity: {}

@@ -65,8 +65,8 @@ Create the name of the service account to use
 Get the sealed secrets.
 */}}
 {{- define "defra-smp.secretName" -}}
-{{- if .Values.existingSecret -}}
-    {{- printf "%s" (tpl .Values.existingSecret $) -}}
+{{- if .Values.processor.secret -}}
+    {{- printf "%s" (tpl .Values.processor.secret $) -}}
 {{- else -}}
     {{- printf "%s" (include "defra-smp.fullname" .) -}}
 {{- end -}}
