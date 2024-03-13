@@ -80,18 +80,13 @@ spec:
               resources:
                 {{- toYaml .Values.processor.resources | nindent 16 }}
               volumeMounts:
-                # - mountPath: /var/opt/tile-loader/output
-                #   name: tiles
-                #   subPath: {{ .Values.processor.data.subpath }}/zxy
-                - mountPath: /var/opt/tile-loader
-                  name: work
+                - mountPath: /var/opt/tile-loader/output
+                  name: tiles
+                  subPath: {{ .Values.processor.data.subpath }}/zxy
           volumes:
             - name: tiles
               persistentVolumeClaim:
-                claimName: {{ include "defra-smp.fullname" . }}-tiles
-            - name: work
-              persistentVolumeClaim:
-                claimName: {{ include "defra-smp.fullname" . }}-work                
+                claimName: {{ include "defra-smp.fullname" . }}-tiles             
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
