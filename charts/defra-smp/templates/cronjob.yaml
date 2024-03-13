@@ -43,11 +43,9 @@ spec:
                     name: {{ template "defra-smp.secretName" . }}
                     key: SAS_TOKEN
               volumeMounts:
-                # - mountPath: /opt/output
-                #   name: tiles
-                #   subPath: {{ .Values.processor.data.subpath }}/zxy
-                - mountPath: /opt/
-                  name: work                          
+                - mountPath: /opt/output
+                  name: tiles
+                  subPath: {{ .Values.processor.data.subpath }}/zxy                       
           initContainers:
             - name: {{ include "defra-smp.fullname" . }}-tile
               image: "{{ .Values.processor.imageTile.repository }}:{{ .Values.processor.imageTile.tag | default .Chart.AppVersion }}"
