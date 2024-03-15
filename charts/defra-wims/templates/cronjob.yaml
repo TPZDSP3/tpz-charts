@@ -90,17 +90,17 @@ spec:
                 claimName: {{ include "defra-wims.fullname" . }}-work-ssd
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.processor.affinity }}
           affinity:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.processor.tolerations }}
           tolerations:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
