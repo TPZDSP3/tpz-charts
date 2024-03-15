@@ -28,6 +28,7 @@ securityContext: {}
 
 # storageClassname: premiumssdv2-zrs-delete
 storageClassname: standardssd-zrs-disk-retain
+
 service:
   type: ClusterIP
   port: 80
