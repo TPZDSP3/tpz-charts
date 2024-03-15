@@ -96,11 +96,11 @@ spec:
           nodeSelector:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.api.affinity }}
+          {{- with .Values.processor.affinity }}
           affinity:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.api.tolerations }}
+          {{- with .Values.processor.tolerations }}
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
