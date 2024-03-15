@@ -26,6 +26,8 @@ podSecurityContext: {}
 
 securityContext: {}
 
+# storageClassname: premiumssdv2-zrs-delete
+storageClassname: standardssd-zrs-disk-retain
 service:
   type: ClusterIP
   port: 80
@@ -109,9 +111,8 @@ processor:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-  # data:
-  #   size: 5G
-  #   storageClassname: tpzuk-blob-ttl
+  data:
+    storageClassname: premiumssdv2-zrs-delete
   resources: {}
   tolerations: []
   affinity: {}
