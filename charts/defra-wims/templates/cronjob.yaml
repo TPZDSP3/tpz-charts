@@ -51,20 +51,20 @@ spec:
                 - name: processor-api-config
                   mountPath: /etc/api
                   readOnly: true
-                # - name: fuseki-databases
-                #   mountPath: /fuseki/databases-old
-                - name: fuseki-databases-ssd
+                - name: fuseki-databases
                   mountPath: /fuseki/databases
-                - name: cache-ssd
+                # - name: fuseki-databases-ssd
+                #   mountPath: /fuseki/databases
+                # - name: cache-ssd
+                #   mountPath: /opt/cache
+                #   subPath: {{ .Values.fuseki.cache.subpath }}
+                - name: cache
                   mountPath: /opt/cache
                   subPath: {{ .Values.fuseki.cache.subpath }}
-                # - name: cache
-                #   mountPath: /opt/cache-old
-                #   subPath: {{ .Values.fuseki.cache.subpath }}
                 - name: processor-work
-                  mountPath: /var/lib/wims-staging-old
-                - name: processor-work-ssd
                   mountPath: /var/lib/wims-staging
+                # - name: processor-work-ssd
+                #   mountPath: /var/lib/wims-staging
           volumes:
             - name: processor-api-config
               configMap:
@@ -73,21 +73,21 @@ spec:
                 items:
                   - key: processor-app.conf
                     path: app.conf
-            - name: cache-ssd
-              persistentVolumeClaim:
-                claimName: {{ include "defra-wims.fullname" . }}-cache-ssd
-            - name: fuseki-databases-ssd
-              persistentVolumeClaim:
-                claimName: {{ include "defra-wims.fullname" . }}-databases-ssd
-            # - name: fuseki-databases
+            # - name: fuseki-databases-ssd
             #   persistentVolumeClaim:
-            #     claimName: {{ include "defra-wims.fullname" . }}-databases
+            #     claimName: {{ include "defra-wims.fullname" . }}-databases-ssd
+            - name: fuseki-databases
+              persistentVolumeClaim:
+                claimName: {{ include "defra-wims.fullname" . }}-databases
+            - name: cache
+              persistentVolumeClaim:
+                claimName: {{ include "defra-wims.fullname" . }}-cache
             - name: processor-work
               persistentVolumeClaim:
                 claimName: {{ include "defra-wims.fullname" . }}-work
-            - name: processor-work-ssd
-              persistentVolumeClaim:
-                claimName: {{ include "defra-wims.fullname" . }}-work-ssd
+            # - name: processor-work-ssd
+            #   persistentVolumeClaim:
+            #     claimName: {{ include "defra-wims.fullname" . }}-work-ssd
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}
