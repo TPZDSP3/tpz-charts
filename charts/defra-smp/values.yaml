@@ -73,7 +73,7 @@ web:
 
 # Config for the Processor
 processor:
-  enabled: true
+  enabled: false
   data:
     storageClassName: dev-tpzuk-disk-retain
     subpath: defra-smp
@@ -83,6 +83,11 @@ processor:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
+  image:
+    repository: dsp3tpz.azurecr.io/defra-smp-tile-processor
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""    
   imageData:
     repository: dsp3tpz.azurecr.io/defra-smp-data-loader
     pullPolicy: IfNotPresent
