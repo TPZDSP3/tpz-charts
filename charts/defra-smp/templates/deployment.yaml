@@ -125,7 +125,7 @@ spec:
         - name: {{ include "defra-smp.fullname" . }}-processor
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
           {{- if .Values.processor.skip }}
-          command: ["skip"]
+          arguments: ["skip"]
           {{- end }}
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
           resources:
