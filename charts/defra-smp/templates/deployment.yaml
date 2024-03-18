@@ -158,13 +158,10 @@ spec:
                 name: {{ template "defra-smp.secretName" . }}
                 key: AGRIMETRICS_API_KEY                  
           volumeMounts:
-            - mountPath: /opt/output
-              name: tiles
-              subPath: {{ .Values.processor.data.subpath }}/zxy
             - mountPath: /var/opt/tile-loader/output
               name: tiles
               subPath: {{ .Values.processor.data.subpath }}/zxy
-            - mountPath: /opt/defra-smp/assets
+            - mountPath: /opt/defra-smp/assets/documents
               name: tiles
               subPath: {{ .Values.processor.data.subpath }}/documents              
       volumes:
