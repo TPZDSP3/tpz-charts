@@ -27,7 +27,9 @@ spec:
           {{- toYaml .Values.app.resources | nindent 12 }}
         env:
           - name: API_ENDPOINT
-            value: {{ .Values.graphEndpoint }}                          
+            value: {{ .Values.graphEndpoint }}
+          - name: DFM_AUTH0_CALLBACK_URL
+            value: {{ .Values.app.auth.callbackUrl }}              
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

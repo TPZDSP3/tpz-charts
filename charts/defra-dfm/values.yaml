@@ -24,9 +24,6 @@ securityContext: {}
 
 graphEndpoint: http://defra-dfm-db:7200/repositories/data-flow-mapper
 
-service:
-  type: ClusterIP
-  port: 80
 graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
@@ -57,6 +54,8 @@ app:
   resources: {}
   tolerations: []
   affinity: {}
+  auth:
+    callbackUrl: 'https://data-flow-mapping.dev-tpz-apps.tpzdsp3.com/auth-token' 
 ingress:
   enabled : true
   tls:
