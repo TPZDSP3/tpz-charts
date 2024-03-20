@@ -28,7 +28,7 @@ spec:
   tls:
     - hosts:
         {{- range .Values.ingress.hosts }}
-        - {{ .host }}
+        - data-flow-mapping.{{ .host }}
         {{- end }}
       secretName: {{ include "defra-dfm.fullname" . }}-app-tls
   {{- end }}
