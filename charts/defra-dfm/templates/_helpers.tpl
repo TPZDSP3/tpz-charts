@@ -46,8 +46,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "defra-dfm.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "defra-dfm.name" . }}-{{ .Values.release }}
-app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.release }}
+app.kubernetes.io/name: {{ include "defra-dfm.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*

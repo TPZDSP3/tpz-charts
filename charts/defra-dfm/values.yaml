@@ -1,4 +1,4 @@
-# Default values for defra-cde.
+# Default values for defra-dfm.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,6 @@ replicaCount: 1
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-release: green
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -23,24 +22,11 @@ podSecurityContext: {}
 
 securityContext: {}
 
-graphEndpoint: http://localhost:7200/repositories/data-flow-mapper
+graphEndpoint: http://defra-dfm-db:7200/repositories/data-flow-mapper
 
 service:
   type: ClusterIP
   port: 80
-cache:
-  enabled: true
-  size: 200G
-  storageClassname: tpzuk-blob-ttl
-  image:
-    repository: dsp3tpz.azurecr.io/defra-dfm-app
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
-  # pathCache: /app/cache
-  # pathStatic: /app/static     
-# explorer:
-#   version: ""
 graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
@@ -71,16 +57,12 @@ app:
   resources: {}
   tolerations: []
   affinity: {}
-varnish:
-  ingress:
+ingress:
+  enabled : true
+  tls:
     enabled : true
-    tls:
-      enabled : true
-    hosts:
+  hosts:
     - host: dsp-test.agrimetrics.co.uk
-  resources: {}
-  tolerations: []
-  affinity: {}
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little

@@ -1,24 +1,9 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: {{ include "defra-dfm.fullname" . }}-varnish-{{ .Values.release }}
-#   labels:
-#     {{- include "defra-dfm.labels" . | nindent 4 }}
-# spec:
-#   type: {{ .Values.service.type }}
-#   ports:
-#     - port: 80
-#       targetPort: 8888
-#       protocol: TCP
-#   selector:
-#     app: {{ include "defra-dfm.fullname" . }}-varnish-{{ .Values.release }}
-# ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
-  name: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+    app: {{ include "defra-dfm.fullname" . }}-app
+  name: {{ include "defra-dfm.fullname" . }}-app
 spec:
   ports:
     - name: http-app
@@ -26,15 +11,15 @@ spec:
       protocol: TCP
       targetPort: http-app
   selector:
-    app: {{ include "defra-dfm.fullname" . }}-app-{{ .Values.release }}
+    app: {{ include "defra-dfm.fullname" . }}-app
   type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
-  name: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
+    app: {{ include "defra-dfm.fullname" . }}-db
+  name: {{ include "defra-dfm.fullname" . }}-db
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -45,6 +30,6 @@ spec:
       protocol: TCP
       targetPort: 7200
   selector:
-    app: {{ include "defra-dfm.fullname" . }}-db-{{ .Values.release }}
+    app: {{ include "defra-dfm.fullname" . }}-db
   sessionAffinity: None
   type: ClusterIP

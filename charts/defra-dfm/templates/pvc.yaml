@@ -1,21 +1,7 @@
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-dfm.fullname" . }}-logs-{{ .Values.release }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 20Gi
-  storageClassName: {{ .Values.graphdb.storageClassName }}
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "defra-dfm.fullname" . }}-databases-{{ .Values.release }}
+  name: {{ include "defra-dfm.fullname" . }}-databases
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "defra-dfm.fullname" . }}-import-{{ .Values.release }}
+  name: {{ include "defra-dfm.fullname" . }}-import
 spec:
   accessModes:
     - ReadWriteMany
@@ -38,15 +24,3 @@ spec:
   storageClassName: {{ .Values.graphdb.import.storageClassName }}
   volumeMode: Filesystem
 ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: {{ include "defra-dfm.fullname" . }}-cache-blob-{{ .Values.release }}
-# spec:
-#   accessModes:
-#     - ReadWriteMany
-#   resources:
-#     requests:
-#       storage: {{ .Values.cache.size }}
-#   storageClassName: {{ .Values.cache.storageClassname }}
-# ---   
