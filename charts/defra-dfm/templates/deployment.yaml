@@ -26,8 +26,10 @@ spec:
         resources:
           {{- toYaml .Values.app.resources | nindent 12 }}
         env:
-          - name: API_ENDPOINT
-            value: {{ .Values.graphEndpoint }}
+          - name: DFM_QUERY_ENDPOINT
+            value: http://{{ include "defra-dfm.fullname" . }}-db:7200/repositories/data-flow-mapper
+          - name: DFM_UPDATE_ENDPOINT
+            value: http://{{ include "defra-dfm.fullname" . }}-db:7200/repositories/data-flow-mapper            
           - name: DFM_AUTH0_CALLBACK_URL
             value: {{ .Values.app.auth.callbackUrl }}              
       {{- with .Values.imagePullSecrets }}
