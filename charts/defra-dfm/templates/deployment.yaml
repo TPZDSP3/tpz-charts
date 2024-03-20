@@ -77,9 +77,7 @@ spec:
             {{- toYaml .Values.graphdb.resources | nindent 12 }}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          volumeMounts:
-            - mountPath: /opt/graphdb/dist/logs
-              name: graphdb-logs          
+          volumeMounts:   
             - mountPath: /opt/graphdb/home/graphdb-import
               name: graphdb-import
               subPath: cde/{{ .Values.release }}/{{ .Values.graphdb.import.subpath }}
@@ -99,9 +97,6 @@ spec:
         - name: graphdb-import
           persistentVolumeClaim:
             claimName: {{ include "defra-dfm.fullname" . }}-import
-        - name: graphdb-logs
-          persistentVolumeClaim:
-            claimName: {{ include "defra-dfm.fullname" . }}-logs
         - name: graphdb-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-dfm.fullname" . }}-databases
