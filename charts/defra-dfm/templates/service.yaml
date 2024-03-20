@@ -7,9 +7,9 @@ metadata:
 spec:
   ports:
     - name: http-app
-      port: 3000
+      port: 80
       protocol: TCP
-      targetPort: http-app
+      targetPort: 3000
   selector:
     app: {{ include "defra-dfm.fullname" . }}-app
   type: ClusterIP
