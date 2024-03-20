@@ -13,7 +13,7 @@ metadata:
 spec:
   rules:
   {{- range .Values.ingress.hosts }}
-  - host: {{ .host }}
+  - host: data-flow-mapping.{{ .host }}
     http:
       paths:
       - backend:
@@ -21,7 +21,7 @@ spec:
             name: {{ include "defra-dfm.fullname" $ }}-app
             port: 
               number: 80
-        path: /login(/|$)(.*)
+        path: (/|$)(.*)
         pathType: Prefix
   {{- end }}
   {{- if .Values.ingress.tls.enabled }}
