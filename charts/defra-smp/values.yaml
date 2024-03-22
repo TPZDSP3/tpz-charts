@@ -64,9 +64,7 @@ web:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-  # data:
-  #   size: 5G
-  #   storageClassname: tpzuk-blob-ttl
+  enableNCERM: true
   resources: {}
   tolerations: []
   affinity: {}

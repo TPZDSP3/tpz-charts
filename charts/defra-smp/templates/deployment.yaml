@@ -70,6 +70,8 @@ spec:
           env:
             - name: FUSEKI_HOST
               value: {{ include "defra-smp.fullname" . }}-db
+            - name: ENABLE_NCERM
+              value: {{ .Values.web.enableNCERM }}
           ports:
             - containerPort: 3001
               name: http-smp-web
