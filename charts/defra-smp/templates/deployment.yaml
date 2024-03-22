@@ -126,13 +126,18 @@ spec:
               subPath: {{ .Values.processor.data.subpath }}
         - name: {{ include "defra-smp.fullname" . }}-processor
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
-          {{- if .Values.processor.skip }}
-          arguments: ["skip"]
-          {{- end }}
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
           resources:
             {{- toYaml .Values.processor.resources | nindent 16 }}
           env:
+          {{- if .Values.processor.createDocuments }}
+          - name: CREATE_DOCUMENTS
+            value: "true"          
+          {{- end }}
+          {{- if .Values.processor.executeStart }}
+          - name: RUN_START
+            value: "true"          
+          {{- end }}
           - name: CRON
             value: {{ .Values.processor.cronjobExpression }}
           - name: ENVIRONMENT

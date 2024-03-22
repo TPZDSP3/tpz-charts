@@ -72,6 +72,8 @@ web:
 # Config for the Processor
 processor:
   enabled: false
+  createDocuments: false
+  executeStart: false
   skip: false
   data:
     storageClassName: dev-tpzuk-disk-retain
