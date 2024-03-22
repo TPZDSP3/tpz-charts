@@ -28,17 +28,17 @@ spec:
         env:
           - name: API_ENDPOINT
             value: {{ .Values.graphEndpoint }}
-        volumeMounts:
-          - name: cache
-            mountPath: {{ .Values.cache.pathCache }}
-            subPath: cde/{{ .Values.release }}/cache
-          - name: cache
-            mountPath: {{ .Values.cache.pathStatic }}
-            subPath: cde/{{ .Values.release }}/static     
-      volumes:
-        - name: cache
-          persistentVolumeClaim:
-            claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                            
+        # GRAEME volumeMounts:
+        #   - name: cache
+        #     mountPath: {{ .Values.cache.pathCache }}
+        #     subPath: cde/{{ .Values.release }}/cache
+        #   - name: cache
+        #     mountPath: {{ .Values.cache.pathStatic }}
+        #     subPath: cde/{{ .Values.release }}/static     
+      # GRAEME volumes:
+      #   - name: cache
+      #     persistentVolumeClaim:
+      #       claimName: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}                            
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -55,10 +55,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      # volumes:
-      #   - name: data
-      #     persistentVolumeClaim:
-      #       claimName: {{ include "defra-cde.fullname" . }}-data-blob
 ---
 apiVersion: apps/v1
 kind: Deployment

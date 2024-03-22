@@ -43,16 +43,8 @@ data:
           return (pass);
         }
 
-        # don't cache static csvs
-        if (req.url ~ "^/catchment-planning/.+\.csv") {
-          return (pass);
-        }
-        # don't cache static zips
-        if (req.url ~ "^/catchment-planning/.+\.zip") {
-          return (pass);
-        }
-        # don't cache static zips
-        if (req.url ~ "^/catchment-planning/.+\.xlsx") {
+        # don't cache static csvs, zips, geojson, xlsx
+        if (req.url ~ "^/catchment-planning/(.*)\.(csv|zip|geojson|xlsx)$") {
           return (pass);
         }
 
