@@ -36,17 +36,17 @@ spec:
     requests:
       storage: 200Gi
   storage# ClassName: {{ .Values.graphdb.import.storageClassName }}
-  volumeMode: Filesystem
+  volumeMod: Filesystem
 ---
-# GRAEME apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: {{ include "defra-cde.fullname" . }}-cache-blob-{{ .Values.release }}
-# spec:
-#   accessModes:
-#     - ReadWriteMany
-#   resources:
-#     requests:
-#       storage: {{ .Values.cache.size }}
-#   storageClassName: {{ .Values.cache.storageClassname }}
-# ---   
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-cde.fullname" . }}-cache-{{ .Values.release }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.cache.size }}
+  storageClassName: {{ .Values.cache.storageClassname }}
+---   
