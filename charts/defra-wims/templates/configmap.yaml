@@ -90,7 +90,7 @@ data:
     config.gtagUACode = {{ .Values.googleAnalyticsId }}
 
     # Set the API key for the OS maps API here
-    config.osMapsAPIKey =
+    config.osMapsAPIKey = {{ .Values.osMapsAPIKey }}
 
     # API configuration
     api                  = com.epimorphics.simpleAPI.core.API
@@ -186,7 +186,7 @@ data:
     config.gtagUACode = {{ .Values.googleAnalyticsId }}
 
     # Set the API key for the OS maps API here
-    config.osMapsAPIKey =
+    config.osMapsAPIKey = {{ .Values.osMapsAPIKey }}
 
     # API configuration
     api                  = com.epimorphics.simpleAPI.core.API

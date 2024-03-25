@@ -165,7 +165,7 @@ spec:
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.googleAnalyticsId }}
             - name: OS_API_KEY
-              value: {{ .Values.ui.osApiKey }}
+              value: {{ .Values.osMapsAPIKey }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
