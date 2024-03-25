@@ -39,6 +39,7 @@ existingSecret: |
 awsAccessKeyId:
 awsSecretAccessKey:
 googleAnalyticsId:
+osMapsAPIKey:
 
 extraSecret: |
 
