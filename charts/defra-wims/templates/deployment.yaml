@@ -99,6 +99,8 @@ spec:
             - mountPath: /opt/cache
               name: cache
               subPath: {{ .Values.fuseki.cache.subpath }}
+            - name: processor-work
+              mountPath: /var/lib/wims-staging
       volumes:
         - name: api-config
           configMap:
@@ -110,6 +112,9 @@ spec:
         - name: cache
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-cache
+        - name: processor-work
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-work
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
