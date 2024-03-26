@@ -30,8 +30,6 @@ spec:
               mountPath: /fuseki/logs
             - name: fuseki-databases
               mountPath: /fuseki/databases
-            # - name: fuseki-databases-ssd
-            #   mountPath: /fuseki/databases
       volumes:
         - name: fuseki-logs
           persistentVolumeClaim:
@@ -39,9 +37,6 @@ spec:
         - name: fuseki-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-databases
-        # - name: fuseki-databases-ssd
-        #   persistentVolumeClaim:
-        #     claimName: {{ include "defra-wims.fullname" . }}-databases-ssd
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
