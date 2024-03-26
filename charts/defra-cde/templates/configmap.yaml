@@ -44,7 +44,7 @@ data:
         }
 
         # don't cache static csvs, zips, geojson, xlsx
-        if (req.url ~ "^/catchment-planning/(.*)\.(csv|zip|geojson|xlsx)$") {
+        if (req.url ~ "^/catchment-planning/(.*)\.(zip|geojson|xlsx)$") {
           return (pass);
         }
 
