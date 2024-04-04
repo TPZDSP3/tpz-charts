@@ -21,6 +21,8 @@ metadata:
   {{- with .Values.api.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Content-Encoding: gzip";
   {{- end }}
 spec:
   {{- if and .Values.api.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
