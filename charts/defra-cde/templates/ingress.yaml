@@ -8,6 +8,8 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/proxy-body-size: '0'
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+
   labels:
     app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
 spec:
