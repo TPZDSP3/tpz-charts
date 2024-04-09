@@ -49,15 +49,3 @@ spec:
       storage: 150Gi
   storageClassName: {{ .Values.fuseki.cache.storageClassName }}
   volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "defra-wims.fullname" . }}-varnish
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 150Gi
-  storageClassName: premiumssdv2-zrs-delete

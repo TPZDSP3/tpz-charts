@@ -217,8 +217,6 @@ spec:
             - name: varnish-config
               mountPath: /etc/varnish
               readOnly: true
-            - name: varnish-cache
-              mountPath: /var/lib/varnish
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       {{- with .Values.varnish.affinity }}
@@ -237,6 +235,3 @@ spec:
             items:
               - key: default.vcl
                 path: default.vcl
-        - name: varnish-cache
-          persistentVolumeClaim:
-            claimName: {{ include "defra-wims.fullname" . }}-varnish
