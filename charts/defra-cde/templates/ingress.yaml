@@ -25,6 +25,7 @@ metadata:
       proxy_hide_header X-Runtime;
       server_tokens off;
       add_header Access-Control-Allow-Origin "*"
+      proxy_cookie_path ~^/(.+)$ "/$1; SameSite=none";
 
   labels:
     app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
