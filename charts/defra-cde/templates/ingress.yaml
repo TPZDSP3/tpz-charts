@@ -10,8 +10,21 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
     nginx.ingress.kubernetes.io/enable-cors: 'true'
     nginx.ingress.kubernetes.io/server-snippet: |
+      gzip on;
+      gzip_http_version 1.0;
+      gzip_proxied any;
+      gzip_min_length 500;
+      gzip_disable "MSIE [1-6]\.";
+      gzip_types text/plain text/html text/xml text/css
+                text/comma-separated-values text/csv
+                text/javascript application/x-javascript
+                application/atom+xml application/json
+                application/n-triples;
       proxy_hide_header Access-Control-Allow-Origin;
-      add_header Access-Control-Allow-Origin "*";
+      proxy_hide_header X-Powered-By;
+      proxy_hide_header X-Runtime;
+      server_tokens off;
+      add_header Access-Control-Allow-Origin "*"
 
   labels:
     app: {{ include "defra-cde.fullname" . }}-varnish-{{ .Values.release }}
