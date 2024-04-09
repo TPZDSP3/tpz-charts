@@ -164,7 +164,7 @@ spec:
             {{- toYaml .Values.ui.resources | nindent 12 }}
           env:
             - name: API_HOST
-              value: http://{{ include "defra-wims.fullname" . }}-api:80
+              value: http://{{ include "defra-wims.fullname" . }}-varnish:8888
             - name: GOOGLE_ANALYTICS_ID
               value: {{ .Values.googleAnalyticsId }}
             - name: OS_API_KEY
@@ -185,3 +185,58 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-varnish
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "defra-wims.fullname" . }}-varnish
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: {{ include "defra-wims.fullname" . }}-varnish
+    spec:
+      containers:
+        - image: "varnish:7.4.2"
+          command: ["varnishd"]
+          args: ["-F", "-a", ":8888", "-f", "/etc/varnish/default.vcl", "-s", "file,/var/lib/varnish/varnish_storage.bin,20G"]
+          name: {{ include "defra-wims.fullname" . }}-varnish
+          ports:
+            - containerPort: 8888
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.varnish.resources | nindent 12 }}
+          volumeMounts:
+            - name: varnish-config
+              mountPath: /etc/varnish
+              readOnly: true
+            - name: varnish-cache
+              mountPath: /var/lib/varnish
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      {{- with .Values.varnish.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.varnish.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: varnish-config
+          configMap:
+            name: {{ template "defra-wims.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: default.vcl
+                path: default.vcl
+        - name: varnish-cache
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-varnish

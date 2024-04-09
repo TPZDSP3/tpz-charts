@@ -206,3 +206,47 @@ data:
     api.defaultListTemplate = genericList.vm
     api.htmlNonDefault      = true
     api.configExtensions = $config
+  default.vcl: |
+    vcl 4.0;
+
+    # this points at the tomcat api:
+    backend default {
+        .host = "{{ include "defra-wims.fullname" . }}-api;
+        .port = "8080";
+        .first_byte_timeout = 120s;
+        .between_bytes_timeout = 120s;
+        .connect_timeout = 120s;
+    }
+
+    sub vcl_recv {
+        # Happens before we check if we have this in cache already.
+        #
+        # Typically you clean up the request here, removing cookies you don't need,
+        # rewriting the request, etc.
+
+        # get rid of the cookies and auth as this stops it caching.
+        unset req.http.Cookie;
+        unset req.http.Authorization;
+    }
+
+    sub vcl_backend_response {
+        # Happens after we have read the response headers from the backend.
+        #
+        # Here you clean the response headers, removing silly Set-Cookie headers
+        # and other mistakes your backend does.
+    }
+
+    sub vcl_deliver {
+        # Happens when we have all the pieces we need, and are about to send the
+        # response to the client.
+        #
+        # You can do accounting or modifying the final object here.
+
+        # useful for debugging:
+        if (obj.hits > 0) {
+          set resp.http.X-Varnish-Cache = "HIT";
+        }
+        else {
+          set resp.http.X-Varnish-Cache = "MISS";
+        }
+    }

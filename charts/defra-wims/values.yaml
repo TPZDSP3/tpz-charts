@@ -154,6 +154,10 @@ ui:
   resources: {}
   tolerations: []
   affinity: {}
+varnish:
+  resources: {}
+  tolerations: []
+  affinity: {}
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious

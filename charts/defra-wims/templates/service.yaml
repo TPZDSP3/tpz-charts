@@ -45,3 +45,18 @@ spec:
       targetPort: 80
   selector:
     app: {{ include "defra-wims.fullname" . }}-ui
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-wims.fullname" . }}-varnish
+  labels:
+    {{- include "defra-wims.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 80
+      targetPort: 8888
+      protocol: TCP
+  selector:
+    app: {{ include "defra-wims.fullname" . }}-varnish
