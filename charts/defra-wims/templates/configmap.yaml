@@ -211,7 +211,7 @@ data:
 
     # this points at the tomcat api:
     backend default {
-        .host = "{{ include "defra-wims.fullname" . }}-api;
+        .host = "{{ include "defra-wims.fullname" . }}-api";
         .port = "8080";
         .first_byte_timeout = 120s;
         .between_bytes_timeout = 120s;
