@@ -56,7 +56,7 @@ data:
     cache.cacheDir       = /opt/cache/live
     cache.urlPrefix      = /water-quality/batch/result-download/
     cache.defaultSuffix  = csv
-    cache.compressed     = true
+    cache.compressed     = false
 
     # Queue manager for batch preparation
     queue                = com.epimorphics.armlib.impl.MemQueueManager
@@ -152,7 +152,7 @@ data:
     cache.cacheDir       = /opt/cache/non-live
     cache.urlPrefix      = /water-quality/batch/result-download/
     cache.defaultSuffix  = csv
-    cache.compressed     = true
+    cache.compressed     = false
 
     # Queue manager for batch preparation
     queue                = com.epimorphics.armlib.impl.MemQueueManager
