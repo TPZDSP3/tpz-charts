@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: {{- include "marine-plans-explorer.fullname" . }}-db
+    app: {{ include "marine-plans-explorer.fullname" . }}-db
   name: {{ .Chart.Name }}-db
 spec:
   type: {{ .Values.service.type }}
@@ -28,4 +28,4 @@ spec:
       name: http-mmo-db
       targetPort: http-mmo-db
   selector:
-    app: {{- include "marine-plans-explorer.fullname" . }}-db
+    app: {{ include "marine-plans-explorer.fullname" . }}-db

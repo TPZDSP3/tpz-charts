@@ -102,14 +102,14 @@ kind: Deployment
 metadata:
   name: {{ include "marine-plans-explorer.fullname" . }}-db
   labels:
-    app: {{- include "marine-plans-explorer.fullname" . }}-db
+    app: {{ include "marine-plans-explorer.fullname" . }}-db
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{- include "marine-plans-explorer.fullname" . }}-db
+      app: {{ include "marine-plans-explorer.fullname" . }}-db
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -117,7 +117,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{- include "marine-plans-explorer.fullname" . }}-db
+        app: {{ include "marine-plans-explorer.fullname" . }}-db
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
