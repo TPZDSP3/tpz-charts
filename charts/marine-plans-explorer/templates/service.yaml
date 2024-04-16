@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{- include "marine-plans-explorer.labels" . | nindent 4 }}
+    app: {{- include "marine-plans-explorer.fullname" . }}-db
   name: {{ .Chart.Name }}-db
 spec:
   type: {{ .Values.service.type }}
@@ -28,4 +28,4 @@ spec:
       name: http-mmo-db
       targetPort: http-mmo-db
   selector:
-    {{- include "marine-plans-explorer.selectorLabels" . | nindent 4 }}
+    app: {{- include "marine-plans-explorer.fullname" . }}-db
