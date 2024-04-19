@@ -74,7 +74,7 @@ shiny:
 # Config for the data-prep
 dataprep:
   cronjobSuspend: true
-  cronjobExpression: "0 12 * * *"
+  cronjobExpression: "0 11 * * *"
   image:
     repository: dsp3tpz.azurecr.io/defra-efde-data-prep
     pullPolicy: IfNotPresent
