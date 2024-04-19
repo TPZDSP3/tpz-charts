@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "defra-efde.fullname" . }}-data-prep
+  labels:
+    app: {{ include "defra-efde.fullname" . }}-data-prep
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "defra-efde.fullname" . }}-data-prep
+  schedule: {{ .Values.dataprep.cronjobExpression }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      suspend: {{ .Values.dataprep.cronjobSuspend }}
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: {{ include "defra-efde.fullname" . }}-data-prep
+              image: "{{ .Values.dataprep.image.repository }}:{{ .Values.dataprep.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.dataprep.image.pullPolicy }}
+              resources:
+                {{- toYaml .Values.dataprep.resources | nindent 16 }}
+          {{- with .Values.dataprep.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.dataprep.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.dataprep.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
