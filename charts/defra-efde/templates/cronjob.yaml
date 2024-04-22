@@ -18,7 +18,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: {{ include "defra-efde.fullname" . }}-data-prep
-              image: "{{ .Values.dataprep.image.repository }}:develop"
+              image: "{{ .Values.dataprep.image.repository }}:{{ .Values.dataprep.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.dataprep.image.pullPolicy }}
               resources:
                 {{- toYaml .Values.dataprep.resources | nindent 16 }}
