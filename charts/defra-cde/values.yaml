@@ -31,7 +31,7 @@ service:
 cache:
   enabled: true
   size: 200G
-  storageClassname: premiumssdv2-zrs-delete
+  storageClassname: tpzuk-blob-ttl
   image:
     repository: dsp3tpz.azurecr.io/defra-cde-web-cache
     pullPolicy: IfNotPresent

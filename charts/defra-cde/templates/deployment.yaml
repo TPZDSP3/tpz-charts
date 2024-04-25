@@ -31,10 +31,10 @@ spec:
         volumeMounts:
           - name: cache
             mountPath: {{ .Values.cache.pathCache }}
-            subPath: cache
+            subPath: cde/test/{{ .Values.release }}/cache
           - name: cache
             mountPath: {{ .Values.cache.pathStatic }}
-            subPath: static     
+            subPath: cde/test/{{ .Values.release }}/static     
       volumes:
         - name: cache
           persistentVolumeClaim:
