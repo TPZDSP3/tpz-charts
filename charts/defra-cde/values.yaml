@@ -38,9 +38,7 @@ cache:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   pathCache: /app/cache
-  pathStatic: /app/static     
-# explorer:
-#   version: ""
+  pathStatic: /app/static
 graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
