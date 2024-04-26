@@ -3,7 +3,6 @@
 The deployment is composed of:
 - Geoserver deployment
 - Cronjob for RPA data ingestion
-- Cronjob for SCI data ingestion
 - Job for DW ingestion
 - Blobstorage to get the RPA data
 - PVC copy the data
@@ -16,8 +15,6 @@ The geoserver is composed of:
 The Job creates the workspace, datastore, styles and loads the shapefiles for them
 ### Cronjob for RPA
 The cronjob checks for a new geopackage in the blobstore, index it, copy it to the data directory in geoserver and configures geoserver to use it
-### Cronjob for SCI
-TODO
 ## Known deployment issues and challenges specific to the app
 - If the data directory PVC gets full, the system won't get updates and geoserver will get blocked
 ## Important Values 
