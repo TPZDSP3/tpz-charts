@@ -35,8 +35,8 @@ spec:
   resources:
     requests:
       storage: 200Gi
-  storage# ClassName: {{ .Values.graphdb.import.storageClassName }}
-  volumeMod: Filesystem
+  storageClassName: {{ .Values.graphdb.import.storageClassName }}
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -44,7 +44,7 @@ metadata:
   name: {{ include "defra-cde.fullname" . }}-cache-{{ .Values.release }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: {{ .Values.cache.size }}

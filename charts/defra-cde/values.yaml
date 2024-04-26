@@ -31,16 +31,14 @@ service:
 cache:
   enabled: true
   size: 200G
-  storageClassname: premiumssdv2-zrs-delete
+  storageClassname: tpzuk-blob-ttl
   image:
     repository: dsp3tpz.azurecr.io/defra-cde-web-cache
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   pathCache: /app/cache
-  pathStatic: /app/static     
-# explorer:
-#   version: ""
+  pathStatic: /app/static
 graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
