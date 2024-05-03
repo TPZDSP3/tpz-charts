@@ -12,10 +12,11 @@ spec:
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 120
       suspend: {{ .Values.dataprep.cronjobSuspend }}
       template:
         spec:
-          restartPolicy: Never
+          restartPolicy: OnFailure
           containers:
             - name: {{ include "defra-efde.fullname" . }}-data-prep
               image: "{{ .Values.dataprep.image.repository }}:{{ .Values.dataprep.image.tag | default .Chart.AppVersion }}"
