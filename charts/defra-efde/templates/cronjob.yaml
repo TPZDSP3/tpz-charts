@@ -5,9 +5,9 @@ metadata:
   labels:
     app: {{ include "defra-efde.fullname" . }}-data-prep
 spec:
-  selector:
-    matchLabels:
-      app: {{ include "defra-efde.fullname" . }}-data-prep
+  # selector:
+  #   matchLabels:
+  #     app: {{ include "defra-efde.fullname" . }}-data-prep
   schedule: {{ .Values.dataprep.cronjobExpression }}
   concurrencyPolicy: Forbid
   jobTemplate:
