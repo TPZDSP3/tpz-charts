@@ -54,7 +54,7 @@ data:
     # Cache manager for batch results
     cache                = com.epimorphics.armlib.impl.FileCacheManager
     cache.cacheDir       = /opt/cache/live
-    cache.urlPrefix      = /water-quality/batch/result-download/
+    cache.urlPrefix      = {{ .Values.api.appConfig.urlPrefix }}
     cache.defaultSuffix  = csv
     cache.compressed     = false
 

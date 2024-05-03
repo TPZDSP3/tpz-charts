@@ -104,6 +104,7 @@ api:
       token:
     queue:
       tablePrefix: "wims-test-"
+    urlPrefix: /water-quality/batch/result-download/
 # Config for the Processor
 processor:
   cronjobSuspend: true
