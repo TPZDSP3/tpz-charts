@@ -25,22 +25,10 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http-geoserver
-  selector:
-    app: {{ template "geoserver.fullname" . }}
-    release: {{ .Release.Name | quote }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "geoserver.fullname" . }}-rpa-api
-  labels:
-    app: {{ include "geoserver.fullname" . }}-rpa-api
-spec:
-  type: {{ .Values.service.type }}
-  ports:
     - name: http-rpa-api
       port: 8000
       protocol: TCP
-      targetPort: 8000
+      targetPort: 8000      
   selector:
-    app: {{ include "geoserver.fullname" . }}-rpa-api
+    app: {{ template "geoserver.fullname" . }}
+    release: {{ .Release.Name | quote }}

@@ -37,9 +37,9 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: {{ template "geoserver.fullname" $ }}-rpa-api
+              name: {{ template "geoserver.fullname" $ }}
               port:
-                number: 80                
+                number: 8000
   {{- end }}
   {{- if .Values.ingress.tls.enabled }}
   tls:
