@@ -18,7 +18,8 @@ dataIngestionDW:
   pdfsUrlGW: https://url
   pdfsUrlNVZ: https://url
 dataIngestionRPA:
-  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.2.5
+  rpaData: dsp3tpz.azurecr.io/geoserver-rpa-ingest:v0.5.0
+  rpaAPIData: dsp3tpz.azurecr.io/rpa-update-status-api:v0.0.1
   pullPolicy: IfNotPresent
   workspace: RPA
   datastore: RPA

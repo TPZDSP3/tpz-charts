@@ -166,3 +166,47 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "geoserver.fullname" . }}-rpa-api
+  labels:
+    app: {{ include "geoserver.fullname" . }}-rpa-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "geoserver.fullname" . }}-rpa-api
+  template:
+    metadata:
+      labels:
+        app: {{ include "geoserver.fullname" . }}-rpa-api
+    spec:
+      containers:
+        - name: {{ include "geoserver.fullname" . }}-rpa-api
+          image: {{ .Values.dataIngestionRPA.rpaAPIData }}
+          imagePullPolicy: {{ .Values.dataIngestionRPA.pullPolicy }}
+          ports:
+            - containerPort: 8000
+              name: http-rpa-api
+          volumeMounts:
+            {{- if .Values.persistence.geoserverDataDir.enabled }}
+            - name: geoserver-data-dir
+              mountPath: {{ .Values.persistence.geoserverDataDir.mountPath }}
+              subPath: {{ .Values.persistence.geoserverDataDir.subPath }}
+            {{- end }}
+{{- if and .Values.persistence.geoserverDataDir.enabled .Values.persistence.geoserverDataDir.existingClaim }}
+        - name: geoserver-data-dir
+          persistentVolumeClaim:
+{{- with .Values.persistence.geoserverDataDir.existingClaim }}
+            claimName: {{ tpl . $ }}
+{{- end }}
+{{- else if .Values.persistence.geoserverDataDir.enabled }}
+        - name: geoserver-data-dir
+          persistentVolumeClaim:
+            claimName: {{ template "geoserver.fullname" . }}-geoserver-data-dir
+{{- else if not .Values.persistence.geoserverDataDir.enabled }}
+        - name: geoserver-data-dir
+          emptyDir: {}
+{{- end }}
