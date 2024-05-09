@@ -11,6 +11,7 @@ The geoserver is composed of:
 - Ingress pointing to the geoserver service
 - Geoserver service pointing to geoserver pod
 - Geoserver pod with data directory PVC mounted
+- Updated Status API to show when the RPA was updated for the last time
 ### Job for DW
 The Job creates the workspace, datastore, styles and loads the shapefiles for them
 ### Cronjob for RPA
