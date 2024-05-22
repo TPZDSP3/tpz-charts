@@ -10,6 +10,7 @@ spec:
   #     app: {{ include "defra-efde.fullname" . }}-data-prep
   schedule: {{ .Values.dataprep.cronjobExpression }}
   concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 120
