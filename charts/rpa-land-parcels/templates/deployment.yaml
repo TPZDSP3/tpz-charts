@@ -62,7 +62,7 @@ spec:
             - name: HEDGES_LAYER
               value: {{ .Values.hedgesLayer | quote }}
             - name: APP_VERSION
-              value: {{ .Chart.AppVersion }}
+              value: {{ .Values.image.tag | default .Chart.AppVersion }}
             - name: MONGO_USER
               valueFrom:
                 secretKeyRef:
