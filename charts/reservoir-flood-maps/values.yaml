@@ -7,8 +7,8 @@ staticApp:
   target: /tags/reservoir-flood-maps/{{ .Values.app.version | default .Chart.AppVersion }}
 
 metadata:
-  vhost: app.agrimetrics.co.uk
-  target: /backend/dsp/download?fileDataSetId=6acd670a-d98b-4ade-a10f-e869c4554bda&fileId=metadata.json
+  vhost: dsp3data.blob.core.windows.net
+  target: /reservoir-flood-maps/metadata.json
 
 ingress:
   enabled: true
