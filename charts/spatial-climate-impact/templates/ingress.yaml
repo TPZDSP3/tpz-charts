@@ -34,7 +34,7 @@ spec:
   - host: {{ .host | quote }}
     http:
       paths:
-        - path: /cs-now
+        - path: /over-heating
           pathType: Prefix
           backend:
             service:

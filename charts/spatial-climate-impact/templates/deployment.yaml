@@ -38,7 +38,7 @@ spec:
               containerPort: 3000
           livenessProbe:
             httpGet:
-              path: /cs-now
+              path: /over-heating
               port: http-sgt
               scheme: HTTP
             failureThreshold: 3
@@ -46,7 +46,7 @@ spec:
             periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /cs-now
+              path: /over-heating
               port: http-sgt
               scheme: HTTP
             failureThreshold: 3
