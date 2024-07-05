@@ -16,6 +16,9 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: htpasswd
+    nginx.ingress.kubernetes.io/auth-realm: "Enter your credentials"    
     nginx.ingress.kubernetes.io/rewrite-target: {{ tpl .Values.staticApp.target . }}/$2
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^({{ .Values.ingress.pathPrefix }})$ $1/ redirect;

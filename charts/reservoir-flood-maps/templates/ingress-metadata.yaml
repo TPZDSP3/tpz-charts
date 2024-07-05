@@ -16,6 +16,9 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: htpasswd
+    nginx.ingress.kubernetes.io/auth-realm: "Enter your credentials"    
     nginx.ingress.kubernetes.io/rewrite-target: {{ tpl .Values.metadata.target . }}
     nginx.ingress.kubernetes.io/configuration-snippet: |
       gzip              on;
