@@ -75,6 +75,8 @@ processor:
   createDocuments: false
   executeStart: false
   skip: false
+  input:
+    storageClassName: tpzuk-blob-smp
   data:
     storageClassName: dev-tpzuk-disk-retain
     subpath: defra-smp

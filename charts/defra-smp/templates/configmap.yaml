@@ -38,5 +38,132 @@ data:
                     alias /opt/defra-smp/assets/documents ;
             }
     }
+  input-config.edn: |
+    {:environment   #env ["ENVIRONMENT" "dev"]
+    :agrimetrics-api-key  #env ["AGRIMETRICS_API_KEY"]
+    :meta-base-url "https://api.agrimetrics.co.uk/catalog/data-sets"
+    :s3-base-url   "tile-loader"
+    :base-path     #env ["BASE_PATH" "/var/opt/tile-loader"]
+    :download-url  "https://environment.data.gov.uk/api/file/download"
+    :wfs-url       "https://environment.data.gov.uk/spatialdata"
+    :inputs        [
+                    {:type :wfs-shapefile
+                      :id   "4c660eee-887e-4c8b-91e5-d84b4c1078ac"
+                      :tag  "spa"
+                      :name "Special_Protection_Areas_England"}
+                    {:type :wfs-shapefile
+                      :id   "6ecea2a1-5d2e-4f53-ba1f-690f4046ed1c"
+                      :name "Special_Areas_of_Conservation_England"
+                      :tag  "sac"}
+                    {:type :wfs-shapefile
+                      :id   "c626e031-e561-4861-8219-b04cd1002806"
+                      :name "Ramsar_England"
+                      :tag  "ramsar"}
+                    {:type :wfs-shapefile
+                      :id   "ff213e4c-423a-4d7e-9e6f-b220600a8db3"
+                      :name "National_Nature_Reserves_England"
+                      :tag  "nnr"}
+                    {:type :wfs-shapefile
+                      :id   "9364d6af-927e-4349-b4c3-dbaf7acb842d"
+                      :name "Local_Nature_Reserves_England"
+                      :tag  "lnr"}
+                    {:type :wfs-shapefile
+                      :id   "ba8dc201-66ef-4983-9d46-7378af21027e"
+                      :name "Sites_of_Special_Scientific_Interest_England"
+                      :tag  "sssi"} 
+                    {:type :external
+                      :id   "monument"
+                      :name "National_Heritage_List_for_England_NHLE_-7361388647773861022"
+                      :tag  "monument"
+                      :updated-manually #time/date "2023-10-25"
+                      :url  "incoming-shapefiles/National_Heritage_List_for_England_NHLE_-7361388647773861022.zip"}
+                    {:type :wfs-shapefile
+                      :id   "c0061c93-d444-481c-a14e-653b8a8e2b1a"
+                      :name "Marine_Conservation_Zones_England"
+                      :tag  "marine"}
+                    {:type :wfs-shapefile
+                      :id   "0c1ea47f-3c79-47f0-b0ed-094e0a136971"
+                      :name "Areas_of_Outstanding_Natural_Beauty_England"
+                      :tag  "aonb"}
+                    {:type :external
+                      :id   "ncerm-nfi-0-2055"
+                      :name "nfi_0_2055"
+                      :tag  "ncerm-nfi-0-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_0_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-nfi-0-2105"
+                      :name "nfi_0_2105"
+                      :tag  "ncerm-nfi-0-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_0_2105.zip"}
+                    {:type :external
+                      :id   "ncerm-nfi-70-2055"
+                      :name "nfi_70_2055"
+                      :tag  "ncerm-nfi-70-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_70_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-nfi-70-2105"
+                      :name "nfi_70_2105"
+                      :tag  "ncerm-nfi-70-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_70_2105.zip"}
+                    {:type :external
+                      :id   "ncerm-nfi-95-2055"
+                      :name "nfi_95_2055"
+                      :tag  "ncerm-nfi-95-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_95_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-nfi-95-2105"
+                      :name "nfi_95_2105"
+                      :tag  "ncerm-nfi-95-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/nfi_95_2105.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-0-2055"
+                      :name "smp_0_2055"
+                      :tag  "ncerm-smp-0-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_0_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-0-2105"
+                      :name "smp_0_2105"
+                      :tag  "ncerm-smp-0-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_0_2105.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-70-2055"
+                      :name "smp_70_2055"
+                      :tag  "ncerm-smp-70-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_70_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-70-2105"
+                      :name "smp_70_2105"
+                      :tag  "ncerm-smp-70-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_70_2105.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-95-2055"
+                      :name "smp_95_2055"
+                      :tag  "ncerm-smp-95-2055"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_95_2055.zip"}
+                    {:type :external
+                      :id   "ncerm-smp-95-2105"
+                      :name "smp_95_2105"
+                      :tag  "ncerm-smp-95-2105"
+                      :updated-manually #time/date "2024-02-12"
+                      :url  "incoming-shapefiles/ncerm/smp_95_2105.zip"}
+                    {:type :external
+                      :id   "complex-cliffs"
+                      :name "ComplexCliff_RiskZone"
+                      :tag  "complex-cliffs"
+                      :updated-manually #time/date "2024-02-14"
+                      :url  "incoming-shapefiles/ncerm/ComplexCliff_RiskZone.zip"} 
+                      ]}
+
     
 

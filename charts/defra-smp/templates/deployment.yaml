@@ -170,11 +170,19 @@ spec:
               subPath: {{ .Values.processor.data.subpath }}/zxy
             - mountPath: /opt/defra-smp/assets/documents
               name: tiles
-              subPath: {{ .Values.processor.data.subpath }}/documents              
+              subPath: {{ .Values.processor.data.subpath }}/documents
+            - mountPath: /opt/input
+              name: input
+            - name: input-config
+              mountPath: /opt/tile-loader/
+              readOnly: true                                        
       volumes:
         - name: tiles
           persistentVolumeClaim:
             claimName: {{ include "defra-smp.fullname" . }}-tiles
+        - name: input
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-input            
         - name: nginx-config
           configMap:
             name: {{ template "defra-smp.fullname" . }}
@@ -182,6 +190,13 @@ spec:
             items:
               - key: reverse-proxy.conf
                 path: reverse-proxy.conf
+        - name: input-config
+          configMap:
+            name: {{ template "defra-smp.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: input-config.edn
+                path: input-config.edn                
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
