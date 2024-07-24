@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "future-water.fullname" . }}
+  labels:
+    {{- include "future-water.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "future-water.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "future-water.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "future-water.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-ui
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-fw
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /future-water
+              port: http-fw
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /future-water
+              port: http-fw
+              scheme: HTTP
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 10
+          env:
+            - name: DATA_FOLDER
+              value: {{ .Values.app.dataFolder }}
+            - name: MAPSERVER
+              value: {{ .Values.app.mapserverUrl }}
+            - name: GOOGLE_TAG
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "future-water.secretName" . }}
+                  key: googleAnalyticsId
+            - name: MAPBOX_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "future-water.secretName" . }}
+                  key: mapboxToken
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

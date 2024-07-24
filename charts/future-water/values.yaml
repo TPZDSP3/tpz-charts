@@ -1,0 +1,77 @@
+# Default values for future-water.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: dsp3tpz.azurecr.io/future-water
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # Leave blank by default so as to fall back to .Chart.appVersion.
+  tag: ""
+
+imagePullSecrets: []
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+data:
+  size: 10Gi
+  storageClassname: tpzuk-blob-ttl
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+  - host: dsp-test.agrimetrics.co.uk
+  - host: environment-test.data.gov.uk
+  tls:
+    # enabled: ""
+    secretName: future-water-tls
+
+service:
+  type: ClusterIP
+  port: 80
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+app:
+  dataFolder: /var/future-water/data/cs-n0w
+  mapserverUrl: https://eip.ceh.ac.uk
+
+# Use this if you have predefined secrets
+existingSecret: |
+
+googleAnalyticsId:
+mapboxToken:
+
+extraSecret: |
