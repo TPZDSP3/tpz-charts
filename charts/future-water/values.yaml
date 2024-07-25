@@ -32,7 +32,7 @@ affinity: {}
 
 data:
   size: 10Gi
-  storageClassname: tpzuk-blob-ttl
+  storageClassname: tpzuk-blob-future-water
 
 autoscaling:
   enabled: false
