@@ -66,6 +66,7 @@ serviceAccount:
 
 app:
   dataFolder: /var/future-water/data/cs-n0w
+  dataMount: /var/future-water/data
   mapserverUrl: https://eip.ceh.ac.uk
 
 # Use this if you have predefined secrets

@@ -71,7 +71,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: data-volume
-              mountPath: {{ .Values.app.dataFolder }}
+              mountPath: {{ .Values.app.dataMount }}
       volumes:
         - name: data-volume
           persistentVolumeClaim:
