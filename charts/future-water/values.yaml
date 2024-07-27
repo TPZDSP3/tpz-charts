@@ -45,18 +45,11 @@ ingress:
   className: ""
   annotations: {}
   hosts:
-  - host: dev-tpz-apps.tpzdsp3.com
+  - host: dsp-test.agrimetrics.co.uk
+  - host: environment-test.data.gov.uk
   tls:
-    enabled: true
+    # enabled: ""
     secretName: future-water-tls
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    ingress.kubernetes.io/proxy-body-size: '0'
-    ingress.kubernetes.io/ssl-redirect: 'true'
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
-    nginx.ingress.kubernetes.io/proxy-body-size: '0'
-    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 
 service:
   type: ClusterIP

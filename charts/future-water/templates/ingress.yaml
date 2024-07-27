@@ -18,22 +18,17 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "future-water.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- if .Values.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    {{- end }}
+    ingress.kubernetes.io/proxy-body-size: '0'
+    ingress.kubernetes.io/ssl-redirect: 'true'
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: '0'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
 spec:
-  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.className }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    - hosts:
-        {{- range .Values.ingress.hosts }}
-        - {{ .host }}
-        {{- end }}
-      secretName: {{ .Values.ingress.tls.secretName }}
-  {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
   - host: {{ .host | quote }}
@@ -43,8 +38,16 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: {{ $fullName }}-nginx
+              name: {{ include "future-water.fullname" $ }}
               port:
-                number: {{ $svcPort }}
+                number: 80
+  {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        {{- range .Values.ingress.hosts }}
+        - {{ .host }}
+        {{- end }}
+      secretName: {{ .Values.ingress.tls.secretName }}
   {{- end }}
 {{- end }}
