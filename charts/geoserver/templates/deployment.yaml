@@ -122,6 +122,9 @@ spec:
             periodSeconds: 10
           {{- end }}
           volumeMounts:
+            - name: logs
+              mountPath: /usr/local/tomcat/logs
+              subPath: dev-dsp-tpz/geoserver        
             {{- if .Values.persistence.geoserverDataDir.enabled }}
             - name: geoserver-data-dir
               mountPath: {{ .Values.persistence.geoserverDataDir.mountPath }}
@@ -139,6 +142,9 @@ spec:
       {{- tpl . $ | nindent 6 }}
       {{- end }}
       volumes:
+        - name: logs
+          persistentVolumeClaim:
+            claimName: dev-logs-pvc         
         {{- with .Values.extraVolume }}
         {{- (tpl . $) | nindent 8 }}
         {{- end }}
