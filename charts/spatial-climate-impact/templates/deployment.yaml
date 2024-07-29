@@ -8,6 +8,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       {{- include "spatial-climate-impact.selectorLabels" . | nindent 6 }}
