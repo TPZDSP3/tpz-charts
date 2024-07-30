@@ -72,7 +72,4 @@ app:
 # Use this if you have predefined secrets
 existingSecret: |
 
-googleAnalyticsId:
-mapboxToken:
-
 extraSecret: |
