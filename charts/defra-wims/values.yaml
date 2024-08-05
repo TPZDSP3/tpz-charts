@@ -75,6 +75,7 @@ api:
       nginx.ingress.kubernetes.io/auth-type: basic
       nginx.ingress.kubernetes.io/auth-secret: htpasswd
       nginx.ingress.kubernetes.io/auth-realm: "Enter your credentials"
+      nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
       nginx.ingress.kubernetes.io/proxy-body-size: '0'
       nginx.ingress.kubernetes.io/ssl-redirect: 'true'
     enabled: true
