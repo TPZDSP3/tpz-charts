@@ -39,7 +39,7 @@ data:
             }
     }
   input-config.edn: |
-  { :environment   #env ["ENVIRONMENT" "dev"]
+    {:environment   #env ["ENVIRONMENT" "dev"]
     :agrimetrics-api-key  #env ["AGRIMETRICS_API_KEY"]
     :meta-base-url "https://api.agrimetrics.co.uk/catalog/data-sets"
     :s3-base-url   "tile-loader"
