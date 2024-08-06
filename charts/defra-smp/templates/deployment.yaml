@@ -143,22 +143,7 @@ spec:
           - name: ENVIRONMENT
             value: {{ .Values.processor.environment }}
           - name: DB_URL
-            value: {{ include "defra-smp.fullname" . }}-db                        
-          - name: CONTAINER_NAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "defra-smp.secretName" . }}
-                key: CONTAINER_NAME   
-          - name: ACCOUNT_NAME
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "defra-smp.secretName" . }}
-                key: ACCOUNT_NAME
-          - name: SAS_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "defra-smp.secretName" . }}
-                key: SAS_TOKEN
+            value: {{ include "defra-smp.fullname" . }}-db 
           - name: AGRIMETRICS_API_KEY
             valueFrom:
               secretKeyRef:
@@ -171,7 +156,9 @@ spec:
             - mountPath: /opt/defra-smp/assets/documents
               name: tiles
               subPath: {{ .Values.processor.data.subpath }}/documents
-            - mountPath: /opt/input
+            - mountPath: /opt/defra-smp/data/archive
+              name: output
+            - mountPath: /opt/defra-smp/data/input
               name: input
             - name: input-config
               mountPath: /opt/tile-loader/
@@ -180,6 +167,9 @@ spec:
         - name: tiles
           persistentVolumeClaim:
             claimName: {{ include "defra-smp.fullname" . }}-tiles
+        - name: output
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-output
         - name: input
           persistentVolumeClaim:
             claimName: {{ include "defra-smp.fullname" . }}-input            

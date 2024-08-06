@@ -35,4 +35,18 @@ spec:
     requests:
       storage: 200Gi
   storageClassName: {{ .Values.processor.input.storageClassName }}
+  volumeMode: Filesystem 
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-smp.fullname" . }}-output
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: {{ .Values.processor.output.storageClassName }}
   volumeMode: Filesystem  

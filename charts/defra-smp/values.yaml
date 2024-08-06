@@ -64,7 +64,7 @@ web:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-  enableNCERM: true
+  enableNCERM: false
   resources: {}
   tolerations: []
   affinity: {}
@@ -77,6 +77,8 @@ processor:
   skip: false
   input:
     storageClassName: tpzuk-blob-smp
+  output:
+    storageClassName: dev-tpzuk-disk-retain
   data:
     storageClassName: dev-tpzuk-disk-retain
     subpath: defra-smp
