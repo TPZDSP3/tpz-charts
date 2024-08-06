@@ -39,15 +39,15 @@ data:
             }
     }
   input-config.edn: |
-    {:environment   #env ["ENVIRONMENT" "dev"]
- :agrimetrics-api-key  #env ["AGRIMETRICS_API_KEY"]
- :meta-base-url "https://api.agrimetrics.co.uk/catalog/data-sets"
- :s3-base-url   "tile-loader"
- :base-path     #env ["BASE_PATH" "/var/opt/tile-loader"]
- :external-data-path #env ["EXTERNAL_PATH" "/opt/defra-smp/data"]
- :download-url  "https://environment.data.gov.uk/api/file/download"
- :wfs-url       "https://environment.data.gov.uk/spatialdata"
- :inputs        [
+  { :environment   #env ["ENVIRONMENT" "dev"]
+    :agrimetrics-api-key  #env ["AGRIMETRICS_API_KEY"]
+    :meta-base-url "https://api.agrimetrics.co.uk/catalog/data-sets"
+    :s3-base-url   "tile-loader"
+    :base-path     #env ["BASE_PATH" "/var/opt/tile-loader"]
+    :external-data-path #env ["EXTERNAL_PATH" "/opt/defra-smp/data"]
+    :download-url  "https://environment.data.gov.uk/api/file/download"
+    :wfs-url       "https://environment.data.gov.uk/spatialdata"
+    :inputs        [
                 {:type :wfs-shapefile
                   :id   "4c660eee-887e-4c8b-91e5-d84b4c1078ac"
                   :tag  "spa"
