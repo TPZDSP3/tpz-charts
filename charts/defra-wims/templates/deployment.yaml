@@ -17,9 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}
-        instance: {{ include "defra-wims.fullname" . }}-db
-        role: database
+        app: {{ include "defra-wims.fullname" . }}-db
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-db
