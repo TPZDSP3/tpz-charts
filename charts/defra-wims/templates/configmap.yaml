@@ -95,8 +95,8 @@ data:
     # API configuration
     api                  = com.epimorphics.simpleAPI.core.API
     api.source           = $dsource
-    api.baseURI          = https://environment.data.gov.uk/water-quality/
-    api.documentation    = https://environment.data.gov.uk/water-quality/TBD
+    api.baseURI          = http://environment.data.gov.uk/water-quality/
+    api.documentation    = http://environment.data.gov.uk/water-quality/TBD
     api.publisher        = Environment Agency
     api.licence          = https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
     api.contextURL       = https://environment.data.gov.uk/water-quality/doc/context-TBD.jsonld
