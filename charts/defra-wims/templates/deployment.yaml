@@ -3,7 +3,9 @@ kind: Deployment
 metadata:
   name: {{ include "defra-wims.fullname" . }}-db
   labels:
-    app: {{ include "defra-wims.fullname" . }}-db
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-db
+    role: database
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -15,7 +17,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-db
+        app: {{ include "defra-wims.fullname" . }}
+        instance: {{ include "defra-wims.fullname" . }}-db
+        role: database
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-db
@@ -65,7 +69,9 @@ kind: Deployment
 metadata:
   name: {{ include "defra-wims.fullname" . }}-api
   labels:
-    app: {{ include "defra-wims.fullname" . }}-api
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-api
+    role: api
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -77,7 +83,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-api
+        app: {{ include "defra-wims.fullname" . }}
+        instance: {{ include "defra-wims.fullname" . }}-api
+        role: api
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-api
@@ -144,7 +152,9 @@ kind: Deployment
 metadata:
   name: {{ include "defra-wims.fullname" . }}-ui
   labels:
-    app: {{ include "defra-wims.fullname" . }}-ui
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-ui
+    role: ui
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -156,7 +166,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-ui
+        app: {{ include "defra-wims.fullname" . }}
+        instance: {{ include "defra-wims.fullname" . }}-ui
+        role: ui
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-ui
@@ -195,6 +207,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "defra-wims.fullname" . }}-varnish
+  labels:
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-varnish
+    role: cache  
 spec:
   replicas: 1
   selector:
@@ -206,7 +222,9 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}-varnish
+        app: {{ include "defra-wims.fullname" . }}
+        instance: {{ include "defra-wims.fullname" . }}-varnish
+        role: cache  
     spec:
       containers:
         - image: "varnish:7.4.2"

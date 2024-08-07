@@ -7,6 +7,8 @@ metadata:
     chart: {{ template "defra-wims.chart" . }}
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
+    instance: {{ include "defra-wims.fullname" . }}-api, {{ include "defra-wims.fullname" . }}-varnish, {{ include "defra-wims.fullname" . }}-processor
+    role: api, cache, processor      
   {{- with .Values.labels }}
   {{- toYaml . | nindent 4 }}
   {{- end }}

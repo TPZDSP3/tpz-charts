@@ -18,6 +18,9 @@ metadata:
   name: {{ $fullName }}-api
   labels:
     {{- include "defra-wims.labels" . | nindent 4 }}
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-api
+    role: api    
   {{- with .Values.api.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -63,6 +66,9 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-ui
   labels:
     {{- include "defra-wims.labels" . | nindent 4 }}
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-ui
+    role: ui    
   annotations:
     {{- if .Values.ui.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: letsencrypt-prod

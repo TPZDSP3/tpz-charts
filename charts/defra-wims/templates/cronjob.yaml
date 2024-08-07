@@ -3,7 +3,9 @@ kind: CronJob
 metadata:
   name: {{ include "defra-wims.fullname" . }}-processor
   labels:
-    app: {{ include "defra-wims.fullname" . }}-processor
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-processor
+    role: processor  
 spec:
   schedule: {{ .Values.processor.cronjobExpression }}
   concurrencyPolicy: Forbid

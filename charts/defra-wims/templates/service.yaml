@@ -3,7 +3,9 @@ kind: Service
 metadata:
   name: {{ include "defra-wims.fullname" . }}-api
   labels:
-    app: {{ include "defra-wims.fullname" . }}-api
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-api
+    role: api     
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -19,7 +21,9 @@ kind: Service
 metadata:
   name: {{ include "defra-wims.fullname" . }}-db
   labels:
-    app: {{ include "defra-wims.fullname" . }}-db
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-db
+    role: database   
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -35,7 +39,9 @@ kind: Service
 metadata:
   name: {{ include "defra-wims.fullname" . }}-ui
   labels:
-    app: {{ include "defra-wims.fullname" . }}-ui
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-ui
+    role: ui   
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -51,7 +57,9 @@ kind: Service
 metadata:
   name: {{ include "defra-wims.fullname" . }}-varnish
   labels:
-    {{- include "defra-wims.labels" . | nindent 4 }}
+    app: {{ include "defra-wims.fullname" . }}
+    instance: {{ include "defra-wims.fullname" . }}-varnish
+    role: cache   
 spec:
   type: {{ .Values.service.type }}
   ports:
