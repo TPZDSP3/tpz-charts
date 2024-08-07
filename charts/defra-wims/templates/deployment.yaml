@@ -31,6 +31,8 @@ spec:
               mountPath: /fuseki/logs
             - name: fuseki-databases
               mountPath: /fuseki/databases
+            - name: processor-work
+              mountPath: /var/lib/wims-staging
       volumes:
         - name: fuseki-logs
           persistentVolumeClaim:
@@ -38,6 +40,9 @@ spec:
         - name: fuseki-databases
           persistentVolumeClaim:
             claimName: {{ include "defra-wims.fullname" . }}-databases
+        - name: processor-work
+          persistentVolumeClaim:
+            claimName: {{ include "defra-wims.fullname" . }}-work
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
