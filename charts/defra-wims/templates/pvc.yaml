@@ -21,7 +21,7 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-databases
   labels:
     app: {{ include "defra-wims.fullname" . }}
-    instance: {{ include "defra-wims.fullname" . }}-db, {{ include "defra-wims.fullname" . }}-processor
+    instance: {{ include "defra-wims.fullname" . }}-db.{{ include "defra-wims.fullname" . }}-processor
     role: database, processor
 spec:
   accessModes:
@@ -38,7 +38,7 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-cache
   labels:
     app: {{ include "defra-wims.fullname" . }}
-    instance: {{ include "defra-wims.fullname" . }}-api, {{ include "defra-wims.fullname" . }}-processor
+    instance: {{ include "defra-wims.fullname" . }}-api.{{ include "defra-wims.fullname" . }}-processor
     role: api, processor
 spec:
   accessModes:
@@ -55,7 +55,7 @@ metadata:
   name: {{ include "defra-wims.fullname" . }}-work
   labels:
     app: {{ include "defra-wims.fullname" . }}
-    instance: {{ include "defra-wims.fullname" . }}-api, {{ include "defra-wims.fullname" . }}-db, {{ include "defra-wims.fullname" . }}-processor
+    instance: {{ include "defra-wims.fullname" . }}-api.{{ include "defra-wims.fullname" . }}-db.{{ include "defra-wims.fullname" . }}-processor
     role: api, database, processor  
 spec:
   accessModes:
