@@ -83,9 +83,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}
-        instance: {{ include "defra-wims.fullname" . }}-api
-        role: api
+        app: {{ include "defra-wims.fullname" . }}-api
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-api
@@ -166,9 +164,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}
-        instance: {{ include "defra-wims.fullname" . }}-ui
-        role: ui
+        app: {{ include "defra-wims.fullname" . }}-ui
     spec:
       containers:
         - name: {{ include "defra-wims.fullname" . }}-ui
@@ -222,9 +218,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "defra-wims.fullname" . }}
-        instance: {{ include "defra-wims.fullname" . }}-varnish
-        role: cache  
+        app: {{ include "defra-wims.fullname" . }}-varnish
     spec:
       containers:
         - image: "varnish:7.4.2"
