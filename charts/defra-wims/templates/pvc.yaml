@@ -22,7 +22,7 @@ metadata:
   labels:
     app: {{ include "defra-wims.fullname" . }}
     instance: {{ include "defra-wims.fullname" . }}-db.{{ include "defra-wims.fullname" . }}-processor
-    role: database, processor
+    role: database.processor
 spec:
   accessModes:
     - ReadWriteMany
@@ -39,7 +39,7 @@ metadata:
   labels:
     app: {{ include "defra-wims.fullname" . }}
     instance: {{ include "defra-wims.fullname" . }}-api.{{ include "defra-wims.fullname" . }}-processor
-    role: api, processor
+    role: api.processor
 spec:
   accessModes:
     - ReadWriteMany
@@ -56,7 +56,7 @@ metadata:
   labels:
     app: {{ include "defra-wims.fullname" . }}
     instance: {{ include "defra-wims.fullname" . }}-api.{{ include "defra-wims.fullname" . }}-db.{{ include "defra-wims.fullname" . }}-processor
-    role: api, database, processor  
+    role: api.database.processor  
 spec:
   accessModes:
     - ReadWriteMany
