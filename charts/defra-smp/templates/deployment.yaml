@@ -160,8 +160,8 @@ spec:
               name: output
             - mountPath: /opt/defra-smp/data/input
               name: input
-            - name: input-config
-              mountPath: /opt/tile-loader/
+            - mountPath: /opt/tile-loader/
+              name: input-config
               readOnly: true                                        
       volumes:
         - name: tiles
@@ -180,13 +180,13 @@ spec:
             items:
               - key: reverse-proxy.conf
                 path: reverse-proxy.conf
-        # - name: input-config
-        #   configMap:
-        #     name: {{ template "defra-smp.fullname" . }}
-        #     defaultMode: 0644
-        #     items:
-        #       - key: input-config.edn
-        #        path: input-config.edn                
+        - name: input-config
+          configMap:
+            name: {{ template "defra-smp.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: input-config.edn
+                path: input-config.edn                
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
