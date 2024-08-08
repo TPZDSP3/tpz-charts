@@ -159,6 +159,12 @@ data:
                   :updated-manually #time/date "2024-02-12"
                   :url  "incoming-shapefiles/ncerm/SMP_2105_95CC_Merged.zip"}
                  {:type :external
+                  :id   "ncerm-flood-frontage"
+                  :name "flood_frontage"
+                  :tag  "ncerm-flood-frontage"
+                  :updated-manually #time/date "2024-02-12"
+                  :url  "incoming-shapefiles/ncerm/Flood_Frontages_10m.zip"}
+                 {:type :external
                   :id   "complex-cliff-recession"
                   :name "complex-cliff-recession"
                   :tag  "complex-cliff-recession"
