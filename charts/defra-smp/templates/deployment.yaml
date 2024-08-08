@@ -119,7 +119,8 @@ spec:
               name: http-smp-nginx
           volumeMounts:
             - name: nginx-config
-              mountPath: /etc/nginx/conf.d/
+              mountPath: /etc/nginx/conf.d/reverse-proxy.conf
+              subPath: reverse-proxy.conf                                  
               readOnly: true          
             - mountPath: /opt/defra-smp/assets
               name: tiles
@@ -160,9 +161,10 @@ spec:
               name: output
             - mountPath: /opt/defra-smp/data/input
               name: input
-            # - mountPath: /opt/tile-loader/
-            #   name: input-config
-            #   readOnly: true                                        
+            - mountPath: /opt/tile-loader/input-config.edn
+              name: input-config
+              readOnly: true
+              subPath: input-config.edn                                   
       volumes:
         - name: tiles
           persistentVolumeClaim:
@@ -173,20 +175,10 @@ spec:
         - name: input
           persistentVolumeClaim:
             claimName: {{ include "defra-smp.fullname" . }}-input            
-        - name: nginx-config
+        - name: config
           configMap:
             name: {{ template "defra-smp.fullname" . }}
-            defaultMode: 0644
-            items:
-              - key: reverse-proxy.conf
-                path: reverse-proxy.conf
-        # - name: input-config
-        # configMap:
-        #   name: {{ template "defra-smp.fullname" . }}
-        #     defaultMode: 0644
-        #     items:
-        #       - key: input-config.edn
-        #         path: input-config.edn                
+            defaultMode: 0644             
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
