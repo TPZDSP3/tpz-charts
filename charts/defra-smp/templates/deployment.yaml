@@ -118,7 +118,7 @@ spec:
             - containerPort: 80
               name: http-smp-nginx
           volumeMounts:
-            - name: nginx-config
+            - name: config
               mountPath: /etc/nginx/conf.d/reverse-proxy.conf
               subPath: reverse-proxy.conf                                  
               readOnly: true          
@@ -162,7 +162,7 @@ spec:
             - mountPath: /opt/defra-smp/data/input
               name: input
             - mountPath: /opt/tile-loader/input-config.edn
-              name: input-config
+              name: config
               readOnly: true
               subPath: input-config.edn                                   
       volumes:
