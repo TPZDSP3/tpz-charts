@@ -91,7 +91,7 @@ data:
                   :name "nfi_0_2055"
                   :tag  "ncerm-nfi-0-2055"
                   :updated-manually #time/date "2024-02-12"
-                  :url  "incoming-shapefiles/ncerm/SMP_2055_0CC_Merged.zip"}
+                  :url  "incoming-shapefiles/ncerm/NFI_2055_0CC_Merged.zip"}
                  {:type :external
                   :id   "ncerm-nfi-0-2105"
                   :name "nfi_0_2105"
