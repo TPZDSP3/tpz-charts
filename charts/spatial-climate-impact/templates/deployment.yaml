@@ -56,6 +56,11 @@ spec:
           env:
             - name: PUBLIC_CDN_BASE_URL
               value: {{ .Values.app.cdnUrl }}
+            - name: PUBLIC_GOOGLE_ANALYTICS_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "spatial-climate-impact.secretName" . }}
+                  key: googleAnalyticsId
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

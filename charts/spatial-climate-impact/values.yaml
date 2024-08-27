@@ -84,5 +84,7 @@ affinity: {}
 # Use this if you have predefined secrets
 existingSecret: |
 
+googleAnalyticsId:
+
 app:
   cdnUrl:
