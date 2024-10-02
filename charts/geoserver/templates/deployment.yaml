@@ -62,7 +62,7 @@ spec:
           {{- end }}
           env:
             - name: COMMUNITY_EXTENSIONS
-              value: gsr-plugin,geopkg-plugin,ogcapi-plugin
+              value: gsr-plugin,geopkg-plugin,ogcapi-features-plugin,ogcapi-tiles-plugin,ogcapi-maps-plugin,ogcapi-coverages-plugin,ogcapi-styles-plugin
             - name: STABLE_EXTENSIONS
               value: ogr-wfs-plugin
             {{- if .Values.enableJSONP }}
