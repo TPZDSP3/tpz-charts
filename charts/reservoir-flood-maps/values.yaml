@@ -7,7 +7,7 @@ staticApp:
   target: /tags/reservoir-flood-maps/{{ .Values.app.version | default .Chart.AppVersion }}
 
 metadata:
-  vhost: dsp3data.blob.core.windows.net
+  vhost: stdspresfloodmapsdspdev.blob.core.windows.net
   target: /reservoir-flood-maps/metadata.json
 
 ingress:
