@@ -77,6 +77,14 @@ spec:
               name: http-smp-web
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /opt/defra-smp/ui-external
+              name: input
+              subpath: ui-external            
+      volumes:
+        - name: input
+          persistentVolumeClaim:
+            claimName: {{ include "defra-smp.fullname" . }}-input                
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -161,6 +169,7 @@ spec:
               name: output
             - mountPath: /opt/defra-smp/data/input
               name: input
+              subpath: processor
             - mountPath: /opt/tile-loader/input-config.edn
               name: config
               readOnly: true
