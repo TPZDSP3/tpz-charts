@@ -49,6 +49,14 @@ data:
     :wfs-url       "https://environment.data.gov.uk/spatialdata"
     :inputs        [
                 {:type :wfs-shapefile
+                  :id   "b54f9a71-8ef7-4ffb-a85f-7d4e65fbd294"
+                  :tag  "pspa"
+                  :name "Potential_Special_Protection_Areas_England"} 
+                {:type :wfs-shapefile
+                  :id   "2782e238-50fa-4938-9ccf-a32268315e29"
+                  :tag  "psac"
+                  :name "Possible_Special_Areas_of_Conservation_England"}
+                {:type :wfs-shapefile
                   :id   "4c660eee-887e-4c8b-91e5-d84b4c1078ac"
                   :tag  "spa"
                   :name "Special_Protection_Areas_England"}
@@ -71,7 +79,7 @@ data:
                  {:type :wfs-shapefile
                   :id   "ba8dc201-66ef-4983-9d46-7378af21027e"
                   :name "Sites_of_Special_Scientific_Interest_England"
-                  :tag  "sssi"}
+                  :tag  "sssi"} 
                 {:type :external
                   :id   "monument"
                   :name "National_Heritage_List_for_England_NHLE_-7361388647773861022"
@@ -164,6 +172,12 @@ data:
                   :tag  "ncerm-flood-frontage"
                   :updated-manually #time/date "2024-02-12"
                   :url  "incoming-shapefiles/ncerm/Flood_Frontages_10m.zip"}
+                 {:type :external
+                  :id   "ncerm-feature-line-erodible"
+                  :name "NCERM2_Feature_Line_Erodible"
+                  :tag  "ncerm-feature-line-erodible"
+                  :updated-manually #time/date "2024-02-12"
+                  :url  "incoming-shapefiles/ncerm/NCERM2_Feature_Line_Erodible.zip"}
                  {:type :external
                   :id   "complex-cliff-recession"
                   :name "complex-cliff-recession"
