@@ -12,7 +12,7 @@ geoserverUser: admin
 
 dataIngestionDW:
   enabled: false
-  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v1.0.1
+  initialData: dsp3tpz.azurecr.io/geoserver-ingest:v1.0.4
   pullPolicy: Always
   pdfsUrlSW: https://url
   pdfsUrlGW: https://url
