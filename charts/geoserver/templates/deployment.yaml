@@ -68,9 +68,9 @@ spec:
             - name: GEOSERVER_CONTEXT_ROOT
               value: data-services
             - name: HTTP_RELAX_CHARS
-              value: true
+              value: "true"
             - name: HTTP_RELAX_QUERY
-              value: true
+              value: "true"              
             {{- if .Values.enableJSONP }}
             - name: ENABLE_JSONP
               value: {{ .Values.enableJSONP | quote }}
