@@ -65,6 +65,12 @@ spec:
               value: gsr-plugin,geopkg-plugin,ogcapi-features-plugin,ogcapi-tiles-plugin,ogcapi-maps-plugin,ogcapi-coverages-plugin,ogcapi-styles-plugin
             - name: STABLE_EXTENSIONS
               value: ogr-wfs-plugin
+            - name: GEOSERVER_CONTEXT_ROOT
+              value: data-services
+            - name: HTTP_RELAX_CHARS
+              value: true
+            - name: HTTP_RELAX_QUERY
+              value: true
             {{- if .Values.enableJSONP }}
             - name: ENABLE_JSONP
               value: {{ .Values.enableJSONP | quote }}

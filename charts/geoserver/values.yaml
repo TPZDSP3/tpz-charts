@@ -1,5 +1,5 @@
 image:
-  registry: dsp3tpz.azurecr.io
+  registry: kartoza
   repository: geoserver
   tag: "v2.26.0"
   pullPolicy: IfNotPresent
