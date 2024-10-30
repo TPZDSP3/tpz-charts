@@ -130,9 +130,9 @@ spec:
               mountPath: /etc/nginx/conf.d/default.conf
               subPath: reverse-proxy.conf                                  
               readOnly: true          
-            - mountPath: /opt/defra-smp/assets
-              name: tiles
-              subPath: {{ .Values.processor.data.subpath }}
+            - mountPath: /opt/defra-smp/assets/documents
+              name: input
+              subPath: documents
         - name: {{ include "defra-smp.fullname" . }}-processor
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
@@ -162,9 +162,6 @@ spec:
             - mountPath: /var/opt/tile-loader/output
               name: tiles
               subPath: {{ .Values.processor.data.subpath }}/zxy
-            - mountPath: /opt/defra-smp/assets/documents
-              name: tiles
-              subPath: {{ .Values.processor.data.subpath }}/documents
             - mountPath: /opt/defra-smp/data/archive
               name: output
             - mountPath: /opt/defra-smp/data/input
