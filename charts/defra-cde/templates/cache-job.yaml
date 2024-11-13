@@ -12,12 +12,13 @@ spec:
         image: "{{ .Values.cache.image.repository }}:{{ .Values.cache.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.cache.image.pullPolicy }}        
         env:
-          - name: GDB_ENDPOINT_COLOUR
-            value: {{ .Values.release }}
+          - name: API_ENDPOINT
+            value: {{ .Values.graphEndpoint }}
         volumeMounts:
           - name: cache
             mountPath: /opt/files
-            subPath: cde/{{ .Values.release }}
+            subPath: cde/test/blue
+            # subPath: cde/test/{{ .Values.release }}
       volumes:
         - name: cache
           persistentVolumeClaim:
