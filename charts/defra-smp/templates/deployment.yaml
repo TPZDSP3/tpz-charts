@@ -133,6 +133,9 @@ spec:
             - mountPath: /opt/defra-smp/assets/documents
               name: input
               subPath: documents
+            - mountPath: /opt/defra-smp/assets/zxy
+              name: tiles
+              subPath: {{ .Values.processor.data.subpath }}/zxy
         - name: {{ include "defra-smp.fullname" . }}-processor
           image: "{{ .Values.processor.image.repository }}:{{ .Values.processor.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.processor.image.pullPolicy }}
