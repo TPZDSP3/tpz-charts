@@ -68,6 +68,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "future-water.secretName" . }}
                   key: mapboxToken
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "future-water.secretName" . }}
+                  key: osMapToken
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
