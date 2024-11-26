@@ -41,7 +41,7 @@ spec:
   - host: {{ .host | quote }}
     http:
       paths:
-        - path: /marine-plans-explorer
+        - path: /explore-marine-plans
           pathType: Prefix
           backend:
             service:
