@@ -421,7 +421,7 @@ spec:
             - name: DB_DB
               value: openregister-info_development
             - name: DB_HOST
-              value: db
+              value: {{ include "defra-dsr.fullname" . }}-frontend-db
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
