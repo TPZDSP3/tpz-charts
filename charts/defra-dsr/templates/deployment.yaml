@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ include "defra-dsr.fullname" . }}
+        app: {{ include "defra-dsr.fullname" . }}-db
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -92,7 +92,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ include "defra-dsr.fullname" . }}
+        app: {{ include "defra-dsr.fullname" . }}-register-backend
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
