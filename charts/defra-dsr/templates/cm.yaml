@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}
+    chart: {{ include "defra-dsr.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+  {{- with .Values.labels }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  config.yaml: |
+    database:
+      driverClass: org.postgresql.Driver
+      url: jdbc:postgresql://{{ include "defra-dsr.fullname" . }}-db:5432/openregister_java
+      user: postgres
+      password:
+
+      #db connection properties
+      initialSize: 1
+      minSize: 1
+      maxSize: 4
+
+      properties:
+        charSet: UTF-8
+
+    server:
+      registerDefaultExceptionMappers: false
+      adminConnectors:
+        - type: http
+          port: 9092
+      requestLog:
+        appenders:
+          - type: access-logstash-console
+
+    registerDomain: dev-tpz-apps.tpzdsp3.com
+
+    register: ${REGISTER}
+
+    schema: ${REGISTER}
+
+    enableDownloadResource: true
+
+    externalConfigDirectory: /tmp
+
+    downloadConfigs: true
+
+    # can be http: file s3: or classpath: url                    
+    fieldsJsonLocation: ${FIELDS_JSON}
+    registersJsonLocation: ${REGISTER_JSON}
+
+
+    credentials:
+      user: foo
+      password: bar
+
+    registers:
+      field:
+        schema: field
+        enableDownloadResource: True
+        enableRegisterDataDelete: True
+
+        credentials:
+          user: foo
+          password: bar
+
+      datatype:
+        schema: datatype
+        enableDownloadResource: True
+        enableRegisterDataDelete: True
+
+        credentials:
+          user: foo
+          password: bar
+
+    # Logging settings.
+    logging:
+      level: INFO
+      # Logger-specific levels.
+      loggers:
+        "uk.gov": DEBUG
+        "org.skife.jdbi.v2": TRACE
+      appenders:
+        - type: logstash-console

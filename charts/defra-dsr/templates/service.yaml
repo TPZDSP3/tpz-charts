@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-db
+  labels:
+    {{- include "defra-dsr.labels" . | nindent 4 }}-db
+spec:
+  type: {{ .Values.db.service.type }}
+  ports:
+    - port: {{ .Values.db.service.port }}
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-register-backend
+  labels:
+    {{- include "defra-dsr.labels" . | nindent 4 }}-register-backend
+spec:
+  type: {{ .Values.backend.service.type }}
+  ports:
+    - port: {{ .Values.backend.service.port }}
+      targetPort: backend
+      protocol: TCP
+      name: backend
+  selector:
+    {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-register-backend
