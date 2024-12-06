@@ -106,7 +106,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config-basic.yaml"]
           ports:
             - name: backend
               containerPort: {{ .Values.backend.service.port }}
@@ -130,8 +130,8 @@ spec:
             name: {{ include "defra-dsr.fullname" . }}
             defaultMode: 0644
             items:
-              - key: config.yaml
-                path: config.yaml
+              - key: config-basic.yaml
+                path: config-basic.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -183,7 +183,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config-basic.yaml"]
           ports:
             - name: backend
               containerPort: {{ .Values.backend.service.port }}
@@ -207,8 +207,8 @@ spec:
             name: {{ include "defra-dsr.fullname" . }}
             defaultMode: 0644
             items:
-              - key: config.yaml
-                path: config.yaml
+              - key: config-basic.yaml
+                path: config-basic.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -260,7 +260,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config-basic.yaml"]
           ports:
             - name: backend
               containerPort: {{ .Values.backend.service.port }}
@@ -284,8 +284,8 @@ spec:
             name: {{ include "defra-dsr.fullname" . }}
             defaultMode: 0644
             items:
-              - key: config.yaml
-                path: config.yaml
+              - key: config-basic.yaml
+                path: config-basic.yaml
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
