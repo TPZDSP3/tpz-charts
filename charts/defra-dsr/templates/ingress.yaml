@@ -161,7 +161,7 @@ spec:
             {{- with .pathType }}
             pathType: {{ . }}
             {{- end }}
-            frontend:
+            backend:
               service:
                 name: {{ include "defra-dsr.fullname" $ }}-frontend
                 port:
