@@ -8,9 +8,8 @@ spec:
   type: {{ .Values.db.service.type }}
   ports:
     - port: {{ .Values.db.service.port }}
-      targetPort: db
+      targetPort: {{ .Values.db.service.port }}
       protocol: TCP
-      name: db
   selector:
     {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-db
 ---
@@ -24,8 +23,7 @@ spec:
   type: {{ .Values.backend.service.type }}
   ports:
     - port: {{ .Values.backend.service.port }}
-      targetPort: backend
+      targetPort: {{ .Values.backend.service.port }}
       protocol: TCP
-      name: backend
   selector:
     {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-register-backend

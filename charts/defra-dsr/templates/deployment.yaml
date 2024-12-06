@@ -37,8 +37,7 @@ spec:
           image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.db.image.pullPolicy }}
           ports:
-            - name: db
-              containerPort: {{ .Values.db.service.port }}
+            - containerPort: {{ .Values.db.service.port }}
               protocol: TCP
           env:
             - name: POSTGRES_DB
@@ -108,8 +107,7 @@ spec:
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
           ports:
-            - name: backend
-              containerPort: {{ .Values.backend.service.port }}
+            - containerPort: {{ .Values.backend.service.port }}
               protocol: TCP
           env:
             - name: REGISTER
