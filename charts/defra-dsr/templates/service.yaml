@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "defra-dsr.fullname" . }}-db
   labels:
-    {{- include "defra-dsr.labels" . | nindent 4 }}-db
+    app: {{ include "defra-dsr.fullname" . }}-db
 spec:
   type: {{ .Values.db.service.type }}
   ports:
@@ -19,7 +19,7 @@ kind: Service
 metadata:
   name: {{ include "defra-dsr.fullname" . }}-register-backend
   labels:
-    {{- include "defra-dsr.labels" . | nindent 4 }}-register-backend
+    app: {{ include "defra-dsr.fullname" . }}-register-backend
 spec:
   type: {{ .Values.backend.service.type }}
   ports:

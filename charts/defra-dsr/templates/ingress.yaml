@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: {{ include "defra-dsr.fullname" . }}-register-backend
   labels:
-    {{- include "defra-dsr.labels" . | nindent 4 }}-register-backend
+    app: {{ include "defra-dsr.fullname" . }}-register-backend
   {{- with .Values.backend.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
