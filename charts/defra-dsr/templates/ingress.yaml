@@ -37,7 +37,7 @@ spec:
               service:
                 name: {{ include "defra-dsr.fullname" $ }}-register-backend
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: {{ $.Values.backend.service.port }}
           {{- end }}
     {{- end }}
 {{- end }}
