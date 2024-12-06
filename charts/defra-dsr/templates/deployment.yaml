@@ -47,14 +47,13 @@ spec:
               value: trust
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
+          volumeMounts:   
+            - mountPath: /var/lib/postgresql/data
+              name: database
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        - name: database
+          persistentVolumeClaim:
+            claimName: {{ include "defra-dsr.fullname" . }}-db
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -114,6 +113,160 @@ spec:
           env:
             - name: REGISTER
               value: register
+            - name: FIELDS_JSON
+              value: classpath://config/fields.json
+            - name: REGISTER_JSON
+              value: classpath://config/registers.json
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /srv/openregister-java/config
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "defra-dsr.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: config.yaml
+                path: config.yaml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-field-backend
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}-field-backend
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-dsr.fullname" . }}-field-backend
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ include "defra-dsr.fullname" . }}-field-backend
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "defra-dsr.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-field-backend
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
+          ports:
+            - name: backend
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          env:
+            - name: REGISTER
+              value: field
+            - name: FIELDS_JSON
+              value: classpath://config/fields.json
+            - name: REGISTER_JSON
+              value: classpath://config/registers.json
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /srv/openregister-java/config
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "defra-dsr.fullname" . }}
+            defaultMode: 0644
+            items:
+              - key: config.yaml
+                path: config.yaml
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-datatype-backend
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}-datatype-backend
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "defra-dsr.fullname" . }}-datatype-backend
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ include "defra-dsr.fullname" . }}-datatype-backend
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "defra-dsr.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-datatype-backend
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
+          ports:
+            - name: backend
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          env:
+            - name: REGISTER
+              value: datatype
             - name: FIELDS_JSON
               value: classpath://config/fields.json
             - name: REGISTER_JSON
