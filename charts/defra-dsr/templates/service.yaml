@@ -8,10 +8,11 @@ spec:
   type: {{ .Values.db.service.type }}
   ports:
     - port: {{ .Values.db.service.port }}
-      targetPort: {{ .Values.db.service.port }}
+      targetPort: db
       protocol: TCP
+      name: db
   selector:
-    {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-db
+    app: {{ include "defra-dsr.fullname" . }}-db
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +24,8 @@ spec:
   type: {{ .Values.backend.service.type }}
   ports:
     - port: {{ .Values.backend.service.port }}
-      targetPort: {{ .Values.backend.service.port }}
+      targetPort: backend
       protocol: TCP
+      name: backend
   selector:
-    {{- include "defra-dsr.selectorLabels" . | nindent 4 }}-register-backend
+    app: {{ include "defra-dsr.fullname" . }}-register-backend
