@@ -44,11 +44,7 @@ spec:
             - name: POSTGRES_DB
               value: openregister_java
             - name: POSTGRES_HOST_AUTH_METHOD
-              value: trust               
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+              value: trust
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

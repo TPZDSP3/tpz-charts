@@ -20,11 +20,11 @@ db:
     port: 5432 
 backend:
   image:
-    repository:  openjdk
+    repository: dsp3tpz.azurecr.io/data-standard-register-backend
     # This sets the pull policy for images.
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 8-jre
+    tag: latest
   service:
     # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
     type: ClusterIP
