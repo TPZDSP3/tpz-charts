@@ -106,7 +106,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar server", "/srv/openregister-java/config.yaml"]
+          command: ["java", "-jar", "/srv/openregister-java/openregister-java.jar", "server", "/srv/openregister-java/config/config.yaml"]
           ports:
             - name: backend
               containerPort: {{ .Values.backend.service.port }}
@@ -126,7 +126,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: config
-              mountPath: /srv/openregister-java
+              mountPath: /srv/openregister-java/config
               readOnly: true
       volumes:
         - name: config
