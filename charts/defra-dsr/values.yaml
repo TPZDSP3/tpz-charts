@@ -53,11 +53,36 @@ backend:
 
 frontend:
   image:
-    repository:  openjdk
+    repository:  dsp3tpz.azurecr.io/data-standard-register-frontend
     # This sets the pull policy for images.
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 8-jre   
+    tag: latest
+  service:
+    # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+    type: ClusterIP
+    # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+    port: 3000
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      ingress.kubernetes.io/proxy-body-size: '0'
+      ingress.kubernetes.io/ssl-redirect: 'true'
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+      nginx.ingress.kubernetes.io/proxy-body-size: '0'
+      nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    hosts:
+      - host: dev-tpz-apps.tpzdsp3.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+     - secretName: defra-dsr-tls
+       hosts:
+         - dev-tpz-apps.tpzdsp3.com     
 # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
 # This is to override the chart name.

@@ -61,3 +61,35 @@ spec:
       name: backend
   selector:
     app: {{ include "defra-dsr.fullname" . }}-datatype-backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-frontend-db
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}-frontend-db
+spec:
+  type: {{ .Values.db.service.type }}
+  ports:
+    - port: {{ .Values.db.service.port }}
+      targetPort: db
+      protocol: TCP
+      name: db
+  selector:
+    app: {{ include "defra-dsr.fullname" . }}-frontend-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-frontend
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}-frontend
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - port: {{ .Values.frontend.service.port }}
+      targetPort: frontend
+      protocol: TCP
+      name: frontend
+  selector:
+    app: {{ include "defra-dsr.fullname" . }}-frontend    

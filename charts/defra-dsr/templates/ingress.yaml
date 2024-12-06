@@ -125,3 +125,47 @@ spec:
           {{- end }}
     {{- end }}
 {{- end }}
+---
+{{- if .Values.frontend.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-frontend
+  labels:
+    app: {{ include "defra-dsr.fullname" . }}-frontend
+  {{- with .Values.frontend.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.frontend.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.frontend.ingress.tls }}
+  tls:
+    {{- range .Values.frontend.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - registers.{{ . }}
+        {{- end }}
+      secretName: registers.{{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.frontend.ingress.hosts }}
+    - host: registers.{{ .host }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            frontend:
+              service:
+                name: {{ include "defra-dsr.fullname" $ }}-frontend
+                port:
+                  number: {{ $.Values.frontend.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}

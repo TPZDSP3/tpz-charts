@@ -10,3 +10,16 @@ spec:
       storage: 200Gi
   storageClassName: dev-tpzuk-disk-retain
   volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "defra-dsr.fullname" . }}-frontend-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: dev-tpzuk-disk-retain
+  volumeMode: Filesystem  
