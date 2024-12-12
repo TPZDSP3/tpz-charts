@@ -58,6 +58,8 @@ spec:
               value: {{ .Values.app.dataFolder }}
             - name: MAPSERVER
               value: {{ .Values.app.mapserverUrl }}
+            - name: GEOSERVER
+              value: {{ .Values.app.geoserverUrl }}
             - name: GOOGLE_TAG
               valueFrom:
                 secretKeyRef:

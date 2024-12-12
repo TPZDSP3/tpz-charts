@@ -68,6 +68,7 @@ app:
   dataFolder: /var/future-water/data/cs-n0w
   dataMount: /var/future-water/data
   mapserverUrl: https://eip.ceh.ac.uk
+  geoserverUrl: https://dev-tpz-apps.tpzdsp3.com/data-services
 
 # Use this if you have predefined secrets
 existingSecret: |
