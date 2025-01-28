@@ -23,7 +23,7 @@ podSecurityContext: {}
 
 securityContext: {}
 
-graphEndpoint: http://localhost:7200/repositories/defra-efde
+graphEndpoint: http://localhost:7200/repositories/defra-cde
 
 service:
   type: ClusterIP
@@ -43,6 +43,7 @@ graphdb:
   storageClassName: dev-tpzuk-disk-retain
   import:
     subpath: importdb
+    deployment: test
     storageClassName: dev-tpzuk-blob-ttl
   resources: {}
   tolerations: []
