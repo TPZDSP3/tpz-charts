@@ -95,7 +95,7 @@ spec:
               name: graphdb-import
               # subPath: cde/{{ .Values.release }}/{{ .Values.graphdb.import.subpath }}
               # subPath: cde/test/{{ .Values.release }}/{{ .Values.graphdb.import.subpath }}
-              subPath: cde/{{ .Values.graphdb.import.deployment }}/original/{{ .Values.graphdb.import.subpath }}
+              subPath: cde/{{ .Values.graphdb.import.deployment }}/blue/{{ .Values.graphdb.import.subpath }}
             - mountPath: /opt/graphdb/dist/data/repositories
               name: graphdb-databases
       dnsPolicy: ClusterFirst
