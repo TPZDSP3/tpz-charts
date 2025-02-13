@@ -14,7 +14,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-secret: htpasswd
     nginx.ingress.kubernetes.io/auth-realm: "Enter your credentials"
     {{- end }}
-  generation: 1
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1200"
   labels:
     app: {{ template "geoserver.fullname" . }}
     chart: {{ template "geoserver.chart" . }}
